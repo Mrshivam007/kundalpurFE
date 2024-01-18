@@ -1,0 +1,114 @@
+.main_center_header1{
+    padding: 1rem;
+}
+.search-inner-div-reports {
+    display: contents;
+    padding-right: 1rem;
+}
+
+.search-inner-div-reports input {
+    width: 19%;
+    height: 35px;
+  
+    background: #FFFFFF;
+    border: 1px solid #C5BFBF;
+    border-radius: 7px;
+}
+
+
+.search-inner-div-reports10 input {
+    width: 19%;
+    height: 35px;
+  
+    background: #FFFFFF;
+    border: 1px solid #C5BFBF;
+    border-radius: 7px;
+}
+.search-inner-div-reports  select{
+    width: 280px;
+    height: 35px;
+  
+    background: #FFFFFF;
+    border: 1px solid #C5BFBF;
+    border-radius: 7px;
+}
+.Status_main_div{
+    background: linear-gradient(
+        90.65deg,
+        rgba(250, 116, 1, 0.4) 0.56%,
+        rgba(255, 255, 255, 0.4) 99.48%
+      );
+
+      height: 200px;
+      display: flex;
+      justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+}
+
+.Status_main_div label{
+    font-size: 20px;
+}
+
+
+.inner-input-div1-select-cheque {
+    height: 37px;
+    width: 195px;
+    padding-left: 6px;
+    border-radius: 5px;
+    border: 1px solid #e96d00;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+.Status_main_div button{
+    border: none;
+    background-color: #e96d00;
+    color: white;
+    height: 42px;
+    border-radius: 5px;
+    width: 22%;
+    font-size: 18px;
+}
+.Status_main_div input:focus{
+    outline: none;
+}
+.Status_main_div input{
+    height: 37px;
+    width: 195px;
+    padding-left: 6px;
+    border-radius: 5px;
+    border: 1px solid #e96d00;
+    /* border: 1px solid #05313C; */
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+.cheque_main_info_div{
+    background: linear-gradient(
+    90.65deg,
+    rgba(250, 116, 1, 0.4) 0.56%,
+    rgba(255, 255, 255, 0.4) 99.48%
+  );
+}
+
+.cheque_img_div{
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+}
+.cheque_img_div img{
+    width: 571px;
+    height: 300px;
+}
+
+
+.left_info_cheque{
+    width: 50%;
+}
+.left_info_cheque p{
+    margin-bottom: 8px;
+}
+.right_info_cheque{
+    width: 50%;
+    padding-top: 38px;
+    padding-left: 18px;
+}

@@ -1,0 +1,13 @@
+.bloc-tabsonline {
+    display: flex;
+ 
+    height: 102px;
+    background: #f1f0f0;
+    padding-top: 1;
+    padding-top: 1rem;
+    padding-left: 1rem;
+    border-radius: 5px;
+    height: 15%;
+    padding-right: 1rem;
+    margin-bottom: 1rem;
+}

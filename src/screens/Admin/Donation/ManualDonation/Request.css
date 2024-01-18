@@ -1,0 +1,19 @@
+.Status_main_div_request {
+    background: linear-gradient( 90.65deg, rgba(250, 116, 1, 0.4) 0.56%, rgba(255, 255, 255, 0.4) 99.48% );
+    height: 123px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+}
+
+.Status_main_div_request button {
+    border: none;
+    background-color: #e96d00;
+    color: white;
+    color: white;
+    height: 42px;
+    border-radius: 5px;
+    width: 22%;
+    font-size: 18px;
+}

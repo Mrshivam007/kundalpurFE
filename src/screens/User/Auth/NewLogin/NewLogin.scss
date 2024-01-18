@@ -1,0 +1,265 @@
+@import "../../../../utils//variables";
+
+.phone-container {
+  width: 100%;
+  height: calc(100vh - 64px);
+  display: grid;
+  place-items: center;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+
+  .phone-form {
+    min-width: 350px;
+    min-height: 490px;
+    border-radius: 10px;
+    background: $primary-color;
+    color: $input-text-color;
+    box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+  }
+
+  .newusertag {
+    position: relative;
+    width: 86%;
+    height: 35px;
+    text-align: center;
+    top: 19px;
+    color: $line-btw-text;
+  }
+
+  .newusertag:before {
+    content: " ";
+    height: 1px;
+    width: 65px;
+    background: $line-btw-text;
+    display: block;
+    position: absolute;
+    top: 30%;
+    left: 0;
+  }
+
+  .newusertag:after {
+    content: " ";
+    height: 1px;
+    width: 65px;
+    background: $line-btw-text;
+    display: block;
+    position: absolute;
+    top: 30%;
+    right: 0;
+  }
+
+  .creatbtn {
+    text-decoration: none;
+    position: relative;
+    text-align: center;
+    color: $input-text-color;
+    width: 88%;
+    padding-block: 0.5rem;
+    top: 29px;
+    border: none;
+    cursor: pointer;
+    background: #dddddd;
+    border-radius: 7px;
+  }
+
+  .sendotp {
+    margin: 63px 0;
+    width: 100%;
+  }
+
+
+}
+
+.phone-form {
+  .heading {
+    margin-top: 20px;
+    font-weight: 500;
+    font-size: 30px;
+    line-height: 45px;
+  }
+
+  .button-container {
+    // border: 1px solid rgb(136, 255, 0);
+
+    width: 88%;
+    height: 8%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .navi-button {
+      width: 49%;
+      height: 37px;
+      text-align: center;
+      text-decoration: none;
+
+      border-radius: 7px;
+      background: #F8F7FC;
+      font-size: .6rem;
+      font-weight: 600;
+      padding: 1.0em 0 0 0;
+      color: #9A9999;
+      letter-spacing: 1px;
+      cursor: pointer !important;
+      transition: box-shadow 80ms ease-in;
+    }
+
+    button {
+      width: 47%;
+      border: none;
+    }
+
+    .pl-button {
+
+      height: 35px;
+      margin: 0.5em 0 0;
+      border-radius: 7px;
+      background: #F8F7FC;
+      font-size: .6rem;
+      font-weight: 600;
+      padding: 0.3em 0;
+      color: #9A9999;
+      letter-spacing: 1px;
+      cursor: pointer !important;
+      transition: box-shadow 80ms ease-in;
+    }
+
+    .pl-button--active {
+      background: #F8F7FC;
+      border: 1px solid $secondary-color;
+      color: $secondary-color;
+      border-radius: 7px;
+    }
+  }
+  .input-group:focus{
+    outline: none;
+  }
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding-inline: 1.5rem;
+    width: 100%;
+
+    input {
+      border: 0.8px solid $input-placeholder-color;
+      padding: 0.5rem 0.9rem;
+      border-radius: 0.5rem;
+
+      &::placeholder {
+        color: $input-placeholder-color;
+      }
+    }
+    
+    &>div {
+      font-size: 10px;
+      line-height: 15px;
+    }
+
+    .login-btn {
+      background: $secondary-color;
+      font-weight: 500;
+      text-decoration: none;
+      text-align: center;
+      color: $primary-color;
+      font-size: 14px;
+      line-height: 21px;
+      padding: auto 0.5rem;
+      outline: none;
+      border: none;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+    }
+  }
+}
+
+
+
+.verify-form {
+  min-width: 350px;
+  border-radius: 10px;
+
+  color: $input-text-color;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  & .verify-heading {
+    margin-top: 20px;
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 33px;
+  }
+
+  &>.verify-desc {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    margin-top: 3rem;
+    max-width: 250px;
+    text-align: center;
+  }
+
+  &>.mobile-no {
+    margin-top: 1.9rem;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 500;
+  }
+
+  &>.input-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-top: 2.2rem;
+    padding-inline: 1.5rem;
+    width: 100%;
+
+    &>.otp-container {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    & .otp-input {
+      border: 0.7px solid $input-placeholder-color;
+      border-radius: 0.5rem;
+      outline: none;
+      min-width: 2.2rem;
+      height: 2.2rem;
+    }
+  }
+}
+
+.verify-btn-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 6.6rem;
+  padding: 1.5rem;
+  width: 100%;
+
+  &>.verify-btn {
+    text-decoration: none;
+    text-align: center;
+    background: $secondary-color;
+    font-weight: 500;
+    color: $primary-color;
+    font-size: 14px;
+    line-height: 21px;
+    outline: none;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+  }
+}
+.remove_underline:focus{
+  outline: none;
+}

@@ -1,0 +1,22 @@
+.main_slider{
+    padding-left: 8%;
+    padding-right: 8%;
+ 
+}
+
+.more_read{
+    background-color: #ff6900;
+    color: white;
+
+    height: 600px;
+}
+
+
+@media screen and (max-width: 780px) {
+    .main_slider{
+        padding-left: 0%;
+        padding-right: 0%;
+        width: 100%;
+     
+    }
+  }

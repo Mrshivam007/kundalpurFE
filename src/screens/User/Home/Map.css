@@ -1,0 +1,178 @@
+.main_Map {
+  width: 100%;
+
+  padding-top: 7%;
+  margin-bottom: 2%;
+}
+.main_Map_innear {
+  display: flex;
+  align-items: center;
+
+  margin-left: 10rem;
+  margin-right: 10rem;
+}
+
+.main_Map_innear10 {
+  width: 50%;
+  height: 300px;
+  position: relative;
+}
+.main_fram_sss {
+  width: 100%;
+  height: 300px;
+}
+.main_Map_innear11 {
+  width: 50%;
+  height: 300px;
+  background-color: #ef731b;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  padding: 1rem;
+}
+
+.main_Map_innear11 h2 {
+  text-align: center;
+  color: white;
+}
+
+.main_Map_innear11 p {
+  color: white;
+}
+.main_Map_innear12 {
+  width: 50%;
+  height: 300px;
+  background-color: #ef731b;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  padding: 1rem;
+}
+
+.main_Map_innear12 h2 {
+  text-align: center;
+  color: white;
+}
+
+.main_Map_innear12 p {
+  color: white;
+}
+.main_Map_innear13 {
+  width: 50%;
+  height: 300px;
+}
+.main_text_div_hai_na {
+  padding-left: 10%;
+  padding-right: 10%;
+
+  margin-bottom: 5%;
+}
+.main_text_div_hai_na1 {
+  margin-bottom: 1rem;
+}
+.main_text_div_hai_na1 h2 {
+  color: black;
+  text-align: center;
+  font-weight: 400;
+}
+
+.main_text_div_hai_na1 p {
+  text-align: center;
+  color: blacks;
+}
+.main_text_div_hai_na12 {
+  margin-bottom: 2rem;
+}
+.main_text_div_hai_na12 h2 {
+  color: black;
+  text-align: center;
+  font-size: 23px;
+  font-weight: 400;
+  line-height: 197%;
+}
+
+.main_bri_aur_pade {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.main_bri_aur_pade button {
+  border: none;
+  background-color: #ef731b;
+  color: white;
+  width: 33%;
+  border-radius: 5px;
+  height: 33px;
+}
+
+.main_gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.main_gallery img {
+  width: 22%;
+  margin-top: 1rem;
+}
+
+@media screen and (max-width: 780px) {
+  .main_fram_sss {
+    width: 100%;
+    height: 280px;
+  }
+  .main_Map {
+    padding-top: 7%;
+    margin-bottom: 2%;
+    width: 100%;
+  }
+
+  .main_Map_innear {
+    display: flex;
+    align-items: center;
+    margin-left: 0rem;
+    margin-right: 0rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .main_Map_innear10 {
+    width: 86%;
+  }
+
+  .main_Map_innear11 {
+    width: 86%;
+    margin-bottom: 1rem;
+  }
+
+  .main_Map_innear12 {
+    width: 86%;
+    margin-bottom: 1rem;
+  }
+
+  .main_Map_innear13 {
+    width: 86%;
+  }
+  .main_gallery {
+    display: flex;
+
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  .main_gallery img {
+    width: 100%;
+    margin-top: 1rem;
+    height: 184px;
+  }
+  .main_text_div_hai_na1 h2 {
+    color: black;
+    text-align: center;
+    font-weight: 400;
+    font-size: 18px;
+  }
+  .main_text_div_hai_na1 p {
+    text-align: center;
+    font-size: 15px;
+  }
+}

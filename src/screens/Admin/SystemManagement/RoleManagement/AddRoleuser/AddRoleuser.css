@@ -1,0 +1,75 @@
+
+.cash-donation-container-innser1 {
+    flex-wrap: wrap;
+    place-items: center;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    line-height: 21px;
+}
+
+.form-input-div1 {
+    display: flex;
+    height: 9rem;
+    align-items: center;
+    justify-content: center;
+}
+.inner-input-div1-select1 {
+    width: 280px;
+  height: 35px;
+  background: #FFFFFF;
+  border: 1px solid #C5BFBF;
+  border-radius: 7px;
+}
+
+.inner-input-div1-select1:focus{
+    outline: none;
+}
+.form-input-div2 {
+    padding-top: 7px;
+    display: flex;
+   
+    justify-content: space-between;
+}
+.forminput-role {
+    height: 29px;
+    width: 245px;
+    padding-left: 6px;
+    border-radius: 5px;
+    border: 1px solid black;
+    margin-top: 11px;
+    margin-bottom: 12px;
+}
+.forminput-role:focus{
+    outline: none;
+}
+
+.table_scrol_barrr1 {
+    max-height: 400px;
+    overflow: auto;
+    overflow-x: hidden;
+    margin: 0 auto;
+
+    white-space: nowrap;
+}
+.inner-input-div22 {
+    display: flex;
+    flex-direction: column;
+    /* margin-right: 2rem; */
+    position: relative;
+}
+
+.addd-role{
+    background: #FDC99C;
+    border: none;
+    border-radius: 5px;
+    font-weight: 500;
+    color: #05313C;
+    padding: 0.4rem 1.5rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 104px;
+    height: 40px;
+}

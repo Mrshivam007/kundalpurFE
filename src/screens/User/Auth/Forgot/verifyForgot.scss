@@ -1,0 +1,114 @@
+@import "../../../../utils//variables";
+
+
+.verify-container {
+    width: 100%;
+    height: calc(100vh - 64px);
+    display: grid;
+    place-items: center;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    border: 1px solid red;
+  
+    .verify-form{
+      // min-width: 350px;
+    height: calc(100vh - 64px);
+  
+      width: 22.8%;
+      min-height: 490px;
+      border-radius: 10px;
+   
+      color: $input-text-color;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: absolute;
+    }
+  
+  }
+  
+  
+  .verify-form {
+  
+    & .verify-heading {
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 500;
+      font-size: 30px;
+      line-height: 45px;
+    }
+  
+    &.verify-desc {
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 24px;
+      margin-top: 9px;
+      border: 1px solid red;
+      line-height: 21px;
+      text-align: center;
+    }
+  
+    &>.email-add {
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 24px;
+      margin-top: 2rem;
+      max-width: 250px;
+      text-align: center;
+    }
+  
+    &>.input-group {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-top: 2.2rem;
+      padding-inline: 1.5rem;
+      width: 100%;
+  
+      &>.otp-container {
+        display: flex;
+        justify-content: space-between;
+      }
+  
+      & .otp-input {
+        border: 0.7px solid $input-placeholder-color;
+        border-radius: 0.5rem;
+        outline: none;
+        min-width: 2.2rem;
+        height: 2.2rem;
+      }
+    }
+  }
+  
+  .verify-btn-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 6.6rem;
+    padding: 1.5rem;
+    width: 100%;
+  
+    &>.verify-btn {
+      background: $secondary-color;
+      font-weight: 500;
+      color: $primary-color;
+      font-size: 14px;
+      line-height: 21px;
+      outline: none;
+      border: none;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+    }
+  }
+  .mainlogin-div1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ 
+    padding-top: 6rem;
+    padding-right: 30rem;
+}

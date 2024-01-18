@@ -1,0 +1,83 @@
+.payment-status-page{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 70vh;
+}
+.payment-status-page .payment-status-container{
+    max-width: 700px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    grid-gap: 1rem;
+    text-align: center;
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);   
+}
+.payment-status-container h2{
+    color: rgb(17, 180, 17);
+}
+.payment-status-container .payment-status-failed{
+    color: red;
+}
+.payment-status-container .icon{
+    font-size: 3rem;
+    color: rgb(17, 180, 17);
+    animation: resize 0.5s linear 0s;
+}
+.payment-status-container .icon-failed{
+    color: red;
+}
+.payment-status-container span{
+    color: blue;
+    text-decoration: underline;
+}
+.btns-wrapper{
+    display: flex;
+    gap: 1rem;
+}
+.btn-donation-status{
+    background: rgb(42, 42, 188);
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    border: none;
+    cursor: pointer;
+}
+
+@media only screen and (max-width:500px) {
+   
+    .payment-status-page .payment-status-container{
+        padding: 1rem;
+    }
+    .payment-status-container h2{
+        font-size: 1.5rem;
+    }
+    .payment-status-container p{
+        font-size: 0.9rem;
+    }
+
+    .payment-status-page{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 50vh;
+        padding: 1rem;
+    }
+}
+
+@keyframes resize {
+    0%{
+        transform: scale(1.2);
+    }
+    50%{
+        transform: scale(0.8);
+    }
+    100%{
+        transform: scale(1);
+    }
+}

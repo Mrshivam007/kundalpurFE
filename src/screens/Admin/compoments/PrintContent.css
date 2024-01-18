@@ -1,0 +1,168 @@
+.cancel_text {
+  margin-left: 22%;
+  position: absolute;
+  margin-top: 35%;
+}
+
+.cancel_text1 {
+  margin-left: 22%;
+  position: absolute;
+  margin-top: 15%;
+}
+
+.cancel_text1 p {
+  font-size: 50px;
+  color: red;
+  opacity: 0.5;
+  transform: rotate(50deg);
+}
+.hidelight {
+  font-weight: 800;
+}
+.cancel_text p {
+  font-size: 50px;
+  color: red;
+  opacity: 0.5;
+  transform: rotate(50deg);
+}
+.margintop_add td,
+th {
+  padding-right: 1.5rem;
+}
+.top_name_date {
+  display: flex;
+  justify-content: space-between;
+}
+.size_equal2 {
+  width: 50.1%;
+}
+.size_equal1 {
+  width: 50%;
+}
+
+.size_equal3 {
+  width: 50%;
+}
+.size_equal4 {
+  width: 47.4%;
+}
+
+.extra_bottom_margin {
+  margin-bottom: 10rem;
+}
+
+.center_justify_m {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.div_center_text_is {
+  display: flex;
+}
+
+.wrap_div_child {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.common_margin_pp {
+  margin-bottom: 0.9rem;
+  font-size: 14px;
+}
+.gray-text_div {
+  width: 13%;
+}
+
+.gray-text_div p {
+  font-size: 15px;
+}
+
+.gray-text10 {
+  color: gray;
+  font-weight: 300;
+}
+.super_main_divsss {
+  padding: 2rem;
+
+  padding-top: 2rem;
+  position: relative;
+}
+
+.super_main_divss {
+  padding: 2rem;
+  padding-top: 7rem;
+  position: relative;
+}
+
+.handle_display_div {
+  display: flex;
+}
+.margin_left_is {
+  margin-left: 30%;
+}
+
+.wrap_div_child_div {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding-left: 24px;
+}
+.button_div_print_download10 {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 0.2rem;
+  margin-top: 4%;
+}
+
+.button_div_print_download10 button {
+  height: 31px;
+  background: blue;
+  border: navajowhite;
+  color: white;
+  width: 10%;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 1rem;
+}
+
+.gray-text-div10 {
+  display: flex;
+  flex-direction: row-reverse;
+  margin-top: 0.5rem;
+  margin-bottom: 5rem;
+}
+
+.gray-text-div10 p {
+  font-size: 14px;
+  margin-bottom: 0px;
+}
+.text_alijdshfhd {
+  text-align: right;
+  font-size: 15px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+/* Zebra striping */
+tr:nth-of-type(odd) {
+}
+th {
+  background: rgb(255, 238, 224);
+  color: white;
+  font-weight: bold;
+  color: black;
+}
+
+td,
+th {
+  text-align: left;
+}
+
+.hidelight {
+  font-weight: 800;
+}

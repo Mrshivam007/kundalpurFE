@@ -1,0 +1,49 @@
+.Accepted_btn{
+    background: #5cb85c;
+    border: none;
+    color: white;
+    width: 94px;
+    height: 29px;
+    border-radius: 5px;
+}
+
+.Cancel_btnN{
+    background: red;
+    border: none;
+    color: white;
+    width: 94px;
+    height: 29px;
+    border-radius: 5px;
+}
+
+
+.Canceled_btnN{
+    background: yellow;
+    border: none;
+    color: black;
+    width: 94px;
+    height: 29px;
+    border-radius: 5px;
+}
+
+.backebj_voucher{
+margin-left: 1.3rem;
+margin-bottom: 5rem;
+position:fixed ;
+}
+.backebj_voucher button{
+ width: 149px;
+height: 40px;
+font-weight: 500;
+font-size: 16px;
+line-height: 24px;
+/* identical to box height */
+
+
+color: #05313C;
+
+
+background: #F1DAC6;
+border: 1px solid #FA7401;
+border-radius: 7px;
+}

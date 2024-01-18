@@ -1,0 +1,116 @@
+.main_print_div{
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.gray_color_div_print_content p{
+    color: gray;
+    font-weight: 300;
+}
+
+.gray-text{
+    color: gray;
+    font-weight: 300; 
+}
+.gray-text-div {
+    display: flex;
+    flex-direction: row-reverse;
+    margin-top: 0.5rem;
+    margin-bottom: 5rem;
+   
+}
+.gray-text-div  p{
+    color: gray;
+    font-weight: 300; 
+    font-size: 14px;
+}
+.common_margin_p{
+    margin-bottom: 1.5rem;
+    font-size: 14px;
+}
+.Center_main_dic_filetr{
+    display: flex;
+    flex-direction: column;
+}
+
+.Center_main_dic_filetr1{
+    display: flex;
+    flex-direction: column;
+}
+
+.search-header-print{
+    display: flex;
+    flex-direction: row-reverse;
+    padding-right: 1rem;
+    padding-bottom: 1rem;
+}
+
+.search-header-div-center{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  
+}
+
+.search-header-div-center input{
+    border: 1px solid #05313C;
+    padding-left: 1rem;
+    height: auto;
+    padding: 0.4rem;
+    padding-left: 0.8rem;
+    border-radius: 5px;
+    font-size: 14px;
+
+    width: 100%;
+}
+
+.search-header-div-center button{
+    background: #FDC99C;
+    border: none;
+    border-radius: 5px;
+    font-weight: 500;
+    color: #05313C;
+    padding: 0.4rem 1.5rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    margin-right: 1rem;
+}
+
+.search-header-div-center  select{
+    border: 1px solid #05313C;
+    padding-left: 1rem;
+    height: auto;
+    padding: 0.4rem;
+    padding-left: 0.8rem;
+    border-radius: 5px;
+    font-size: 14px;
+
+    width: 85%;
+}
+
+.search-header-div-center-button{
+    background: #FDC99C;
+    border: none;
+    border-radius: 5px;
+    font-weight: 500;
+    color: #05313C;
+    padding: 0.4rem 1.5rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    margin-right: 1rem;
+}
+
+
+.search-header-div-center-input{
+    border: 1px solid #05313C;
+    padding-left: 1rem;
+    height: auto;
+    padding: 0.4rem;
+    padding-left: 0.8rem;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-right: 1rem;
+    width: 15%;
+}

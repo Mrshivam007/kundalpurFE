@@ -1,0 +1,453 @@
+.topmenubar {
+    border-bottom: 1px solid #093959;
+    border-top: 1px solid #093959;
+    margin-top: 0.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+  }
+  .imgdivformat {
+    display: flex;
+  }
+  .imgdivformat img {
+    width: 2rem;
+  }
+  .imgdivformatimg {
+    width: 2rem;
+    margin-right: 1rem;
+  }
+  .showfathersname {
+    margin-right: 1rem;
+  }
+  .tablethstart{
+     background-color: green;
+     border: 1px solid #dddddd;
+     text-align: center;
+     padding: 8px;
+  }
+  .showfathersname label {
+    margin-left: 0.5rem;
+  }
+  .maintablediv p {
+    font-weight: 700;
+    margin-bottom: 0px;
+    margin-top: 0px;
+  }
+  .inputdivimg img {
+    width: 10rem;
+    height: 10rem;
+  }
+  .inputdivimg10 {
+    width: 100%;
+  }
+  .inputdivimg10 img {
+    width: 100%;
+    height: 10rem;
+  }
+  .addtopmenubar {
+    border-bottom: 1px solid #093959;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 1rem;
+  }
+  .addtopmenubar button {
+    background: #093959;
+    color: white;
+    border-radius: 6px;
+    font-weight: 600;
+    padding: 0.3rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .addtopmenubarbuttonactive {
+    background: #093959 !important;
+    color: white;
+    border-radius: 6px;
+    font-weight: 600;
+    padding: 0.3rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .addtopmenubarbuttondisable {
+    background: #c2d1da !important;
+    color: white;
+    border-radius: 6px;
+    font-weight: 600;
+    padding: 0.3rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .searchoptiondiv button {
+    background: #e96d00;
+    color: white;
+    border-radius: 6px;
+    font-weight: 600;
+    padding: 0.3rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-right: 1rem;
+    height: 34px;
+  }
+  
+  .searchoptiondivbutton {
+    border: 1px solid #e96d00;
+    font-weight: 600;
+    padding: 0.3rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-right: 1rem;
+    border-radius: 5px;
+    color: #093959 !important;
+    background-color: white !important;
+  }
+  .saveattendacebutton {
+    background: green !important;
+    color: white;
+    border-radius: 6px;
+    font-weight: 600;
+    padding: 0.3rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-right: 1rem;
+  }
+  
+  .resetattendacebutton {
+    background: red !important;
+    color: white;
+    border-radius: 6px;
+    font-weight: 600;
+    padding: 0.3rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-right: 1rem;
+  }
+  
+  .holidaybutton {
+    background: yellowgreen !important;
+    color: white;
+    border-radius: 6px;
+    font-weight: 600;
+    padding: 0.3rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-right: 1rem;
+  }
+  .holdaybtn {
+    color: white;
+    background: yellowgreen;
+    font-weight: 300;
+    width: 2rem;
+    border-radius: 5px;
+    margin-right: 0.5rem;
+  }
+  .absentbtn {
+    color: white;
+    background: red;
+    font-weight: 300;
+    width: 2rem;
+    border-radius: 5px;
+    margin-right: 0.5rem;
+  }
+  .presentbtn {
+    color: white;
+    background: green;
+    font-weight: 300;
+    width: 2rem;
+    border-radius: 5px;
+    margin-right: 0.5rem;
+  }
+  .searchbtnactive {
+    background: #093959;
+    color: white;
+    border-radius: 6px;
+    font-weight: 600;
+    padding: 0.3rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-right: 1rem;
+  }
+  
+  .dateresiging {
+    display: flex;
+    flex-direction: column;
+    margin-right: 2rem;
+  }
+  .searchoptiondiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .opensearch {
+    border: 1px solid #e96d00;
+    padding: 0.2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-radius: 5px;
+    margin-right: 1rem;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .opensearchinput {
+    border: 1px solid #e96d00;
+    padding: 0.2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-radius: 5px;
+    margin-right: 1rem;
+    display: flex;
+    justify-content: flex-end;
+    color: black;
+    height: 34px;
+  }
+  .opensearchinput20 {
+    border: 1px solid #e96d00;
+    padding: 0.2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-radius: 5px;
+    margin-right: 1rem;
+    /* display: flex; */
+    justify-content: flex-end;
+    color: black;
+  }
+  .opensearchinput10 {
+    border: 1px solid #e96d00;
+    padding: 0.2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-radius: 5px;
+    margin-right: 1rem;
+    display: flex;
+    justify-content: flex-end;
+    color: black;
+    width: 9rem;
+  }
+  .add_divmarginn {
+    padding: 0.5rem;
+  }
+  
+  .add_divmarginn10 {
+    padding: 0.5rem;
+    width: 100%;
+    overflow-x: scroll;
+  }
+  
+  .tabletable {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  .tabletd,
+  .tableth {
+    border: 1px solid #dddddd;
+    text-align: center;
+    padding: 8px;
+  }
+  
+  .tableth10 {
+    border: 1px solid #dddddd;
+    text-align: center;
+    width: 10rem !important;
+    padding-left: 4rem;
+    padding-right: 5rem;
+  }
+  
+  .tabletr:nth-child(even) {
+    background-color: #dddddd;
+  }
+  
+  .tabletd img {
+    width: 25px;
+  }
+  
+  .tabkeddd {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .tabkeddd button {
+    margin-right: 1rem;
+  }
+  .tabkeddd img {
+    width: 25px;
+    margin-right: 8%;
+  }
+  
+  .tabkedddimgactive {
+    width: 25px !important;
+    margin-right: 0.3rem;
+  }
+  
+  .tabkedddimgdisable {
+    width: 25px !important;
+    opacity: 0.3 !important;
+    margin-right: 0.3rem;
+  }
+  .searchoptiondiv label {
+    margin-right: 0.5rem;
+  }
+  .abtn {
+    color: red;
+    background: white;
+    font-weight: 300;
+    width: 34%;
+    border: 1px solid red;
+    border-radius: 5px;
+    margin-right: 0.5rem;
+  }
+  .abtnselected {
+    color: white;
+    background: red;
+    font-weight: 300;
+    width: 34%;
+    border-radius: 5px;
+    margin-right: 0.5rem;
+  }
+  
+  .pbtn {
+    color: green;
+    background: white;
+    font-weight: 300;
+    width: 34%;
+    border-radius: 1px solid green;
+    border-radius: 5px;
+    border: 1px solid green;
+    margin-right: 0.5rem;
+  }
+  
+  .pbtnselected {
+    color: white;
+    background: green;
+    font-weight: 300;
+    width: 34%;
+    border-radius: 5px;
+    margin-right: 0.5rem;
+  }
+  .tabletdnew {
+    border: 1px solid #dddddd;
+    text-align: center;
+    padding: 8px;
+  }
+  .idcarddiv{
+    padding-left: 23%;
+    padding-right: 23%;
+    padding-top: 2%;
+  }
+  .idcarddivflex{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0.3%;
+  }
+  .idcarddivflex10{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 1%;
+  }
+  @media (max-width: 730px) {
+    .tabletdnew {
+      display: flex;
+      border: 1px solid #dddddd;
+      text-align: center;
+      padding: 8px;
+    }
+    .abtn {
+      width: 100%;
+      padding: 0.1rem;
+    }
+    .abtnselected {
+      width: 100%;
+      padding: 0.1rem;
+    }
+  
+    .pbtn {
+      width: 100%;
+      padding: 0.1rem;
+      margin-bottom: 0.2rem;
+    }
+  
+    .pbtnselected {
+      width: 100%;
+      padding: 0.1rem;
+      margin-bottom: 0.2rem;
+    }
+    .topmenubar {
+      display: block;
+      padding: 0.5rem;
+      border-top: none;
+      border-bottom: none;
+    }
+  
+    .searchoptiondiv {
+      display: block;
+    }
+  
+    .searchoptiondiv button {
+      background: #e96d00;
+      color: white;
+      border-radius: 6px;
+      font-weight: 600;
+      padding: 0.3rem;
+      padding-left: 0.5rem;
+      padding-right: 0rem;
+      margin-right: 0rem;
+      width: 100%;
+      margin-bottom: 0.5rem;
+    }
+    .tablecontainer {
+      overflow-x: auto;
+      /* padding: 10px;
+          margin: 10px; */
+    }
+    .add_divmarginn {
+      padding: 0.5rem;
+    }
+  
+    .addtopmenubar {
+      border-bottom: none;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 0rem;
+      padding-right: 0.5rem;
+    }
+  
+    .opensearch {
+      background: #d5c7c7;
+      padding: 0.2rem;
+      padding-left: 0.5rem;
+      padding-right: 0.4rem;
+      border-radius: 5px;
+      margin-right: 0rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+    }
+  
+    .tabkeddd {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+      display: block;
+    }
+  
+    .opensearchinput {
+      width: 100%;
+      margin-bottom: 0.5rem;
+    }
+    .opensearchinput10 {
+      width: 100%;
+      margin-bottom: 0.5rem;
+    }
+  }
+  

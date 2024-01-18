@@ -1,0 +1,80 @@
+.main_room_receipt10 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1%;
+}
+.h2text{
+    color: #f64f12d3;
+    text-align: center;
+}
+
+.innear_div_texx_ddd{
+    display: flex;
+    width: 50%;
+    padding-left: 2rem;
+}
+
+.main_left{
+    padding-left: 2rem;
+}  
+.main-certificatenote {
+    margin: 0;
+    border: none;
+    padding: 0.2px 8px;
+    /* text-align: center; */
+    position: relative;
+}
+.main-certificatenote p{
+    line-height: 38px;
+    font-size: 15px;
+}
+.reciept-footer-style{
+    background-color:#FFC100;
+}
+.reciept-footer-style p{
+    text-align: center;
+   
+}
+
+
+.absolute_text{
+    border: 3px solid red;
+    padding: absolute;
+    top: 5rem;
+    width: 30%;
+    position: absolute;
+    left: 67%;
+    padding: 0.5rem;
+    border-top-right-radius:1rem;
+    border-bottom-left-radius: 1rem;
+}
+.note_text{
+    background-color:#FFC100;
+   padding: 1rem;
+}
+.note_text p{
+    text-align: center;
+
+    font-size: 16.3px;
+ 
+}
+.hessaxxd-sn{
+    margin-right: 8rem;
+}
+
+.main-headmain-head-containerhead-contact {
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+    padding-right: 2px;
+    font-weight: 600;
+    margin-right: 1rem;
+}
+.lineheight{
+    line-height: 33px;
+}
+
+.lineheight10{
+    line-height: 23px;
+}

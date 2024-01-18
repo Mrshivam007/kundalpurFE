@@ -1,0 +1,164 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80px;
+  background-color: white;
+  position: fixed;
+  width: 100%;
+  z-index: 3;
+}
+
+.logo img {
+  width: 200px;
+  height: 85px;
+  margin-left: 2rem;
+}
+
+.navlinks {
+  display: flex;
+  justify-content: flex-end;
+  list-style: none;
+ 
+}
+
+.active {
+  text-decoration: none;
+  font-size: 20px;
+  padding: 10px 20px;
+  margin: 0 10px;
+  cursor: pointer;
+  color: white;
+  border-radius: 5px;
+  background-color: #e96d00;
+}
+
+.home:hover,
+.about:hover,
+.login:hover,
+.singup:hover {
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 20px;
+  padding: 10px 20px;
+  margin: 0 10px;
+  cursor: pointer;
+  color: white;
+  background-color: #e96d00;
+}
+.home,
+.about,
+.login,
+.singup {
+  text-decoration: none;
+
+  font-size: 20px;
+  padding: 10px 20px;
+  margin: 0 10px;
+  cursor: pointer;
+  color: black;
+}
+
+.mobileMenuIcon {
+  display: none;
+}
+
+.burger {
+  background-color: #e2d9d9;
+  height: 50;
+  width: 45px !important;
+  border-radius: 5px;
+  margin-bottom: 4px;
+  color: white;
+}
+
+.profilemaindivheader {
+  margin-left: 1.5rem;
+  padding-right: 1rem;
+  border-radius: 10px;
+}
+.menelist {
+  list-style: none;
+}
+
+.menelist a {
+  text-decoration: none;
+  color: black;
+}
+
+.menelist a:hover {
+  color: #e96d00;
+}
+
+.menelist a:active {
+  color: #e96d00;
+}
+@media screen and (max-width: 780px) {
+  .log {
+    display: flex;
+    position: fixed;
+    top: 15px;
+    left: 35px;
+  }
+
+  .navlinks {
+    display: none;
+  }
+  .mobilelinks {
+    position: absolute;
+    display: block;
+    list-style: none;
+    background-color: #e8e8e8;
+    left: 0;
+    top: 69px;
+    width: 100%;
+    box-shadow: 1px 1px 1px 1px #e2d9d9;
+    
+    padding-right: 21px;
+  }
+
+  .home,
+  .about,
+  .login,
+  .singup {
+    color: black;
+    text-align: center;
+    padding: 10px;
+    width: 100%;
+    transition: all 0.5s ease-out;
+    display: grid;
+  }
+
+  .active {
+    margin-bottom: 8px;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    width: 100%;
+    transition: all 0.5s ease-out;
+    display: grid;
+    background-color: #e96d00;
+    border-radius: 5px;
+  }
+
+  .mobileMenuIcon {
+    display: block;
+
+    font-size: 30px;
+    border: none;
+    outline: none;
+    top: 15px;
+    right: 25px;
+  }
+
+  .logo img {
+    height: 73px;
+    margin-left: 0rem;
+  }
+}

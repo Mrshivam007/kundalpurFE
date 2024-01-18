@@ -1,0 +1,101 @@
+.modal-content {
+  position: relative;
+  right: 10rem;
+  width: 900px;
+}
+
+.modal-header .btn-close {
+  position: relative;
+  bottom: 1rem;
+}
+
+#Poformheader {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+#Poformheader .POform {
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.bi {
+  cursor: pointer;
+}
+
+#Poformheader .POformbutton {
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+#Poformheader .POformbutton button {
+  width: 120px;
+  height: 40px;
+  font-size: 13px;
+  background: #434343;
+  border-radius: 7px;
+}
+
+.table {
+  width: 100%;
+}
+
+#pototal {
+  float: right;
+}
+
+.row-table th {
+  border: solid 1px #c4c4c4;
+  color: black;
+}
+
+.row-table table th {
+  border-collapse: collapse;
+  border: solid 1px #c4c4c4;
+  color: black;
+}
+
+.row-table table td {
+  border: solid 1px #c4c4c4;
+}
+
+.row-table {
+  overflow: scroll;
+}
+
+.Add_items {
+  background: white;
+  color: black;
+  border: none;
+  border-radius: 7px;
+  border: dotted 2px black;
+  width: 104px;
+  height: 40px;
+  padding-top: 5px;
+}
+
+.item_input {
+  width: 100px;
+  border: solid 1px gray;
+  border: none;
+}
+
+#remove_icon {
+  width: 35px;
+  height: 35px;
+  color: #653d3e;
+}
+
+.btn{
+  background-color: hsl(28, 96%, 75%);
+  
+  float: right ;
+}

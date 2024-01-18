@@ -1,0 +1,133 @@
+.form_div_absolutebook_payment {
+  width: 615px;
+  margin-top: 0px;
+  background: #ffffff;
+  box-shadow: 0px 8px 16px rgb(0 0 0 / 16%);
+  border-radius: 10px;
+  position: absolute;
+  left: 30%;
+  margin-top: -58px;
+  padding-bottom: 1rem;
+}
+.name_of_divvsssssv10 p{
+  line-height: 12px;
+}
+.centerdivhh {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.centerdivhh p {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 25px;
+  line-height: 38px;
+  /* identical to box height */
+
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  color: #0b883d;
+}
+.name_of_divvsssssv {
+  display: flex;
+  justify-content: 'space-between';
+  padding: 2rem;
+}
+.name_of_divvsssssv10 {
+  width: 50%;
+}
+
+.name_of_divvsssssv10 p {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 27px;
+  margin-top: 1rem;
+  color: #05313c;
+}
+
+.payment_btn_duvvvvvv {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.payment_btn_duvvvvvv10 {
+  width: 23%;
+  height: 42px;
+  background: rgba(250, 116, 1, 0.8);
+  border-radius: 5px;
+ font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  margin-right: 2rem;
+  color: #ffffff;
+}
+
+.payment_btn_duvvvvvv11 {
+  height: 42px;
+  background: rgba(250, 116, 1, 0.8);
+  border-radius: 5px;
+ font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  margin-right: 2rem;
+  color: #ffffff;
+}
+.mainFail_div{
+  padding: 2rem;
+}
+.blue_textP{
+  color: blue;
+}
+
+@media screen and (max-width: 780px) {
+  .form_div_absolutebook_payment {
+    width: 98%;
+    background: #ffffff;
+    box-shadow: 0px 8px 16px rgb(0 0 0 / 16%);
+    border-radius: 10px;
+    left: 1%;
+   }
+
+  .name_of_divvsssssv10 p {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+    margin-top: 1rem;
+    color: #05313c;
+}
+
+.payment_btn_duvvvvvv10 {
+  width: 41%;
+  height: 50px;
+  background: rgba(250, 116, 1, 0.8);
+  border-radius: 2px;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 27px;
+  margin-right: 2rem;
+  color: #FFFFFF;
+}
+
+.payment_btn_duvvvvvv11 {
+  width: 40%;
+  height: 50px;
+  background: rgba(250, 116, 1, 0.8);
+  border-radius: 2px;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 27px;
+  color: #FFFFFF;
+}
+}

@@ -1,0 +1,241 @@
+.printContainer{
+    display: flex;
+    justify-content: center ;
+    margin-left: 10%;
+}
+
+.funcButton{
+    display: flex;
+    
+}
+
+.header{
+    border:5px;
+}
+
+
+
+.main_po {
+    border: 1px solid black;
+    width: 100%;
+    padding: auto;
+}
+
+
+.printcontainer .print {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    font-size: 10pt;
+   
+}
+
+.printcontainer .print .printheader {
+    width: 100%;
+    height: 29mm;
+    margin-left: 2rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.printcontainer .print .printheader img {
+    width: 10rem;
+    height: 7rem;
+}
+
+.printcontainer .print .printheader p {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #000000;
+    margin-right: 6rem;
+    padding-top: 10mm;
+}
+
+
+.printcontainer .print p h3 {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 22px;
+    color: black;
+}
+
+.printcontainer .print p h5 {
+    font-weight: 700;
+    font-size: 12px;
+    margin-right: 6rem;
+    line-height: 15px;
+    color: black;
+}
+
+.printcontainer .print .printheader h6 {
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 12px;
+    position: relative;
+    color: black;
+    bottom: 8mm;
+    right: 10mm;
+}
+
+.printcontainer .print .printbody {
+    width: 100%;
+    border-top: solid 0.5px black;
+    border-bottom: solid 0.5px black;
+    display: flex;
+    flex-direction: column;
+    margin-top: 5%;
+}
+
+.printcontainer .print .printbody h1 {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 19px;
+    color: #653D3D;
+    text-align: center;
+}
+
+.printcontainer .print .printbody p h4 {
+    font-weight: 700;
+    font-size: 12px;
+    color: #000000;
+}
+
+.printbody_1 {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 13rem;
+}
+
+.printbody_2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content: space-between;
+    border-right: 1px solid black;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+  
+}
+
+.printbody_3 {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content: space-between;
+    width: 100%;
+    height: 100%;
+}
+
+.printbody_4 {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    border-bottom: 1px solid black;
+    width: 100%;
+    height: 20%;
+}
+
+.printbody_5 {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border-bottom: 1px solid black;
+    width: 100%;
+    height: 80%;
+}
+
+.printbody_6 {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    width: 100%;
+    height: 50%;
+}
+
+.printcontainer .print .printbody p {
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    margin: 2%;
+    padding: 1%;
+}
+
+
+.printcontainer .print section h5 {
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 12px;
+    color: #000000;
+    margin-left: 5%;
+}
+
+.printcontainer .print table {
+    width: 100%;
+    padding: 10px;
+    border-top: solid 0.5px black;
+    border-bottom: solid 0.5px black;
+    background-color: white;
+    color: black;
+}
+
+.printcontainer .print table td {
+    font-weight: 700;
+    font-size: 12px;
+    border: 0.5px solid black;
+    color: black;
+}
+
+.printcontainer .print .terms {
+    width: 100%;
+    padding: 2rem;
+    border-bottom: solid 0.5px black;
+    color: #000000;
+}
+
+.printcontainer .print .terms h2 {
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 10px;
+}
+
+.printcontainer .print .terms h3 {
+    font-weight: 700;
+    font-size: 12px;
+    padding: 10px;
+}
+
+.printcontainer .print .terms ol {
+    font-weight: 500;
+    font-size: 10px;
+}
+
+.printcontainer .print footer {
+    display: flex;
+    padding: 10px;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.printcontainer .printbtnn button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem 10rem 1rem 20rem;
+    width: 10%;
+    border-radius: 10px;
+}
+

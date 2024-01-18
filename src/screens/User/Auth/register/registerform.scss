@@ -1,0 +1,167 @@
+@import "../../../../utils//variables";
+
+.register-form,
+.verify-form {
+  min-width: 350px;
+  border-radius: 10px;
+  
+  color: $input-text-color;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.register-form-main{
+ margin-top: 6rem;
+
+  color: #333333;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+}
+
+.register-form-main-center{
+  display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    padding-left: 4rem;
+    padding-right: 4rem;
+}
+.register-form {
+  .heading {
+    margin-top: 20px;
+    font-weight: 500;
+    font-size: 30px;
+    line-height: 45px;
+  }
+  & > .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding-inline: 1.5rem;
+    width: 100%;
+    position: relative;
+    input {
+      border: 0.8px solid $input-placeholder-color;
+      padding: 0.5rem 0.9rem;
+      border-radius: 0.5rem;
+      &::placeholder {
+        color: $input-placeholder-color;
+      }
+    }
+    & > div {
+      font-size: 10px;
+      line-height: 15px;
+    }
+    & > .register-btn {
+      margin-top: 0.6rem;
+      background: $secondary-color;
+      font-weight: 500;
+      color: $primary-color;
+      font-size: 14px;
+      line-height: 21px;
+      outline: none;
+      border: none;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      margin-bottom: 20px;
+    }
+  }
+}
+
+.verify-form {
+  & .verify-heading {
+    margin-top: 20px;
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 33px;
+  }
+  & > .verify-desc {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    margin-top: 3rem;
+    max-width: 250px;
+    text-align: center;
+  }
+
+  & > .mobile-no {
+    margin-top: 1.9rem;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 500;
+  }
+  & > .input-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-top: 2.2rem;
+    padding-inline: 1.5rem;
+    width: 100%;
+    & > .otp-container {
+      display: flex;
+      justify-content: space-between;
+    }
+    & .otp-input {
+      border: 0.7px solid $input-placeholder-color;
+      border-radius: 0.5rem;
+      outline: none;
+      min-width: 2.2rem;
+      height: 2.2rem;
+    }
+  }
+}
+.verify-btn-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 6.6rem;
+  padding: 1.5rem;
+  width: 100%;
+  & > .verify-btn {
+    background: $secondary-color;
+    font-weight: 500;
+    color: $primary-color;
+    font-size: 14px;
+    line-height: 21px;
+    outline: none;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+  }
+}
+.showpassworddsignup8 {
+
+  position: absolute;
+    top: 36px;
+    left: 292px;
+    list-style: none;
+    right: -3px;
+}
+@media screen and (max-width: 780px) {
+  
+.register-form-main-center{
+  display: block;
+   
+    width: 100%;
+    align-items: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+
+.register-form-main {
+  margin-top: 6rem;
+
+  color: #333333;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+   width: 100%; 
+}
+}

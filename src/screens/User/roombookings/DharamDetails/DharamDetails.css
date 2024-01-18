@@ -1,0 +1,146 @@
+.details-div_dhar {
+  padding-left: 8%;
+
+  padding-right: 8%;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.details-div_dhar img {
+  width: 337px;
+  height: 301px;
+  border-radius: 10px;
+}
+
+.right_div_deta_dhram {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-bottom: 2%;
+}
+
+.right_div_deta_dhram h2 {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 36px;
+  color: #333333;
+}
+.right_div_deta_dhram p {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+
+  color: #525252;
+}
+.main_text_deltails {
+  font-size: 20px !important;
+}
+
+.dharamshal_arc_main_name_div10 {
+  display: flex;
+  align-items: center;
+}
+.dharamshal_arc_main_name_div10 img {
+  width: 25px!important;
+  height: 25px!important;
+  margin-right: 1%!important;
+}
+.imp_info {
+  width: 1191px;
+ 
+  background: #ffffff;
+  border: 1.5px solid #ffa75c;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.16);
+  border-radius: 10px;
+
+}
+
+.imp_info_ine_p {
+  width: 100%;
+ 
+  background: #ffa75c;
+  border-radius: 10px 10px 0px 0px;
+  padding: 0.5rem;
+
+}
+
+.imp_info_ine_p  p{
+    color: white;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.imp_info_super_div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 5%;
+    margin-bottom: 6rem;
+}
+
+.imp_info_ine_innear_div_p{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    height: 67%;
+    padding-left: 1%;
+    padding-top: 1%;
+}
+
+.imp_info_ine_innear_div_p p{
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    margin-top: 5px;
+    margin-bottom: 8px;
+    color: #000000;
+}
+
+.details-div_dhar10 {
+    padding-left: 3%!important;
+    padding-right: 3%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 3%;
+}
+
+@media screen and (max-width: 780px) {
+  .details-div_dhar {
+    padding-left: 3%!important;
+    padding-right: 8%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 52%;
+}
+
+.right_div_deta_dhram {
+  width: 100%!important;
+
+}
+
+.details-div_dhar10{
+  padding-left: 3%!important;
+  padding-right: 3%;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 3%;
+}
+.imp_info_ine_p p {
+  color: white;
+  margin-top: 0px;
+  margin-bottom: 0px;
+
+  font-size: 15px;
+}
+}
+
+

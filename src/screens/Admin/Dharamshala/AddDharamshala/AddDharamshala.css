@@ -1,0 +1,74 @@
+.add_btn_main_dhara {
+  width: 104px;
+  height: 40px;
+  background: #fdc99c !important;
+  border-radius: 7px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  color: #05313c !important;
+}
+.main_text_dhar {
+  font-size: 20px;
+}
+
+.add_btn_main_dhara:hover {
+  background: #f0d0b4 !important;
+}
+
+.main_upload_sharam {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.cemera_inear_div {
+  width: 278px;
+  height: 98px;
+  background: #e8e8e8;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 2rem;
+}
+
+.selctimg_div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.forminput_add_user10 {
+  width: 100%;
+  height: 35px;
+  background: #ffffff;
+  border: 1px solid #c5bfbf;
+  border-radius: 7px;
+  padding-left: 1rem;
+}
+
+.main_img_divvvv {
+  width: 100%;
+  height: 205px;
+
+  background: #e8e8e8;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dharamshala_imgggg {
+  width: 100%;
+  height: 100%;
+}
+.formdivvv_imf {
+  position: absolute;
+}
+.formdivvv_imf input {
+  height: 200px;
+  width: 420px;
+  opacity: 0;
+}

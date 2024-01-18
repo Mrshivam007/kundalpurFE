@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+.main-div {
+
+  position: relative;
+  /* background: linear-gradient(
+    90.65deg,
+    rgba(250, 116, 1, 0.4) 0.56%,
+    rgba(255, 255, 255, 0.4) 99.48%
+  ); */
+  background: rgba(132, 69, 15, 0.4);
+  /* padding-bottom: 11.5rem; */
+}
+.main-div::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: url('/src/assets/user-donation-bg.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  /* opacity: 0.6; */
+}

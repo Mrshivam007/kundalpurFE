@@ -1,0 +1,56 @@
+.mainconditiondiv {
+  padding-left: 8rem;
+  padding-right: 8rem;
+  padding-top: 1rem;
+}
+.conimgdiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.conimgdiv img {
+  border-radius: 12px;
+}
+
+.conditionhead{
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 16px;
+}
+.normalConditionText{
+    color: gray;
+    margin-bottom: 0.5rem;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+@media screen and (max-width: 780px) {
+    .mainconditiondiv {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        padding-top: 1rem;
+      }
+      .conimgdiv {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      
+      .conimgdiv img {
+        border-radius: 12px;
+      }
+      
+      .conditionhead{
+          margin-top: 0.5rem;
+          margin-bottom: 0.5rem;
+          font-size: 16px;
+      }
+      .normalConditionText{
+          color: gray;
+          margin-bottom: 0.5rem;
+          font-size: 16px;
+          font-weight: 400;
+      }
+      
+}

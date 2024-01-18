@@ -1,0 +1,32 @@
+.selecttabcontainer1{
+ 
+    display: flex;
+    margin-left: 10rem;
+
+    justify-content: space-between;
+    gap:2rem;
+    
+}
+
+.actionbtn
+{
+    display: flex;
+  
+  margin-right: 1rem;
+}
+
+.bigcontainer{
+    margin:1%;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+}
+
+#srcbtn{
+    border-radius: 0.5rem;
+    width: 10rem;
+    background-color: hsl(28, 96%, 75%);
+    cursor: pointer;
+}
+
+

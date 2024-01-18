@@ -1,0 +1,22 @@
+.main_menu_drop {
+  display: flex;
+  align-items: center;
+  margin: 0.2rem;
+  height: 75px;
+  border-radius: 9px;
+  width: 272px;
+  padding-right: 0.5rem;
+  background: #f1dac6;
+}
+
+.main_menu_drop_logout {
+  display: flex;
+  align-items: center;
+  border-radius: 10px!important;
+  height: 75px;
+  border-radius: 9px;
+  width: 272px;
+  padding-right: 0.5rem !important;
+   color: white!important;
+  background: red !important;
+}

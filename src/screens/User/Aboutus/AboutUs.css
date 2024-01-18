@@ -1,0 +1,20 @@
+.mainbghomediv1{
+    padding-top: 5rem;
+    background: linear-gradient(
+        90.65deg,
+        rgba(250, 116, 1, 0.4) 0.56%,
+        rgba(255, 255, 255, 0.4) 99.48%
+      );
+      padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.para{
+    margin-bottom: 0.5rem;
+}
+
+.donation-top-img1 img {
+    width: 100%;
+    height: 300px;
+    border-radius: 9px;
+}

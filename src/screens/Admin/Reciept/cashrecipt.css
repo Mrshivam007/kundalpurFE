@@ -1,0 +1,512 @@
+/* Certificate */
+
+.main-certificate {
+  width: 62%;
+  height: 655px;
+  margin: 0.2px auto;
+  border: 0.0001px solid gray;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin-top: -0.5%;
+}
+
+.main-certificate .topinfo-flex {
+  display: flex;
+  color: rgb(249, 5, 176);
+  justify-content: space-between;
+  padding: 0px 8px;
+}
+
+.main-certificate .topinfo-flex p {
+  color: rgb(249, 5, 176);
+  font-size: 14px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.main-head {
+  width: 100%;
+  height: 90px;
+}
+.main-certificate .bankdetail-container .bankdetails .banks1,
+.banks2,
+.banks3,
+h5 {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.main-certificate .bankdetail-container .bankdetails .banks1,
+.banks2,
+.banks3,
+p {
+  color: #070200d3;
+  font-size: 17px;
+  font-weight: 510;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.main-head .main-head-container {
+  background-image: url(/src/assets/frame1.png);
+  background-repeat: no-repeat;
+
+  background-position: center;
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.2px 4px;
+}
+ .head-sn {
+  display: flex;
+  gap: 8px;
+  padding: 0px 1.7px;
+  border: 1px solid #c7630b;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  background-color: white;
+  border-radius: 5px;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+.main-head .main-head-container .head-name {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 9.9px;
+  row-gap: 1px;
+  justify-content: center;
+}
+
+.main-head .main-head-container .head-contact p {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.main-head .main-head-container .head-name h2 {
+  color: blue;
+  word-spacing: 10px;
+  font-size: 29px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.main-head .main-head-container .head-name p,
+h4 {
+  color: #c7630b;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.main-head .main-head-container .head-contact {
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
+  padding-right: 2px;
+  font-weight: 600;
+}
+.main-certificate .reciptimg {
+  width: 100%;
+  background-image: url(/src/assets/receipt.jpg);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+.main-certificate .reciptimg .reciptbody {
+  display: flex;
+  width: 100%;
+
+  /*height: 156px */
+  /* border-bottom: 0.1px solid; */
+  /* border-top: 0.1px solid; */
+  padding: 1rem 1rem 0rem 1rem;
+  background: rgba(255, 255, 255, 0.582);
+  opacity: 1;
+  justify-content: space-between;
+}
+.main-certificate .reciptimg .reciptbody2 {
+  border: 0.2px solid red;
+  display: flex;
+}
+.main-certificate .reciptimg .reciptbody2 .leftitems4 {
+  display: flex;
+  width: 60%;
+}
+.main-certificate .reciptimg .reciptbody2 .rightitems4 {
+  display: flex;
+  width: 30%;
+}
+.main-certificate .reciptimg .reciptbody h2 {
+  font-size: 20px;
+  font-weight: 400;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.main-certificate .reciptimg .reciptbody p {
+  font-size: 16px;
+  font-weight: 600 !important;
+}
+.main-certificate .reciptimg .rightitems2 {
+  background: rgba(255, 255, 255, 0.582);
+  opacity: 1;
+  display: flex;
+  padding: 0rem 1rem 0rem 1rem;
+  gap: 8px;
+
+  width: 100%;
+  align-items: baseline;
+}
+
+.main-certificate .reciptimg .rightitems4 {
+  background: rgba(255, 255, 255, 0.582);
+  opacity: 1;
+  display: flex;
+  padding: 0rem 1rem 0rem 1rem;
+  gap: 8px;
+  padding-bottom: 16px;
+  width: 100%;
+  padding-left: 82px;
+  padding-left: 11.5%;
+}
+
+.electronic_center_div {
+  display: flex;
+}
+
+.main-certificate .reciptimg .rightitems4 h2 {
+  font-size: 20px;
+  font-weight: 400;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.main-certificate .reciptimg .rightitems2 h2 {
+  font-size: 20px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-weight: 400;
+}
+.main-certificate .reciptimg .rightitems2 p {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.main-certificate .reciptimg .rightitems3 {
+  background: rgba(255, 255, 255, 0.582);
+  opacity: 1;
+  display: flex;
+  padding: 0.7rem 1rem 1.1rem 1rem;
+  gap: 8px;
+}
+.main-certificate .reciptimg .rightitems3 h2 {
+  font-size: 20px;
+  font-weight: 400;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.main-certificate .reciptimg .rightitems3 p {
+  font-size: 16px;
+  font-weight: 600;
+}
+.main-certificate .reciptimg .reciptbody .leftdata {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  width: 50%;
+}
+.main-certificate .reciptimg .reciptbody .leftdata .leftitems {
+  display: flex;
+  gap: 8px;
+}
+.main-certificate .reciptimg .reciptbody .rightdata {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+.main-certificate .reciptimg .reciptbody .rightdata .rightitems {
+  display: flex;
+  gap: 8px;
+}
+.main-certificate .reciptimg .bankjankari {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.582);
+  opacity: 1;
+  padding-top: 8px;
+  font-size: 15px;
+  font-weight: 600;
+}
+.main-certificate .reciptimg .bankjankari h3 {
+  background: #f9da90cf;
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+  width: 40%;
+  text-align: center;
+  padding: 2px 0px 1px 0px;
+  margin: 0.1px auto;
+  color: rgb(220, 68, 202);
+}
+.main-certificate .bankdetail-container {
+  background: rgba(255, 255, 255, 0.582);
+  opacity: 1;
+  width: 100%;
+  height: 22%;
+}
+.main-certificate .bankdetail-container .bankdetails {
+  display: flex;
+  width: 92%;
+  margin: 0px auto;
+  border-top: 0.1px solid rgba(0, 0, 0, 0.344);
+  background-color: #e0d1d19e;
+
+  border: 0.1px solid black;
+  border-top-left-radius: 28px;
+  border-top-right-radius: 28px;
+  padding: 0px 34px;
+}
+.main-certificate .bankdetail-container .bankdetails .banks1 {
+  width: 36%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.main-certificate .bankdetail-container .bankdetails .banks2 {
+  width: 45%;
+  border-left: 0.1px solid black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.main-certificate .bankdetail-container .bankdetails .banks3 {
+  width: 38%;
+  border-left: 0.1px solid black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.main-certificate .bankdetail-container .bankdetails .banks1,
+.banks2,
+.banks3,
+h5 {
+  color: #c7630b;
+  font-size: 17px;
+}
+.main-certificate .bankdetail-container .bankdetails .banks1,
+.banks2,
+.banks3,
+h4 {
+  color: #f64f12d3;
+  font-size: 17px;
+}
+.main-certificate .bankdetail-container .bankdetails .banks1,
+.banks2,
+.banks3,
+p {
+  color: #070200d3;
+  font-size: 17px;
+  font-weight: 510;
+}
+
+.main-certificate .note {
+  margin: 0;
+  border: none;
+  padding: 0.2px 8px;
+  text-align: center;
+}
+.main-certificate .note p {
+  font-size: 10px;
+  font-weight: 690;
+}
+
+.main-certificate .reciept-footer {
+  background-image: url(/src/assets/frame2.png);
+  height: 27px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6px 36px;
+}
+.main-certificate .reciept-footer span {
+  color: white;
+  font-weight: 700;
+  font-size: 16px;
+}
+.main-certificate .reciept-footer p {
+  color: yellow;
+  font-size: 19px;
+}
+.main_div_signature img {
+  width: 100%;
+  height: 20px;
+}
+.main-certificate .signature-point {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  align-items: center;
+}
+
+.receipt-main-div {
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-right: 17rem;
+  padding-left: 18rem;
+  padding-top: 6rem;
+}
+
+.margin_bittton {
+  margin-bottom: 8px;
+}
+
+.font_bold_in_donation {
+  font-weight: 600 !important;
+}
+#receipt {
+  height: 100%;
+}
+
+.button_div_print_download {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 0.2rem;
+}
+
+.button_div_print_download button {
+  height: 31px;
+  background: blue;
+  border: navajowhite;
+  color: white;
+  width: 10%;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 1rem;
+}
+.warp_text {
+  display: flex;
+  flex-wrap: wrap;
+  width: 70%;
+}
+.dan_ka_mad {
+  width: 14%;
+}
+
+.center_receipt_format {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+.center_receipt_format h2 {
+  padding: 1rem;
+}
+.main_div_center {
+  display: flex;
+  height: 45px;
+}
+.back-to-donation {
+  margin-left: 3%;
+  margin-top: 1%;
+}
+
+.close_btn_div_popup_receipt {
+  display: flex;
+  margin-left: 96%;
+  padding-top: 1rem;
+}
+@media screen and (max-width: 780px) {
+  .main-certificate {
+    width: 100%;
+  }
+
+  .main-certificate .topinfo-flex p {
+    font-size: 8px;
+  }
+
+  .main-head .main-head-container .head-name,
+  p,
+  h2,
+  h4 {
+    font-size: 8px;
+  }
+
+  .main-head .main-head-container .head-name h2 {
+    color: blue;
+    word-spacing: 10px;
+    font-size: 10px;
+  }
+
+  .main-certificate .reciptimg .reciptbody .leftdata .leftitems {
+    gap: 4px;
+  }
+
+  .main-certificate .reciptimg .reciptbody h2 {
+    font-size: 11px;
+    font-weight: 400;
+    margin-bottom: 4px;
+  }
+
+  .main-certificate .reciptimg .rightitems2 h2 {
+    font-size: 10px;
+    font-weight: 400;
+  }
+
+  .main-certificate .reciptimg .rightitems2 {
+    gap: 0px;
+  }
+
+  .main-certificate .reciept-footer {
+    height: 100%;
+    padding: 0px;
+  }
+
+  .main-certificate .reciept-footer p {
+    font-size: 9px;
+    padding: 1px;
+  }
+
+  .main-certificate .reciept-footer span {
+    font-weight: 400;
+    font-size: 9px;
+  }
+
+  .button_div_print_download button {
+    width: 34%;
+  }
+
+  .center_receipt_format {
+    width: 89%;
+    display: flex;
+  }
+  .dan_ka_mad {
+    width: 15%;
+  }
+
+  .main-certificate .bankdetail-container .bankdetails {
+    width: 100%;
+  }
+
+  .main-certificate .bankdetail-container .bankdetails .banks1,
+  .banks2,
+  .banks3,
+  h5 {
+    color: #c7630b;
+    font-size: 8px;
+  }
+
+  .main-certificate .reciptimg .bankjankari h3 {
+    width: 59%;
+  }
+}

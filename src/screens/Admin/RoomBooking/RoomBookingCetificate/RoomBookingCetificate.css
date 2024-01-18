@@ -1,0 +1,94 @@
+.main_room_receipt{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10%;
+}
+
+.main_room_receipt_innear{
+   
+    width: 100%;
+    margin-top: 1rem;
+    padding-top: 1rem;
+}
+.print_ddd{
+   
+    width: 65%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.yadda_text{
+    text-align: center;
+}
+
+.innear_div_texx{
+    display: flex;
+    /* align-items: center;
+    justify-content: space-between; */
+    flex-wrap: wrap;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+.innear_div_texx_dd{
+    width: 50%;
+    display: flex;
+    justify-content: space-around;
+    /* align-items: center; */
+}
+
+.yyy_text_div{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 2%;
+}
+.table_ddd{
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    
+}
+.table_tddd{
+    border: 1px solid gray;
+    text-align: center;
+    padding: 8px;
+    font-weight: 600;
+}
+
+.tex_center{
+    background-color: yellow;
+    color: white;
+}
+
+@media screen and (max-width: 780px) {
+    .main_room_receipt{
+        display: block;
+        margin-top: 29%;
+    }
+    
+    .main_room_receipt_innear {
+      
+        width: 172%!important;
+        margin-top: 1rem;
+        padding-top: 1rem;
+    }
+
+    .table_tddd {
+        border: 1px solid gray;
+        text-align: center;
+        padding: 0px;
+        font-size: 10px;
+    }
+
+    .print_ddd {
+        width: 98%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-left: 1%;
+        /* margin-right: 24%; */
+    }
+ 
+}

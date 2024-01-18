@@ -1,0 +1,129 @@
+.mainfooter {
+  background-image: url('../../../assets/bg.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 528px;
+  width: 100%;
+}
+
+.footercontent {
+  display: flex;
+  justify-content: space-around;
+  padding-top: 80px;
+  color: white;
+  padding-top: 7rem;
+}
+
+.mardivcontent {
+  margin-top: 20px;
+  color: #b4abab;
+  font-size: 65px;
+}
+
+.mardivcontent1 {
+  margin-top: 20px;
+  font-size: 65px;
+}
+
+.right {
+  padding-left: 10px;
+  color: #b4abab;
+  font-size: 65px;
+}
+.pincodediv {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 50px;
+  padding-right: 50px;
+  margin-top: 10px;
+  color: white;
+}
+
+.mardivcontentlink {
+  display: flex;
+  flex-direction: column;
+  color: #b4abab;
+}
+.mardivcontentlink p {
+  color: white;
+  margin-top: 0px;
+  margin-bottom: 8px;
+}
+.mardivcontentlink a:hover {
+  color: #fa9c23;
+}
+.mardivcontentlink a {
+  color: white;
+  margin-bottom: 8px;
+}
+.iconmain {
+  width: 60px;
+  height: 60px;
+  background-color: white;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  border-radius: 30px;
+  margin: 12px;
+}
+.hrdiv {
+  width: 100%;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+.social {
+  display: flex;
+  justify-content: center;
+}
+.icondiv5 {
+  box-shadow: 1px 1px 1px 0px #f3e6e6 !important;
+  padding: 20px !important;
+  margin-bottom: 10px !important;
+  background-color: #e96d00 !important;
+  color: white !important;
+  border-radius: 23px !important;
+  height: 50px !important;
+  width: 50px !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+.icondiv5:hover {
+  border-radius: 26px !important;
+  height: 55px !important;
+  width: 55px !important;
+  margin-top: 8px;
+  transition: width 0.2s;
+  transition: height 0.2s;
+}
+.instatxt {
+  font-weight: 400;
+}
+.dilimg {
+  width: 20px;
+}
+.phonecon img {
+  width: 32%;
+  margin-bottom: 14px;
+}
+@media screen and (max-width: 780px) {
+  .footercontent {
+    display: block;
+    margin-top: 3rem;
+    padding-top: 2rem;
+  }
+
+  .mainfooter {
+    height: 100%;
+  }
+  .phonecon {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    /* align-items: center; */
+    padding-left: 7%;
+  }
+  .mardivcontentlink p {
+  }
+}

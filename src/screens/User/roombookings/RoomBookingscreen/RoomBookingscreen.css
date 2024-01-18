@@ -1,0 +1,281 @@
+.main_div_head_tyopeeeebook {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding-top: 12rem;
+  background: #fdc99c;
+  margin-bottom: 51%;
+}
+
+.form_div_absolutebook {
+  width: 80%;
+  left: 127px;
+  top: 138px;
+  position: absolute;
+  background: #ffffff;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.16);
+  border-radius: 10px;
+  padding: 1rem;
+}
+.form_div_absolutebook h2 {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 25px;
+  line-height: 38px;
+  /* identical to box height */
+
+  color: #05313c;
+}
+
+.main_details_bro {
+  width: 100%;
+  height: 95px;
+  margin-top: 0.5rem;
+  background: rgba(253, 201, 156, 0.5);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.main_details_bro_text {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+  /* identical to box height */
+
+  color: #fa7401;
+}
+
+.main_details_bro_text1 {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  /* identical to box height */
+
+  color: #05313b;
+}
+
+.main_book_form_input_div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.main_book_form_input_div_innear {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+}
+.main_book_form_input_div_innear10 {
+  width: 30%;
+  display: flex;
+  justify-content: space-between;
+}
+.Mattress_main_div {
+  margin-top: 2rem;
+  border-top: 1px solid gray;
+}
+
+.Mattress_main_div h2 {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 25px;
+  line-height: 38px;
+  /* identical to box height */
+
+  color: #05313c;
+}
+
+.Mattress_main_div p {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+
+  color: #05313c;
+}
+
+.main_div_need_mattress {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  width: 29%;
+}
+
+.Proceed_btn {
+  width: 233px;
+  height: 45px;
+  background: #fa7401;
+  border-radius: 4px;
+  border: none;
+  color: white;
+  margin-right: 49px;
+}
+
+.Proceed_btn_go {
+  width: 233px;
+  height: 45px;
+  border: 1px solid #fa7401;
+  border-radius: 4px;
+
+  color: #fa7401;
+}
+
+.proces_btn_main_div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2%;
+}
+
+.main_show_details_divs {
+  display: flex;
+  padding: 2rem;
+}
+.main_show_details_divs_inear {
+  width: 60%;
+}
+.main_show_details_divs_inear_text {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 27px;
+  color: #333333;
+}
+.main_show_details_divs_inear10 {
+  width: 40%;
+  border-left: 1px solid gray;
+  padding-left: 1rem;
+}
+.main_div_test22222 {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.main_div_test22222 p {
+  color: #333333;
+  font-weight: 400;
+}
+
+.now_payment_gateway_div button {
+  width: 270px;
+  height: 45px;
+  background: #fa7401;
+  border-radius: 4px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  margin-top: 1rem;
+  color: #ffffff;
+}
+.inpur_div_room_add select {
+ 
+  padding-left: 23%;
+}
+@media screen and (max-width: 780px) {
+  .form_div_absolutebook {
+    width: 97%;
+    left: 0.3rem;
+    top: 95px;
+    position: absolute;
+    background: #ffffff;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.16);
+    border-radius: 10px;
+    padding: 1rem;
+}
+.main_details_bro {
+  width: 100%;
+  height: 10rem;
+  margin-top: 0.5rem;
+  background: rgba(253, 201, 156, 0.5);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem;
+  flex-wrap: wrap;
+}
+.main_book_form_input_div {
+  display: block;
+  margin-top: 1rem;
+}
+
+.main_book_form_input_div_innear {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+  .width_ffull {
+    width: 100% !important;
+  }
+
+  .main_book_form_input_div_innear10 {
+    width: 82%;
+   
+}
+.Proceed_btn {
+  width: 100%!important;
+  height: 34px;
+  background: #fa7401;
+  border-radius: 4px;
+  border: none;
+  color: white;
+  margin-right: 49px;
+  margin-bottom: 1rem;
+}
+
+.Proceed_btn_go {
+  width: 100%!important;
+  height: 34px!important;
+  border: 1px solid #fa7401;
+  border-radius: 4px;
+  color: #fa7401;
+}
+.inpur_div_room_add select {
+ 
+  padding-left: 23%;
+}
+
+.main_show_details_divs {
+  display: flex;
+  padding: 0rem;
+  flex-wrap: wrap;
+}
+.main_show_details_divs_inear {
+  width: 100%;
+}
+.main_show_details_divs_inear10 {
+  width: 100%;
+  border-left: 1px solid gray;
+  padding-left: 1rem;
+}
+
+
+.main_show_details_divs_inear p{
+    font-size: 15px;
+}
+
+.main_show_details_divs_inear_text10{
+    font-size: 10px!important;
+}
+.main_div_test22222 p{
+    font-size: 15px;
+}
+
+.main_div_head_tyopeeeebook {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding-top: 12rem;
+  background: #fdc99c;
+  margin-bottom: 229%;
+}
+}

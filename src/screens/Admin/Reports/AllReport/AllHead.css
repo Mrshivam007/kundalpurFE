@@ -1,0 +1,25 @@
+.mainuser_item{
+    display: flex;
+}
+
+.main_div_selectAllhed{
+    width: 15%;
+    height: 35px;
+    background: #FFFFFF;
+    border: 1px solid #C5BFBF;
+    border-radius: 7px;
+}
+
+.select_person_divAllHead {
+    /* width: 167px; */
+    height: 26px;
+    /* background: linear-gradient(180deg, #f2eeeb 0%, #ededed 100%); */
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    padding-left: 4%;
+    padding-right: 4%;
+    padding-top: 2%;
+}

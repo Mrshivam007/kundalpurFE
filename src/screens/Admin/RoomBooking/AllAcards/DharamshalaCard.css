@@ -1,0 +1,74 @@
+.dharamshal_arc_main {
+  width: 306px;
+  height: 382px;
+  margin-top: 2rem;
+  background: #ffffff;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.16);
+  border-radius: 10px;
+}
+.dharamshal_arc_main p {
+  margin-top: 0.2rem;
+  margin-bottom: 0.2rem;
+  font-size: 100%;
+}
+.dharamshal_arc_main img {
+  width: 306px;
+  height: 235px;
+  border-radius: 10px 10px 0px 0px;
+}
+.dharamshal_arc_main_name_div img {
+  width: 20px;
+  height: 20px;
+  margin-right: 2%;
+}
+.dharamshal_arc_main_name_div {
+  display: flex;
+}
+.dharamshal_arc_main_name_div_content {
+  padding: 0.5rem;
+}
+.rating_div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.detail_more_btn {
+  width: 126px;
+  height: 30px;
+
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  /* identical to box height, or 133% */
+
+  letter-spacing: 0.3px;
+
+  color: #ffffff;
+  background: #ffa75c;
+  border-radius: 20px;
+}
+
+.rating-outer {
+  display: inline-block;
+  position: relative;
+  font-family: FontAwesome;
+  color: #fdcc0d;
+}
+
+.rating-outer::before {
+  content: '\f006 \f006 \f006 \f006 \f006';
+}
+
+.rating-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 0;
+}
+
+.rating-inner::before {
+  content: '\f005 \f005 \f005 \f005 \f005';
+  color: #f8ce0b;
+}

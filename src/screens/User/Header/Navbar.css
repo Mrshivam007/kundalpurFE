@@ -1,0 +1,240 @@
+.main_top_header {
+  background-color: #ff6900;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+.main_top_header_inear_icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+}
+
+.main_div_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  font-size: 13px;
+  font-weight: 600;
+  position: static;
+
+  width: 100%;
+  z-index: 3;
+}
+
+.main_div_header_scroll {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  font-size: 13px;
+  font-weight: 600;
+  position: static;
+  position: fixed;
+  width: 100%;
+  z-index: 3;
+  background: white;
+  margin-top: -2rem;
+}
+.link_direct {
+  color: black;
+  text-decoration: none;
+}
+.link_directActive {
+  color: #ff6900;
+}
+.link_direct:hover {
+  color: #ff6900;
+}
+.main_div_header10 p {
+  margin-bottom: 0px;
+  font-size: 15px;
+}
+.main_div_header10 {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+
+  font-weight: 600;
+}
+
+.dropbtn {
+  background-color: white;
+  color: black;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  border-top: 4px solid #ff6900;
+  min-width: 183px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+  background-color: white;
+  color: #ff6900;
+}
+.burger {
+  display: none;
+}
+.mobile_navber {
+  display: none;
+}
+.mobile_navber_hide_INear_main {
+  display: none;
+}
+.main_div_is_hai_na {
+  display: none;
+}
+.hideTopP {
+  display: none;
+}
+.showtop {
+  display: block;
+  background-color: black;
+  z-index: 3;
+}
+.profilemaindivheader {
+  margin-left: 1.5rem;
+  padding-right: 1rem;
+  border-radius: 10px;
+}
+@media screen and (max-width: 780px) {
+  .main_div_header_scroll {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    font-size: 13px;
+    font-weight: 600;
+    position: static;
+    position: fixed;
+    width: 100%;
+    z-index: 3;
+    background: white;
+    margin-top: -3.6rem;
+  }
+  .main_div_header10 {
+    display: none;
+  }
+  .mobile_navber {
+    display: block;
+    margin-top: 8.3%;
+  }
+  .mobile_navber_hide_INear_main {
+    padding-left: 5%;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    background: white;
+    width: 100%;
+    z-index: 2;
+    height: 465px;
+    overflow-y: scroll;
+    margin-top: 1;
+    position: fixed;
+    margin-top: -2%;
+    padding-right: 2%;
+}
+  .mobile_navber_hide_INear_maina {
+    margin-top: 0.5rem;
+  }
+  .add_icons_div {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    align-items: center;
+  }
+  .add_icons_div p {
+    font-weight: 500;
+    font-size: 15px;
+  }
+
+  .link_directs{
+    color: black;
+    text-decoration: none;
+    margin-bottom: 0.5rem;
+  }
+  .link_direct p{
+    font-weight: 500;
+    font-size: 14px;
+
+  }
+  .link_direct_logouttex {
+    font-weight: 500;
+    font-size: 14px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+  .menu_show {
+    display: flex;
+    flex-direction: column;
+  }
+  .menu_show a {
+    margin-bottom: 1rem;
+  }
+  .menu_hide {
+    display: none;
+  }
+  .mobile_navber_hide {
+    display: none;
+  }
+  .main_div_is_hai_na {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 19%;
+    margin-left: 1rem;
+    color: #ff6900;
+  }
+  .main_top_header {
+    background-color: #ff6900;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+    padding-left: 10%;
+    padding-right: 10%;
+
+    flex-direction: column;
+  }
+}

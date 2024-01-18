@@ -1,0 +1,22 @@
+.container {
+    border: 1px solid #000;
+    padding-bottom: 1rem;
+    border-radius: 3px;
+    width: 50%;
+    text-align: center;
+}
+
+.date {
+    border: 1px solid;
+}
+
+.field {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 0.5rem;
+}
+
+.field span {
+    text-align: left;
+}
+

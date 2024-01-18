@@ -1,0 +1,138 @@
+.container1 {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+ 
+  margin-left: 5.3%;
+  margin-top: 0px;
+}
+
+.scrollable-tabs {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.fasti {
+  height: 30px;
+}
+.center-arrow2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid gray;
+  border-right: 1px solid blue;
+  padding-right: 30px;
+  padding-left: 5px;
+}
+
+.rule-left1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid gray;
+  border-left: 1px solid blue;
+  padding-left: 5px;
+}
+
+.ruleleft {
+  margin-left: 5px;
+}
+.bloc-tabs1 {
+  display: flex;
+  justify-content: space-between;
+  height: 102px;
+  background: #f1f0f0;
+  padding-top: 1;
+  padding-top: 1rem;
+  padding-left: 1rem;
+  border-radius: 5px;
+  height: 15%;
+  padding-right: 1rem;
+  margin-bottom: 1rem;
+}
+
+.bloc-tabs1 a{
+  list-style: none;
+}
+.tabs1 {
+  width: 194px;
+  height: 60px;
+  color: #05313c;
+  text-align: center;
+  background-color: #f1f0f0;
+  cursor: pointer;
+  box-sizing: content-box;
+  position: relative;
+  outline: none;
+  font-size: 15px;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+}
+
+.tabs2 {
+  width: 194px;
+  height: 60px;
+  color: #05313c;
+  background: #ffffff;
+  border-radius: 5px 5px 0px 0px;
+  text-align: center;
+  cursor: pointer;
+  box-sizing: content-box;
+  position: relative;
+  outline: none;
+  font-size: 15px;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+}
+
+button {
+  border: none;
+}
+.content-tabs {
+  flex-grow: 1;
+}
+.content {
+  display: none;
+}
+.content h2 {
+  padding: 0px 0 5px 0px;
+}
+
+.active-content {
+  display: block;
+}
+
+@media screen and (max-width: 780px) {
+  .bloc-tabs1 {
+    display: flex;
+    position: fixed;
+    background: white;
+    width: 372px;
+  }
+  .tabs1 {
+    height: 38px;
+
+    width: 29%;
+  }
+
+  .tabs2 {
+    height: 38px;
+
+    width: 29%;
+  }
+
+  .container1 {
+    width: 360px !important;
+    height: 300px;
+    margin: 0px auto 0;
+    word-break: break-all;
+    margin-top: 0px;
+  }
+}

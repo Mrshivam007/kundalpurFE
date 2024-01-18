@@ -1,0 +1,217 @@
+.Aboutus-main-div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 700px;
+}
+
+.left-imgs-div {
+  position: relative;
+  width: 50%;
+}
+.tex-right-main-div {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.img-1 {
+  position: absolute;
+  width: 228px;
+  height: 142px;
+  top: -233px;
+  left: 46px;
+}
+
+.img-2 {
+  z-index: 1;
+  left: 171px;
+  top: -154px;
+  width: 420px;
+  height: 353px;
+  position: absolute;
+  border-radius: 5px;
+}
+
+.img-3 {
+  position: absolute;
+  width: 228px;
+  height: 142px;
+  z-index: 2;
+  left: 472px;
+  top: 123px;
+  border-radius: 5px;
+}
+.education-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.education-text p {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  /* identical to box height */
+
+  color: #ae2f07;
+}
+
+.tex-right-main-div h2 {
+  margin-top: 0px;
+
+  margin-bottom: 9px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 35px;
+  line-height: 52px;
+
+  color: #fd7906;
+}
+
+.check-main-div {
+  display: flex;
+  justify-content: space-around;
+}
+.linnes-outer-div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  margin-top: 10px;
+  width: 62%;
+}
+
+.linnes-outer-div  p{
+  font-size: 12px;
+}
+.check-inear-div {
+  display: flex;
+  align-items: center;
+  margin-bottom: 7px;
+}
+.check-inear-div P {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 10px;
+}
+.check-inear-div img {
+  width: 35px;
+  height: 35px;
+  border-radius: 20px;
+}
+
+.about-bttom-div h2 {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  text-align: center;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 35px;
+  line-height: 52px;
+
+  color: #fe7600;
+}
+
+.bottom-img-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.bottom-img-div img {
+  width: 160px;
+  height: 160px;
+  margin: 22px;
+}
+
+.supper-main-div1{
+  padding-bottom: 8rem;
+}
+
+.donation-center{
+  display: flex;
+  justify-content: center;
+}
+
+.supper-check-main-div{
+  display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 82%;
+}
+
+@media screen and (max-width: 780px) {
+  .Aboutus-main-div {
+    display: block;
+    height: 100%;
+    flex-direction: column;
+    padding-top: 16rem;
+}
+.tex-right-main-div {
+  width: 100%;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  flex-direction: column;
+  margin-top: -1rem;
+}
+.img-1 {
+  position: absolute;
+  width: 126px;
+  height: 78px;
+  top: -245px;
+  left: 5px;
+}
+.img-2 {
+  z-index: 1;
+  left: 71px;
+  top: -190px;
+  width: 216px;
+  height: 115px;
+  position: absolute;
+  border-radius: 5px;
+}
+.img-3 {
+  position: absolute;
+  width: 126px;
+  height: 78px;
+  z-index: 2;
+  left: 228px;
+  top: -105px;
+  border-radius: 5px;
+}
+.tex-right-main-div h2 {
+  font-size: 144%;
+}
+.supper-check-main-div {
+ 
+  width: 100%;
+}
+.linnes-outer-div {
+  padding: 7px;
+  width: 100%;
+}
+.linnes-outer-div p {
+  font-size: 11px;
+}
+.about-bttom-div h2 {
+ 
+  font-size: 21px;
+  line-height: 39px;
+ 
+}
+.bottom-img-div img {
+  width: 100%;
+  height: 100%;
+}
+}
+

@@ -1,0 +1,21 @@
+.check_babbs_btn{
+width: 265px;
+height: 35px;
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 21px;
+/* identical to box height */
+
+
+color: #FFFFFF;
+
+background: rgba(250, 116, 1, 0.8);
+border-radius: 7px;
+}
+
+.tablescrollbarss{
+    height: 160px;
+    overflow-y: scroll;
+}

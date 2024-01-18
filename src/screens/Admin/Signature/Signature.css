@@ -1,0 +1,36 @@
+.btn_signature {
+  background: #fdc99c;
+  border: none;
+  border-radius: 5px;
+  font-weight: 500;
+  color: #05313c;
+  padding: 0.4rem 1.5rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  margin-right: 1rem;
+  width: 100%;
+}
+
+.centerSignatire {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+  margin-top: 6rem;
+}
+
+.Back_btn_main_div {
+  margin-left: 5%;
+}
+
+.Back_btn_main_div button {
+  width: 149px;
+  height: 40px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  color: #05313c;
+  background: #ffffff;
+  border: 1px solid #9b9797;
+  border-radius: 7px;
+}

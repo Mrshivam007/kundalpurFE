@@ -1,0 +1,51 @@
+.selection_text {
+  border: 1px solid #e96d00;
+  width: 258px;
+  height: 38px;
+  border-radius: 5px;
+  font-size: 15px;
+  border: 1px solid #05313c;
+}
+.main_add_Head_hai_na {
+  display: flex !important;
+  justify-content: space-between !important;
+}
+.report_btn {
+  border: none;
+  background: #e96d00;
+  padding-left: 1rem;
+  height: 29px;
+  color: white;
+  padding-right: 1rem;
+  border-radius: 5px;
+  font-size: 18px;
+  margin-left: 1rem;
+}
+.inner-input-div120 {
+  border: '1px solid #B8B8B8';
+  width: '37rem';
+  height: '39px';
+  border-radius: '5px';
+  font-size: '15px';
+  padding-left: '0.5rem';
+  margin-bottom: '0.5rem';
+  color: 'gray';
+  margin-left: 1rem;
+
+}
+.main_center_header-update-donation {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(
+    90.65deg,
+    rgba(250, 116, 1, 0.4) 0.56%,
+    rgba(255, 255, 255, 0.4) 99.48%
+  );
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+.main_uodate_div {
+  padding: 1rem;
+}

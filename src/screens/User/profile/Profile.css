@@ -1,0 +1,219 @@
+.Profile-main-div {
+  padding-top: 1rem;
+  height: 813px;
+  background: linear-gradient(
+    90.42deg,
+    #fdc99c 0.3%,
+    rgba(253, 201, 156, 0) 99.58%
+  );
+  padding-left: 24rem;
+  padding-right: 24rem;
+}
+
+.Profile-main-div1 {
+  padding-top: 8rem;
+  height: 813px;
+  background: linear-gradient(
+    90.42deg,
+    #fdc99c 0.3%,
+    rgba(253, 201, 156, 0) 99.58%
+  );
+  padding-left: 24rem;
+  padding-right: 24rem;
+}
+
+.profile-img-div1{
+  width: 100%;
+  height: 79px;
+  background: #ffffff;
+  border: 1px solid #613916;
+  border-radius: 7px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.profile-img-div1 img{
+  width: 95%;
+  height: 95%;
+  background: #ffffff;
+
+  border-radius: 7px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.main-inear-prifile-div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.left-inear-div-profile h2 {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 25px;
+  line-height: 30px;
+  color: #fa7401;
+}
+.upload-profile-div-main {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.upload-profile-div-main p {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  color: #613916;
+}
+.upload-profile-div-main input {
+  position: absolute;
+  height: 6rem;
+  width: 5rem;
+  opacity: 0;
+}
+
+.profile-img-div {
+  width: 78px;
+  height: 79px;
+  background: #ffffff;
+  border: 1px solid #613916;
+  border-radius: 7px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-img-div img {
+  width: 70px;
+  height: 68px;
+  border-radius: 5px;
+}
+.form-main-div-profile {
+  display: flex;
+  justify-content: space-between;
+}
+.input-group-profile {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group-profile label {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 22px;
+  margin-bottom: 6px;
+  color: #613916;
+}
+
+.input-group-profile input {
+  width: 339px;
+  height: 39px;
+  background: #ffffff;
+  border: 1px solid #613916;
+  border-radius: 2px;
+  padding-left: 13px;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+  color: #6c6a6a;
+  margin-bottom: 0.5rem;
+  
+}
+.input-group-profile input:focus {
+  outline: none;
+}
+.input-group-profile1 {
+  display: flex;
+  flex-direction: column;
+}
+.input-group-profile1 input {
+  height: 45px;
+  background: #ffffff;
+  border: 1px solid #613916;
+  border-radius: 10px;
+  padding-left: 13px;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+  color: #6c6a6a;
+  margin-bottom: 1.5rem;
+}
+
+.input-group-profile1 input:focus {
+  outline: none;
+}
+.input-group-profile1 label {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 22px;
+  margin-bottom: 6px;
+  color: #613916;
+}
+.save-btn-profile-div {
+  display: flex;
+  flex-direction: row-reverse;
+}
+.save-btn-profile {
+  width: 215px;
+  height: 35px;
+  border: none;
+  background: #fa7401;
+  border: 1px solid #fd7906;
+  border-radius: 10px;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  color: #ffffff;
+}
+
+@media screen and (max-width: 780px) {
+  .main-inear-prifile-div {
+    display: block;
+  }
+  .form-main-div-profile {
+    display: block;
+  }
+
+  .Profile-main-div {
+    padding-top: 1rem;
+    height: 100%;
+
+    padding-left: 0rem;
+    padding-right: 0rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .left-inear-div-profile h2 {
+    margin-bottom: 8px;
+  }
+
+  .upload-profile-div-main {
+    margin-bottom: 7px;
+  }
+  .save-btn-profile {
+    width: 100%;
+    height: 46px;
+    margin-bottom: 1rem;
+  }
+}

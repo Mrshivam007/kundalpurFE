@@ -1,0 +1,53 @@
+.mainContainer {
+  background-color: #FFFFFF;
+
+}
+.active-tab {
+  padding-Bottom: 1.3rem;
+  padding-Top: 0.9rem;
+  padding-Left: 0.4rem;
+  border-radius: 5px;
+  padding-Right: 0.4rem;
+  background-color: white;
+  }
+a.is-hidden:hover {
+  background-color: transparent;
+  }
+
+.row_0 {
+background:  #F1F0F0;;
+border-radius: 5px;
+}
+/* #exTab1 .tab-content {
+  color : white;
+  background-color: #428bca;
+  padding : 5px 15px;
+}
+#exTab2 h3 {
+  color : white;
+  background-color: #428bca;
+  padding : 5px 15px;
+} */
+/* #exTab1 .nav-pills > li > a {
+  border-radius: 0;
+}
+#exTab3 .nav-pills > li > a {
+  border-radius: 4px 4px 0 0 ;
+}
+#exTab3 .tab-content {
+  color : white;
+  background-color: #428bca;
+  padding : 5px 15px;
+} */
+ul{
+  padding: 10px;
+  color: black;
+}
+ul li{
+  padding: 5px;
+  color:  #653D3E;
+}
+ul li a{
+  color: #653D3E;
+  text-decoration: none;
+}

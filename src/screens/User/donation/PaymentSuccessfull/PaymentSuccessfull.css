@@ -1,0 +1,44 @@
+.PaymentSuccessfull-main-div{
+    width: 478px;
+    height: 303px;
+    width: 478px;
+    height: 303px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.PaymentSuccessfull-main-div-innear{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding-top: 4rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    align-items: center;
+}
+.ok_btn{
+    background-color: #7066e0;
+    border: navajowhite;
+    color: white;
+    width: 41%;
+    height: 22%;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+.PaymentSuccessfull-main-div-innear img{
+    height: 66px;
+}
+.done-btn{
+    border: navajowhite;
+    background: #e96d00;
+    color: white;
+    height: 34px;
+ 
+    padding-left: 7px;
+    padding-right: 7px;
+    border-radius: 6px;
+    font-size: 15px;
+}

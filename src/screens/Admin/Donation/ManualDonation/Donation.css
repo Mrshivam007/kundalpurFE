@@ -1,0 +1,358 @@
+.add-div-close-div1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid gray;
+  padding-bottom: 18px;
+}
+.add-div-close-div1 h2 {
+  font-weight: 300;
+}
+
+.center_info_main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main_content_info {
+    background: linear-gradient(
+        90.65deg,
+        rgba(250, 116, 1, 0.4) 0.56%,
+        rgba(255, 255, 255, 0.4) 99.48%
+      );
+  width: 97%;
+
+  padding: 2rem;
+}
+
+.close-btn-container {
+  position: relative;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 10;
+}
+.cash-donation-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.cash-donation-container {
+  width: 97%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  place-items: center;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  /* padding-left: 1rem; */
+  /* padding-right: 1rem; */
+
+  line-height: 21px;
+}
+.cash-donation-container h2 {
+  margin-top: 12px;
+  margin-bottom: 14px;
+  color: black;
+  font-weight: 500;
+  margin-left: 2px;
+}
+.cash-donation-container-innser {
+  width: 100%;
+position: relative;
+  flex-wrap: wrap;
+  place-items: center;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  line-height: 21px;
+}
+
+.cash-donation-container-innser h2 {
+  text-align: center;
+  color: #e96d00;
+}
+
+.form-input-div {
+  display: flex;
+  height: 9rem;
+  align-items: center;
+}
+.save-div-btn4 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 16px;
+  margin-top: 14px;
+  top: 89%;
+    left: 43%;
+    position: absolute;
+}
+.forminput {
+  height: 29px;
+  width: 214px;
+  padding-left: 6px;
+  border-radius: 5px;
+  border: 1px solid black;
+  margin-top: 11px;
+  margin-bottom: 12px;
+}
+
+.forminput_absolute {
+  height: 29px;
+  width: 89px;
+  padding-left: 6px;
+  margin-top: 11px;
+  margin-bottom: 12px;
+  position: absolute;
+  margin-top: 105px;
+  z-index: 1;
+  padding-right: 63px;
+  margin-left: 125px;
+  border: nono;
+  border-left: none;
+  border-bottom: 1px solid gray;
+  border-top: 1px solid gray;
+  border-right: 1px solid gray;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.forminput_absolute:focus {
+  outline: none;
+}
+.table-cash-donation {
+  width: 100%;
+}
+.table-cash-donation,
+th,
+td {
+  border-collapse: collapse;
+  text-align: center;
+
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.forminput1 {
+  height: 42px;
+  width: 133px;
+  padding-left: 6px;
+  /* border-radius: 5px; */
+  border: 1px solid black;
+}
+
+.forminput1:focus {
+  outline: none;
+}
+.phone-div-input {
+  padding-bottom: 51px;
+}
+
+.receipt-div-input {
+  padding-bottom: 74px;
+}
+
+.add-btn-cash {
+  background: #22c322;
+  border: none;
+  color: white;
+  height: 31px;
+  width: 151px;
+  border-radius: 5px;
+  font-weight: 600;
+  margin-top: 20px;
+}
+.inner-input-div2 {
+  display: flex;
+  flex-direction: column;
+  margin-right: 2rem;
+  position: relative;
+}
+.inner-input-div3 {
+  padding-bottom: 26px;
+  padding-top: 7px;
+  display: flex;
+  flex-direction: column;
+  margin-right: 2rem;
+
+  height: 189px;
+  justify-content: space-around;
+}
+
+.inner-input-div1 input {
+  height: 42px;
+  width: 333px;
+  padding-left: 6px;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+.inner-input-div1-select {
+  height: 42px;
+  width: 264px;
+  padding-left: 6px;
+  /* border-radius: 5px; */
+  border: 1px solid black;
+}
+.inner-input-div1-select:focus {
+  outline: none;
+}
+.inner-input-div1 input:focus {
+  outline: none;
+}
+.inner-input-div1 label {
+  font-family: "Imprima";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 19px;
+  line-height: 29px;
+  color: #827b7b;
+  margin-bottom: 1rem;
+}
+.bottom_input_div {
+  display: flex;
+  justify-content: space-between;
+}
+.save-btn1 {
+  border: none;
+  background: #337ab7;
+  color: white;
+  height: 29px;
+  border-radius: 5px;
+  margin-right: 16px;
+  font-size: 16px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.styled-table {
+  border-collapse: collapse;
+
+  font-size: 0.9em;
+  font-family: sans-serif;
+  min-width: 400px;
+  width: 100%;
+}
+.styled-table thead tr {
+  color: black;
+  text-align: left;
+  background-color: #f3f3f3;
+}
+.styled-table th,
+.styled-table td {
+  padding: 6px 15px;
+  border: 0.5px solid gray;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+/* .styled-table tbody tr:last-of-type {
+  border-bottom: 2px solid #009879;
+} */
+
+.styled-table tbody tr.active-row {
+  font-weight: bold;
+  color: #009879;
+}
+.remove_data {
+  display: flex;
+  justify-content: space-between;
+}
+
+.styled-table tfoot tr {
+  background-color: #f3f3f3;
+}
+.add_ittnrm_b {
+  background-color: #5cb85c;
+  border: navajowhite;
+  color: white;
+  padding: 6px;
+  width: 10rem;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-top: 11px;
+}
+
+.calcel-btn1 {
+  border: none;
+  background: #d9534f;
+  color: white;
+  width: 85px;
+  height: 29px;
+  border-radius: 5px;
+  font-size: 16px;
+}
+.table_scrol_barrr {
+  max-height: 300px;
+
+  overflow: auto;
+  overflow-x: hidden;
+  margin: 0 auto;
+  white-space: nowrap;
+}
+
+.add-btn-user-donation {
+    margin-top: 1rem;
+    width: 97%;
+    padding-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+
+}
+.cuolms_search{
+  width: 115%;
+  height: 24px;
+  border-radius: 4px;
+  border: 1px solid #05313C;
+  text-align: center;
+}
+
+.cuolms_search:focus{
+  outline: none;
+}
+
+.search-inner-div-reports-div {
+  display: contents;
+  padding-right: 1rem;
+}
+
+
+.search-inner-div-reports-div {
+  display: contents;
+  padding-right: 1rem;
+}
+input#donation-date{
+  position:relative;
+  overflow:hidden;
+}
+input#donation-date::-webkit-calendar-picker-indicator{
+  display:block;
+  top:0;
+  left:0;
+  background: #0000;
+  position:absolute;
+  transform: scale(100)
+}
+input#donation-time{
+  position:relative;
+  overflow:hidden;
+}
+input#donation-time::-webkit-calendar-picker-indicator{
+  display:block;
+  top:0;
+  left:0;
+  background: #0000;
+  position:absolute;
+  transform: scale(100)
+}

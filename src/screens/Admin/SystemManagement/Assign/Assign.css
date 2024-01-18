@@ -1,0 +1,8 @@
+.add-div-close-div1222{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    /* border-bottom: 1px solid gray; */
+    padding-bottom: 18px;
+}

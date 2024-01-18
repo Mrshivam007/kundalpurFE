@@ -1,0 +1,23 @@
+.chaneRoom{
+width: 100%;
+height: 28px;
+background: #0ABC51;
+border-radius: 5px;
+font-style: normal;
+font-weight: 500;
+font-size: 12px;
+line-height: 18px;
+color: #FFFFFF;
+}
+.cash-donation-container-innser10 {
+    width: 100%;
+    position: relative;
+    flex-wrap: wrap;
+    place-items: center;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    padding-left: 1rem;
+    padding-right: 0rem;
+    line-height: 21px;
+}

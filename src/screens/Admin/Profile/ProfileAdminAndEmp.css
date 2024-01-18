@@ -1,0 +1,39 @@
+.adminprofile_input{
+  display: flex;
+  flex-direction: column;
+}
+
+.adminprofile_input input{
+    width: 280px;
+    height: 35px;
+   padding-left: 1rem;
+    
+    background: #FFFFFF;
+    border: 1px solid #C5BFBF;
+    border-radius: 7px;
+}
+
+.adminprofile_input input:focus{
+    outline: none;
+} 
+
+.adminprofile_input  label{
+    margin-top: 0.3rem;
+    margin-bottom: 0.3rem;
+}
+.btn_upd_admion_profile{
+    width: 149px;
+height: 40px;
+font-weight: 500;
+font-size: 18px;
+line-height: 27px;
+/* identical to box height */
+margin-top: 1%;
+
+color: #FA7401;
+
+background: #F1DAC6;
+border: 1px solid #FA7401;
+border-radius: 7px;
+
+}
