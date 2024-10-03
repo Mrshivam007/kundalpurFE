@@ -27,6 +27,7 @@ import TotalAmountRow from '../common/TotalAmountRow';
 import { ReactTransliterate } from 'react-transliterate';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Moment from 'moment-js';
+import { Tooltip } from '@mui/material';
 
 const custumstyle = {
   width: '100%',
@@ -77,7 +78,23 @@ const ItemDonation = ({
   const [address, setAddress] = useState('');
   const [newMember, setNewMember] = useState(false);
   const [mobileNo, setMobileNo] = useState('');
-  const [genderp, setgenderp] = useState('');
+  const [countryCode, setCountryCode] = useState('+91'); // Default country code
+  const [isCustomCode, setIsCustomCode] = useState(false); // Track if custom code is selected
+  const [customCode, setCustomCode] = useState(''); // Custom country code input
+
+  const handleCountryCodeChange = (event) => {
+    const value = event.target.value;
+    if (value === 'custom') {
+      setIsCustomCode(true); // Enable custom input field
+    } else {
+      setIsCustomCode(false);
+      setCountryCode(value);
+    }
+  };
+
+  const handleCustomCodeChange = (event) => {
+    setCustomCode(event.target.value);
+  };  const [genderp, setgenderp] = useState('');
   const [genderp1, setgenderp1] = useState('');
   const [fetchuserdetail, setfetchuserdetail] = useState(true);
   const [showloader, setshowloader] = useState(false);
@@ -134,9 +151,9 @@ const ItemDonation = ({
       donationItems.map((donationItem) =>
         donationItem === originalDonationItem
           ? {
-              ...donationItem,
-              [key]: value,
-            }
+            ...donationItem,
+            [key]: value,
+          }
           : donationItem,
       ),
     );
@@ -185,6 +202,14 @@ const ItemDonation = ({
         }),
   );
 
+  const [donationTypeError, setDonationTypeError] = useState('');
+  const [donationQuantityError, setDonationQuantityError] = useState('');
+  const [donationItemTypeError, setDonationItemTypeError] = useState('');
+  const [donationAmountError, setDonationAmountError] = useState('');
+  const [numberError, setNumberError] = useState('');
+  const [fullNameError, setFullNameError] = useState('');
+  const [addressError, setAddressError] = useState('');
+
   const addItemDonation = async () => {
     try {
       setSaveButtonDisabled(true);
@@ -195,6 +220,74 @@ const ItemDonation = ({
       axios.defaults.headers.put[
         'Authorization'
       ] = `Bearer ${sessionStorage.getItem('token')}`;
+
+      if (!mobileNo) {
+        setNumberError("Number is required");
+        setSaveButtonDisabled(false);
+        setshowloader(false);
+        return;
+      } else if (countryCode === '+91' && mobileNo.length < 10) {
+        setNumberError("Number must be at least 10 digits for India");
+        setSaveButtonDisabled(false);
+        setShowLoader(false);
+        return;
+      } else {
+        setNumberError('');
+      }
+
+      if (!fullName) {
+        setFullNameError("FullName is required");
+        setSaveButtonDisabled(false);
+        setshowloader(false);
+        return;
+      } else {
+        setFullNameError('');
+      }
+
+      if (!address) {
+        setAddressError("Address is required");
+        setSaveButtonDisabled(false);
+        setshowloader(false);
+        return;
+      } else {
+        setAddressError('');
+      }
+
+      if (!donationItems[0].type) {
+        setDonationTypeError("Item Type is required");
+        setSaveButtonDisabled(false);
+        setshowloader(false);
+        return;
+      } else {
+        setDonationTypeError('');
+      }
+
+      if (!donationItems[0].itemType) {
+        setDonationItemTypeError("Item Type is required");
+        setSaveButtonDisabled(false);
+        setshowloader(false);
+        return;
+      } else {
+        setDonationItemTypeError('');
+      }
+
+      if (!donationItems[0].quantity) {
+        setDonationQuantityError("Donation quantity is required");
+        setSaveButtonDisabled(false);
+        setshowloader(false);
+        return;
+      } else {
+        setDonationQuantityError('');
+      }
+
+      if (!donationItems[0].approxValue) {
+        setDonationAmountError("Donation amount is required");
+        setSaveButtonDisabled(false);
+        setshowloader(false);
+        return;
+      } else {
+        setDonationAmountError('');
+      }
       // e.preventDefault();
 
       if (showUpdateBtn) {
@@ -259,7 +352,7 @@ const ItemDonation = ({
             {
               name: fullName,
               gender: newMember ? genderp1 : genderp,
-              phoneNo: mobileNo,
+              phoneNo: `${isCustomCode ? customCode : countryCode}${mobileNo}`, // Use customCode if custom is selected
               address: address,
               new_member: newMember,
               modeOfDonation: 4,
@@ -272,10 +365,10 @@ const ItemDonation = ({
           let totalamount = modifiedDonationItems?.amount
             ? modifiedDonationItems?.amount
             : modifiedDonationItems &&
-              modifiedDonationItems.reduce(
-                (n, { amount }) => parseFloat(n) + parseFloat(amount),
-                0,
-              );
+            modifiedDonationItems.reduce(
+              (n, { amount }) => parseFloat(n) + parseFloat(amount),
+              0,
+            );
 
           if (res.data.status === true) {
             handleClose();
@@ -341,7 +434,7 @@ const ItemDonation = ({
         }),
         rno: data?.ReceiptNo,
       });
-    } catch (error) {}
+    } catch (error) { }
   };
   useEffect(() => {
     // getall_donatiions();
@@ -452,9 +545,57 @@ const ItemDonation = ({
                 }}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={8} md={2}>
+              <CustomInputLabel>Country Code</CustomInputLabel>
+              {!isCustomCode ? (
+                <Select
+                  value={countryCode}
+                  onChange={handleCountryCodeChange}
+                  fullWidth
+                  variant="outlined"
+                  style={{ height: '36px' }}
+                >
+                  <MenuItem value="+1">+1 (USA)</MenuItem>
+                  <MenuItem value="+91">+91 (India)</MenuItem>
+                  <MenuItem value="+44">+44 (UK)</MenuItem>
+                  <MenuItem value="+61">+61 (Australia)</MenuItem>
+                  <MenuItem value="+81">+81 (Japan)</MenuItem>
+                  <MenuItem value="+86">+86 (China)</MenuItem>
+                  <MenuItem value="+49">+49 (Germany)</MenuItem>
+                  <MenuItem value="+33">+33 (France)</MenuItem>
+                  <MenuItem value="+39">+39 (Italy)</MenuItem>
+                  <MenuItem value="+55">+55 (Brazil)</MenuItem>
+                  <MenuItem value="+7">+7 (Russia)</MenuItem>
+                  <MenuItem value="+27">+27 (South Africa)</MenuItem>
+                  <MenuItem value="+34">+34 (Spain)</MenuItem>
+                  <MenuItem value="+52">+52 (Mexico)</MenuItem>
+                  <MenuItem value="+62">+62 (Indonesia)</MenuItem>
+                  <MenuItem value="custom">Enter Custom Code</MenuItem>
+                </Select>
+              ) : (
+                <CustomInput
+                  value={customCode}
+                  onChange={handleCustomCodeChange}
+                  placeholder="Enter custom code"
+                  fullWidth
+                  variant="outlined"
+                  style={{ height: '36px' }}
+                />
+              )}
+            </Grid>
+            <Grid item xs={12} md={4}>
               <CustomInputLabel required htmlFor="mobile-no">
-                Mobile Number
+                <Tooltip
+                  title={numberError ? numberError : ''}
+                  arrow
+                  open={!!numberError} // Open only if there's an error
+                  disableHoverListener={!numberError} // Disable hover when there's no error
+                  placement="top" // Display the tooltip on the upper side
+                >
+                  <span>
+                    Mobile Number
+                  </span>
+                </Tooltip>
               </CustomInputLabel>
               <CustomInput
                 required
@@ -482,7 +623,17 @@ const ItemDonation = ({
                 </>
               ) : (
                 <>
-                  Full Name
+                  <Tooltip
+                    title={fullNameError ? fullNameError : ''}
+                    arrow
+                    open={!!fullNameError} // Open only if there's an error
+                    disableHoverListener={!fullNameError} // Disable hover when there's no error
+                    placement="top" // Display the tooltip on the upper side
+                  >
+                    <span>
+                      Full Name
+                    </span>
+                  </Tooltip>
                   <CustomInput
                     id="full-name"
                     required
@@ -494,9 +645,17 @@ const ItemDonation = ({
             </Grid>
 
             <Grid item xs={12} md={6}>
-              <CustomInputLabel required htmlFor="address">
-                Address
-              </CustomInputLabel>
+              <Tooltip
+                title={addressError ? addressError : ''}
+                arrow
+                open={!!addressError} // Open only if there's an error
+                disableHoverListener={!addressError} // Disable hover when there's no error
+                placement="top" // Display the tooltip on the upper side
+              >
+                <CustomInputLabel required htmlFor="address">
+                  Address
+                </CustomInputLabel>
+              </Tooltip>
 
               {!newMember ? (
                 <>
@@ -560,8 +719,15 @@ const ItemDonation = ({
                         alignItems: 'center',
                       }}
                     >
-                      Donation item*
-                      <IconButton aria-label="add" size="small">
+                      <Tooltip
+                        title={donationTypeError ? 'Type is required' : ''}
+                        arrow
+                        open={!!donationTypeError} // Open only if there's an error
+                        disableHoverListener={!donationTypeError} // Disable hover when there's no error
+                        placement="top" // Display the tooltip on the upper side
+                      >
+                        <span>Donation Item*</span>
+                      </Tooltip>                      <IconButton aria-label="add" size="small">
                         <AddBoxIcon color="primary" onClick={addDonationItem} />
                       </IconButton>
                     </Box>
@@ -572,8 +738,15 @@ const ItemDonation = ({
                       minWidth: 150,
                     }}
                   >
-                    Item Type
-                  </TableCell>
+                    <Tooltip
+                      title={donationItemTypeError ? donationItemTypeError : ''}
+                      arrow
+                      open={!!donationItemTypeError} // Open only if there's an error
+                      disableHoverListener={!donationItemTypeError} // Disable hover when there's no error
+                      placement="top" // Display the tooltip on the upper side
+                    >
+                      <span>Item Type*</span>
+                    </Tooltip>                       </TableCell>
                   <TableCell
                     align="center"
                     sx={{
@@ -596,16 +769,30 @@ const ItemDonation = ({
                       minWidth: 100,
                     }}
                   >
-                    Quantity
-                  </TableCell>
+                    <Tooltip
+                      title={donationQuantityError ? donationQuantityError : ''}
+                      arrow
+                      open={!!donationQuantityError} // Open only if there's an error
+                      disableHoverListener={!donationQuantityError} // Disable hover when there's no error
+                      placement="top" // Display the tooltip on the upper side
+                    >
+                      <span>Quantity*</span>
+                    </Tooltip>                   </TableCell>
                   <TableCell
                     align="center"
                     sx={{
                       minWidth: 150,
                     }}
                   >
-                    Approx Value
-                  </TableCell>
+                    <Tooltip
+                      title={donationAmountError ? donationAmountError : ''}
+                      arrow
+                      open={!!donationAmountError} // Open only if there's an error
+                      disableHoverListener={!donationAmountError} // Disable hover when there's no error
+                      placement="top" // Display the tooltip on the upper side
+                    >
+                      <span>Approx Value*</span>
+                    </Tooltip>                  </TableCell>
                   <TableCell
                     align="center"
                     sx={{

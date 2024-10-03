@@ -148,7 +148,7 @@ export default function InvoiceTable({ invoiceOpen, setopendashboard }) {
                         borderRadius: '0.5rem',
                         color: 'black',
                         width: '10vw',
-                        backgroundColor: '#fcbb82',
+                        backgroundColor: '#BCEDDF',
 
                         ":hover": {
                             bgcolor: '#f2ad6f'

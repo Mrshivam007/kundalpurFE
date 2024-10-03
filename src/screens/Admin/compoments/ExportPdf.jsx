@@ -2,6 +2,8 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { format } from 'date-fns';
 import Moment from 'moment-js';
+import html2pdf from 'html2pdf.js';
+
 const ExportPdfmanul = (isData, fileName) => {
   const doc = new jsPDF();
 
@@ -27,15 +29,15 @@ const ExportPdfmanul = (isData, fileName) => {
       item?.phoneNo,
       item?.name,
       item?.address,
-      item?.elecItemDetails.map((item) => {
-        return item.remark;
+      item?.manualItemDetails?.map((item) => {
+        return item.type;
       }),
-      item?.elecItemDetails.reduce(
+      item?.manualItemDetails?.reduce(
         (n, { amount }) => parseFloat(n) + parseFloat(amount),
         0,
       ),
-      item?.address,
-      format(new Date(item.createdAt), 'yyyy-MM-dd'),
+      item?.CreatedBy,
+      // format(new Date(item?.createdAt), 'yyyy-MM-dd'),
     ];
 
     tableRows.push(ticketData);
@@ -51,6 +53,116 @@ const ExportPdfmanul = (isData, fileName) => {
   doc.setFontSize(28);
   doc.save(`${fileName}_${dateStr}.pdf`);
 };
+
+const ExportPdfmanulReport = (isData, fileName) => {
+  // Create an HTML table to hold the data
+  let htmlContent = `
+      <style>
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: 'Devanagari', sans-serif;
+      }
+      th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+    </style>
+    <table>
+      <thead>
+        <tr>
+          <th>Head Name</th>
+          <th>Type</th>
+          <th>Amount Cheque</th>
+          <th>Amount Electronic</th>
+          <th>Amount Item</th>
+          <th>Amount Cash</th>
+          <th>Amount Total</th>
+        </tr>
+      </thead>
+      <tbody>`;
+
+  isData.forEach((item) => {
+    const totalAmount =
+      (item?.cheque_TOTAL_AMOUNT || 0) +
+      (item?.bank_TOTAL_AMOUNT || 0) +
+      (item?.item_TOTAL_AMOUNT || 0) +
+      (item?.cash_TOTAL_AMOUNT || 0);
+
+    htmlContent += `
+      <tr>
+        <td>${item?.type ? item.type : item?.employeeName}</td>
+        <td>${item?.donationType}</td>
+        <td>${item?.cheque_TOTAL_AMOUNT}</td>
+        <td>${item?.bank_TOTAL_AMOUNT}</td>
+        <td>${item?.item_TOTAL_AMOUNT}</td>
+        <td>${item?.cash_TOTAL_AMOUNT}</td>
+        <td>${totalAmount}</td>
+      </tr>`;
+  });
+
+  htmlContent += `</tbody></table>`;
+
+  // Convert HTML content to PDF
+  const opt = {
+    margin: 0,
+    filename: `${fileName}.pdf`,
+    html2canvas: { scale: 2 },  // Higher scale for better quality
+    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+  };
+
+  html2pdf().from(htmlContent).set(opt).save();
+};
+
+const ExportPdfonlineReport = (isData, fileName) => {
+  // Create an HTML table to hold the data
+  console.log("getting data on pdf ", isData);
+
+  let htmlContent = `
+    <table>
+      <thead>
+        <tr>
+          <th>Head Name</th>
+          <th>Type</th>
+          <th>Online</th>
+          <th>Cheque</th>
+          <th>Amount Total</th>
+        </tr>
+      </thead>
+      <tbody>`;
+
+  isData.forEach((item) => {
+    const totalAmount =
+      (item?.online || 0) +
+      (item?.cheque || 0);
+
+    htmlContent += `
+      <tr>
+        <td>${item?.type ? item.type : item?.employeeName}</td>
+        <td>${item?.donationType}</td>
+        <td>${item?.online}</td>
+        <td>${item?.cheque}</td>
+        <td>${totalAmount}</td>
+      </tr>`;
+  });
+
+  htmlContent += `</tbody></table>`;
+
+  // Convert HTML content to PDF
+  const opt = {
+    margin: 0,
+    filename: `${fileName}.pdf`,
+    html2canvas: { scale: 2 },  // Higher scale for better quality
+    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+  };
+
+  html2pdf().from(htmlContent).set(opt).save();
+};
+
+
 
 const DonationConsolated = (isData, fileName) => {
   const doc = new jsPDF();
@@ -87,13 +199,13 @@ const ExportPdfmanulElectronic = (isData, fileName) => {
   const tableColumn = [
     'Date',
     'Receipt',
-    'Voucher',
     'Phone',
     'Name',
     'Address',
-    'type',
+    'Head/Item',
     'amout',
-    'staff',
+    'user',
+    'remark',
   ];
 
   const tableRows = [];
@@ -102,18 +214,21 @@ const ExportPdfmanulElectronic = (isData, fileName) => {
     const ticketData = [
       Moment(item.donation_date).format('DD/MM/YYYY'),
       item?.ReceiptNo,
-      item?.voucherNo,
       item?.phoneNo,
       item?.name,
       item?.address,
       item?.manualItemDetails.map((item) => {
-        return item.remark;
+        console.log("getting type daat ", item);
+        return item.type;
       }),
       item?.manualItemDetails.reduce(
         (n, { amount }) => parseFloat(n) + parseFloat(amount),
         0,
       ),
       item?.CreatedBy,
+      item?.manualItemDetails.map((item) => {
+        return item.remark;
+      }),
       format(new Date(item.createdAt), 'yyyy-MM-dd'),
     ];
 
@@ -270,6 +385,8 @@ const ExportPdfUserCheque = (isData, fileName) => {
 
 export {
   ExportPdfmanul,
+  ExportPdfmanulReport,
+  ExportPdfonlineReport,
   ExportPdfUser,
   ExportPdfUserCheque,
   ExportPdfmanulElectronic,

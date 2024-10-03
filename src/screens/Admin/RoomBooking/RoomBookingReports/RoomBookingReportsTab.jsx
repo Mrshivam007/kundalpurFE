@@ -13,11 +13,18 @@ const RoomBookingReportsTab = ({ setopendashboard }) => {
     <>
       <div className="mobilewidth dashboarmain">
         <div className="container1">
-          <div className="bloc-tabs1">
+          <div
+  className="bloc-tabs1"
+  style={{ background: 'linear-gradient(to right, #B2FFFC, #C9E4CA)' }}
+
+>
             <NavLink
               style={{ width: '15rem' }}
               to="/admin-panel/Onlycheckin"
-              className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                                      className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                        style={({ isActive }) => ({
+                            background: isActive ? '' : 'transparent',
+                        })}
             >
               <img
                 style={{ marginRight: '4%', width: '20px' }}
@@ -29,7 +36,10 @@ const RoomBookingReportsTab = ({ setopendashboard }) => {
             <NavLink
               style={{ width: '15rem' }}
               to="/admin-panel/Room/checkinreports"
-              className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                                      className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                        style={({ isActive }) => ({
+                            background: isActive ? '' : 'transparent',
+                        })}
             >
               <img
                 style={{ marginRight: '4%', width: '20px' }}
@@ -42,7 +52,10 @@ const RoomBookingReportsTab = ({ setopendashboard }) => {
             <NavLink
               style={{ width: '15rem' }}
               to="/admin-panel/OnlinecheckHistotry"
-              className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                                      className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                        style={({ isActive }) => ({
+                            background: isActive ? '' : 'transparent',
+                        })}
             >
               <img
                 style={{ marginRight: '4%', width: '20px' }}
@@ -54,7 +67,10 @@ const RoomBookingReportsTab = ({ setopendashboard }) => {
             <NavLink
               style={{ width: '15rem' }}
               to="/admin-panel/Room/onlinecheckin"
-              className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                                      className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                        style={({ isActive }) => ({
+                            background: isActive ? '' : 'transparent',
+                        })}
             >
               <img
                 style={{ marginRight: '4%', width: '20px' }}
@@ -69,7 +85,10 @@ const RoomBookingReportsTab = ({ setopendashboard }) => {
                 <NavLink
                   style={{ width: '15rem' }}
                   to="/admin-panel/ForceCheckoutHistory"
-                  className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                                          className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                        style={({ isActive }) => ({
+                            background: isActive ? '' : 'transparent',
+                        })}
                 >
                   <img
                     style={{ marginRight: '4%', width: '20px' }}
@@ -84,7 +103,10 @@ const RoomBookingReportsTab = ({ setopendashboard }) => {
             )}
             <NavLink
               to="/admin-panel/Room/Holdhistory"
-              className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                                      className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                        style={({ isActive }) => ({
+                            background: isActive ? '' : 'transparent',
+                        })}
             >
               <img
                 style={{ marginRight: '4%', width: '20px' }}
@@ -95,7 +117,10 @@ const RoomBookingReportsTab = ({ setopendashboard }) => {
             </NavLink>
             <NavLink
               to="/admin-panel/Room/CanceledHistory"
-              className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                                      className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                        style={({ isActive }) => ({
+                            background: isActive ? '' : 'transparent',
+                        })}
             >
               <img
                 style={{ marginRight: '4%', width: '20px' }}

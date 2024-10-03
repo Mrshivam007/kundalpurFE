@@ -15,7 +15,10 @@ const ComBineTap = ({ setopendashboard }) => {
             <NavLink
               style={{ width: '17%' }}
               to="/admin-panel/room/AllCombine"
-              className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                                      className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                        style={({ isActive }) => ({
+                            background: isActive ? '' : 'transparent',
+                        })}
             >
               <img
                 style={{ marginRight: '4%', width: '20px' }}
@@ -27,7 +30,10 @@ const ComBineTap = ({ setopendashboard }) => {
             <NavLink
               style={{ marginRight: '3rem', width: '17%' }}
               to="/admin-panel/DonationCombine"
-              className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                                      className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                        style={({ isActive }) => ({
+                            background: isActive ? '' : 'transparent',
+                        })}
             >
               <img
                 style={{ marginRight: '4%', width: '20px' }}
@@ -39,7 +45,10 @@ const ComBineTap = ({ setopendashboard }) => {
             <NavLink
               style={{ marginRight: '3rem', width: '17%' }}
               to="/admin-panel/ManulCombine"
-              className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                                      className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                        style={({ isActive }) => ({
+                            background: isActive ? '' : 'transparent',
+                        })}
             >
               <img
                 style={{ marginRight: '4%', width: '20px' }}
@@ -51,7 +60,10 @@ const ComBineTap = ({ setopendashboard }) => {
             <NavLink
               style={{ width: '17%' }}
               to="/admin-panel/OnlineCombine"
-              className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                                      className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                        style={({ isActive }) => ({
+                            background: isActive ? '' : 'transparent',
+                        })}
             >
               <img
                 style={{ marginRight: '4%', width: '20px' }}

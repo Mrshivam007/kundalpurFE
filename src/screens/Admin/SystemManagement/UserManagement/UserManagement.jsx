@@ -372,7 +372,7 @@ const UserManagement = ({ setopendashboard }) => {
                 <TableRow>
                   <TableCell>Sr No.</TableCell>
                   <TableCell>
-                    Mobil
+                    Mobile
                     <i
                       style={{ marginLeft: '0.5rem' }}
                       onClick={() => sortData('Mobile')}

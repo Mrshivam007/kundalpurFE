@@ -13,9 +13,13 @@ const OnlineTap = ({ setopendashboard }) => {
         <div className="container1">
           <div className="bloc-tabsonline">
             <NavLink
-              style={{ marginRight: '3rem', width: '17%' }}
               to="/admin-panel/online/report/online"
               className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+              style={({ isActive }) => ({
+                background: isActive ? '' : 'transparent',
+                marginRight: '3rem',
+                width: '17%',
+              })}
             >
               <img
                 style={{ marginRight: '4%', width: '20px' }}
@@ -25,9 +29,13 @@ const OnlineTap = ({ setopendashboard }) => {
               Online Donation Report
             </NavLink>
             <NavLink
-              style={{ marginRight: '3rem', width: '17%' }}
               to="/admin-panel/online/report/online-paymentfail"
-              className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                                      className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                                      style={({ isActive }) => ({
+                                        background: isActive ? '' : 'transparent',
+                                        marginRight: '3rem',
+                                        width: '17%',
+                                      })}
             >
               <img
                 style={{ marginRight: '4%', width: '20px' }}
@@ -37,9 +45,12 @@ const OnlineTap = ({ setopendashboard }) => {
               Payment failed online
             </NavLink>
             <NavLink
-              style={{ width: '17%' }}
               to="/admin-panel/online/report/cheque"
-              className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                                      className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                                      style={({ isActive }) => ({
+                                        background: isActive ? '' : 'transparent',
+                                        width: '17%',
+                                      })}
             >
               <img
                 style={{ marginRight: '4%', width: '20px' }}

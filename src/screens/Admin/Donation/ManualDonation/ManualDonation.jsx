@@ -202,14 +202,17 @@ const ManualDonation = ({ setopendashboard }) => {
   const filterdata = async (e) => {
     e.preventDefault();
     setloader(true);
+  
     try {
+      let adjustedToDate = new Date(dateto);
+      adjustedToDate.setDate(adjustedToDate.getDate() + 1); // Increment the to date by 1
+      adjustedToDate = adjustedToDate.toISOString().split('T')[0]; // Format the date to YYYY-MM-DD
+  
       if (searchvalue) {
-        axios.defaults.headers.get[
-          'Authorization'
-        ] = `Bearer ${sessionStorage.getItem('token')}`;
-
+        axios.defaults.headers.get['Authorization'] = `Bearer ${sessionStorage.getItem('token')}`;
+  
         const res = await axios.get(
-          `${backendApiUrl}/admin/search-manual?search=${searchvalue}`,
+          `${backendApiUrl}/admin/search-manual?search=${searchvalue}`
         );
         if (res.data.status) {
           setloader(false);
@@ -218,8 +221,8 @@ const ManualDonation = ({ setopendashboard }) => {
         }
       } else {
         serverInstance(
-          `user/manual-searchAllDonation?fromDate=${datefrom}&toDate=${dateto}&fromReceipt=${voucherfrom}&toReceipt=${voucherto}',
-          'get`,
+          `user/manual-searchAllDonation?fromDate=${datefrom}&toDate=${adjustedToDate}&fromReceipt=${voucherfrom}&toReceipt=${voucherto}`,
+          'get'
         ).then((res) => {
           if (res.data) {
             setloader(false);
@@ -232,6 +235,7 @@ const ManualDonation = ({ setopendashboard }) => {
       setloader(false);
     }
   };
+  
 
   const handleOpen = () => {
     setOpen(true);
@@ -321,11 +325,11 @@ const ManualDonation = ({ setopendashboard }) => {
           (n, { amount }) => parseFloat(n) + parseFloat(amount),
           0,
         ),
+        Staff: item?.CreatedBy,
+        'Created Date': Moment(item?.created_at).format('DD-MM-YYYY'),
         remark: item?.manualItemDetails.map((row) => {
           return row.remark;
         }),
-        Staff: item?.CreatedBy,
-        'Created Date': Moment(item?.created_at).format('DD-MM-YYYY'),
       });
     });
     exportFromJSON({ data, fileName, exportType });

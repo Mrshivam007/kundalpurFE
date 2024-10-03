@@ -80,12 +80,28 @@ function Holdfrom({ setOpen }) {
   var today1 = new Date(holdsince);
   const sinceDate = Moment(today1).format('YYYY/DD/MM');
   const sinceTime = moment(today1, 'HH:mm').format('hh:mm');
+
+  const [selectedRooms, setSelectedRooms] = useState([]);
+
+  const handleRoomSelection = (e, roomNo) => {
+    if (e.target.checked) {
+      // Add room number if checked
+      setSelectedRooms((prevSelected) => [...prevSelected, roomNo]);
+    } else {
+      // Remove room number if unchecked
+      setSelectedRooms((prevSelected) =>
+        prevSelected.filter((room) => room !== roomNo)
+      );
+    }
+  };
+
   const handlesubmit = async () => {
     try {
       setshowloader(true);
       axios.defaults.headers.post[
         'Authorization'
       ] = `Bearer ${sessionStorage.getItem('token')}`;
+  
       const data = {
         name: holdername,
         mobile: holdermobile,
@@ -95,14 +111,17 @@ function Holdfrom({ setOpen }) {
         remain: holdremain,
         dharmasala: dharamshalaname,
         category: categoryname,
-        roomNo: roomnumber,
+        roomNo: selectedRooms, // This is now an array of selected rooms
         approvedBy: holdaprodeBy,
         remarks: remarks,
       };
 
       const res = await axios.post(`${backendApiUrl}room/hold`, data);
 
-      if (res.data.data.status) {
+      console.log("getting response after submitting the form ", res);
+      
+  
+      if (res.status === 200) {
         setOpen(false);
         setshowloader(false);
         Swal.fire('Great!', res.data.data.message, 'success');
@@ -111,6 +130,7 @@ function Holdfrom({ setOpen }) {
       Swal.fire('Error!', error, 'error');
     }
   };
+  
   const getalldharamshala = () => {
     serverInstance('room/get-dharmasalas', 'get').then((res) => {
       if (res.data) {
@@ -507,37 +527,34 @@ function Holdfrom({ setOpen }) {
                       <td className="table_tddd">Facility</td>
                       <td className="table_tddd">Time</td>
                     </tr>
-                    {roomlist &&
-                      roomlist.map((item, index) => {
-                        return (
-                          <tr>
-                            <td className="table_tddd">
-                              <input
-                                type="radio"
-                                name="anil"
-                                onClick={() => setroomnumber(item?.RoomNo)}
-                              />
-                            </td>
-                            <td className="table_tddd">{item?.RoomNo}</td>
-                            <td className="table_tddd">{item?.Rate}</td>
-                            <td className="table_tddd">{item?.advance}</td>
-                            <td className="table_tddd">
-                              {item?.dharmasala && item?.dharmasala.name}
-                            </td>
-                            <td className="table_tddd">
-                              {item?.category_name}
-                            </td>
-                            <td className="table_tddd">
-                              {item?.facility_name.map((element) => (
-                                <span style={{ marginRight: '5px' }}>
-                                  {element}
-                                </span>
-                              ))}
-                            </td>
-                            <td className="table_tddd">Auto</td>
-                          </tr>
-                        );
-                      })}
+                    {roomlist && roomlist.map((item, index) => {
+                      return (
+                        <tr key={index}>
+                          <td className="table_tddd">
+                            <input
+                              type="checkbox"
+                              name="roomSelection"
+                              value={item?.RoomNo}
+                              onChange={(e) => handleRoomSelection(e, item?.RoomNo)}
+                            />
+                          </td>
+                          <td className="table_tddd">{item?.RoomNo}</td>
+                          <td className="table_tddd">{item?.Rate}</td>
+                          <td className="table_tddd">{item?.advance}</td>
+                          <td className="table_tddd">{item?.dharmasala && item?.dharmasala.name}</td>
+                          <td className="table_tddd">{item?.category_name}</td>
+                          <td className="table_tddd">
+                            {item?.facility_name.map((element, i) => (
+                              <span key={i} style={{ marginRight: '5px' }}>
+                                {element}
+                              </span>
+                            ))}
+                          </td>
+                          <td className="table_tddd">Auto</td>
+                        </tr>
+                      );
+                    })}
+
                   </tbody>
                 </table>
               </div>

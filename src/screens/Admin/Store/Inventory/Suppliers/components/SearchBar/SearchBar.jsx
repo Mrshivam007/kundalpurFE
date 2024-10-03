@@ -576,7 +576,7 @@ const SearchBar = ({ getInventory, isData , handlePrint}) => {
                                 borderRadius: '0.5rem',
                                 color: 'black',
                                 width: '10vw',
-                                backgroundColor: '#fcbb82',
+                                backgroundColor: '#BCEDDF',
 
                                 ":hover": {
                                     bgcolor: '#f2ad6f'
@@ -594,7 +594,7 @@ const SearchBar = ({ getInventory, isData , handlePrint}) => {
                                 color: 'black',
                                 width: '10vw',
                                 marginRight: '1rem',
-                                backgroundColor: '#fcbb82',
+                                backgroundColor: '#BCEDDF',
 
                                 ":hover": {
                                     bgcolor: '#f2ad6f'

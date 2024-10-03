@@ -311,7 +311,7 @@ const VoucherManagement = ({ setopendashboard }) => {
                   <TableRow>
                     <TableCell align="center">S.No</TableCell>
                     <TableCell align="center">
-                      Empoyee Name
+                      Employee Name
                       <i
                         style={{ marginLeft: '0.5rem' }}
                         onClick={() => sortData('name')}
@@ -339,6 +339,13 @@ const VoucherManagement = ({ setopendashboard }) => {
                       <i
                         style={{ marginLeft: '0.5rem' }}
                         onClick={() => sortData('voucher')}
+                        class={`fa fa-sort`}
+                      />
+                    </TableCell>
+                    <TableCell align="center">Date{' '}
+                    <i
+                        style={{ marginLeft: '0.5rem' }}
+                        onClick={() => sortData('createdAt')}
                         class={`fa fa-sort`}
                       />
                     </TableCell>
@@ -372,6 +379,9 @@ const VoucherManagement = ({ setopendashboard }) => {
                           </TableCell>
                           <TableCell align="center">
                             {row?.to === row?.voucher ? '0' : row?.voucher}
+                          </TableCell>
+                          <TableCell align="center">
+                            {new Date(row?.createdAt).toLocaleDateString('en-GB')}
                           </TableCell>
                           {row?.status === 2 && (
                             <>

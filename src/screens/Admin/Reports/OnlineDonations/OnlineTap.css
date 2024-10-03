@@ -2,7 +2,8 @@
     display: flex;
  
     height: 102px;
-    background: #f1f0f0;
+    /* background: #f1f0f0; */
+    background: linear-gradient(to top, #d5d2e6, #5b55d0);
     padding-top: 1;
     padding-top: 1rem;
     padding-left: 1rem;

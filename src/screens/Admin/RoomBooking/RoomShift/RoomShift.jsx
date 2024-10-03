@@ -14,7 +14,7 @@ import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import CloseIcon from '@mui/icons-material/Close';
 import exportFromJSON from 'export-from-json';
-import Moment from 'moment-js';
+// import Moment from 'moment-js';
 import Print from '../../../../assets/Print.png';
 import ExportPdf from '../../../../assets/ExportPdf.png';
 import ExportExcel from '../../../../assets/ExportExcel.png';
@@ -23,7 +23,7 @@ import IconButton from '@mui/material/IconButton';
 import RoomShiftForm from './RoomShiftForm';
 import Typography from '@mui/material/Typography';
 import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
-import moment from 'moment';
+import Moment from 'moment';
 import Checkoutform from './Checkoutform';
 
 import { Select, MenuItem } from '@mui/material';
@@ -412,6 +412,23 @@ const RoomShift = ({ setopendashboard }) => {
     });
     return currTime;
   };
+
+  const shouldHighlightRow = (coutDate, coutTime) => {
+    const today = Moment().startOf('day');
+    const coutDateMoment = Moment(coutDate).startOf('day');
+
+    if (today.isSame(coutDateMoment)) {
+      const currentTime = Moment();
+      const coutTimeMoment = Moment(coutTime, 'HH:mm:ss');
+
+      const timeDiffInHours = coutTimeMoment.diff(currentTime, 'hours', true);
+
+      // If coutTime is within the next 2 hours
+      return timeDiffInHours <= 2 && timeDiffInHours >= 0;
+    }
+    return false;
+  };
+
   return (
     <>
       <Dialog
@@ -760,6 +777,9 @@ const RoomShift = ({ setopendashboard }) => {
                       key={row.id}
                       sx={{
                         '&:last-child td, &:last-child th': { border: 0 },
+                        backgroundColor: shouldHighlightRow(row?.coutDate, row?.coutTime)
+                          ? '#ff7272' // Highlight row in red if true
+                          : 'inherit', // Default background color
                       }}
                     >
                       <TableCell>{index + 1}</TableCell>

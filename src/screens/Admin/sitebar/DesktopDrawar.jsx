@@ -1303,9 +1303,6 @@ const DesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
       variant="permanent"
       open={open}
       PaperProps={{
-        sx: {
-          backgroundColor: '#F1DAC6',
-        },
       }}
       onMouseMove={() => handleDrawerOpen()}
       onMouseOut={() => handleDrawerClose()}

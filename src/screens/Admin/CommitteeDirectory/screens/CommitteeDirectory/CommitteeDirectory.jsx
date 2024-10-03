@@ -201,6 +201,9 @@ const CommitteeDirectory = ({ setopendashboard }) => {
     e.preventDefault();
     setloader(true);
     try {
+      let adjustedToDate = new Date(dateto);
+      adjustedToDate.setDate(adjustedToDate.getDate() + 1); // Increment the to date by 1
+      adjustedToDate = adjustedToDate.toISOString().split('T')[0]; // Format the date to YYYY-MM-DD
       if (searchvalue) {
         serverInstance(
           `committee/search-committee?search=${searchvalue}',

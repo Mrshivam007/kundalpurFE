@@ -1267,7 +1267,7 @@ const NewDesktopDrawar = ({ open, handleDrawerClose, handleDrawerOpen }) => {
       open={open}
       PaperProps={{
         sx: {
-          backgroundColor: '#F1DAC6',
+          background: 'linear-gradient(to right, #B2FFFC, #C9E4CA)', // Ensure background is a string
         },
       }}
       onMouseMove={() => handleDrawerOpen()}

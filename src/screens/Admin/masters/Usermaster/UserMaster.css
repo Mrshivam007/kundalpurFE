@@ -30,7 +30,7 @@
 
 .search-header button {
   /* background-color: #e96d00; */
-  background: #fdc99c;
+  background: linear-gradient(to right, #B2FFFC, #C9E4CA);
   border: none;
   border-radius: 5px;
   font-weight: 500;
@@ -43,7 +43,7 @@
 }
 
 .search-header button:hover {
-  background: hsl(28, 96%, 75%);
+  background: linear-gradient(to right, #5b55d0, #bbd3f6);
 }
 
 .search-inner-div {

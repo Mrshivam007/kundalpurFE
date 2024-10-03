@@ -27,7 +27,11 @@ const StoreTab = ({ setopendashboard }) => {
     <>
       <div className="mobilewidth , dashboarmain">
         <div className="container1">
-          <div className="bloc-tabs1">
+          <div
+  className="bloc-tabs1"
+  style={{ background: 'linear-gradient(to right, #B2FFFC, #C9E4CA)' }}
+
+>
             {/* <button
               className={toggleState === 1 ? 'tabs2 ' : 'tabs1'}
               onClick={() => toggleTab(1)}

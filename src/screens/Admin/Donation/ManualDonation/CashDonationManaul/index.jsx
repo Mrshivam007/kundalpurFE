@@ -27,6 +27,7 @@ import TotalAmountRow from '../common/TotalAmountRow';
 import { ReactTransliterate } from 'react-transliterate';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Moment from 'moment-js';
+import { Tooltip } from '@mui/material';
 const custumstyle = {
   width: '100%',
   borderRadius: 6,
@@ -75,6 +76,23 @@ const CashDonation = ({
   const [address, setAddress] = useState('');
   const [newMember, setNewMember] = useState(false);
   const [mobileNo, setMobileNo] = useState('');
+  const [countryCode, setCountryCode] = useState('+91'); // Default country code
+  const [isCustomCode, setIsCustomCode] = useState(false); // Track if custom code is selected
+  const [customCode, setCustomCode] = useState(''); // Custom country code input
+
+  const handleCountryCodeChange = (event) => {
+    const value = event.target.value;
+    if (value === 'custom') {
+      setIsCustomCode(true); // Enable custom input field
+    } else {
+      setIsCustomCode(false);
+      setCountryCode(value);
+    }
+  };
+
+  const handleCustomCodeChange = (event) => {
+    setCustomCode(event.target.value);
+  };
   const [fetchuserdetail, setfetchuserdetail] = useState(true);
   const [genderp, setgenderp] = useState('श्री');
   const [genderp1, setgenderp1] = useState('SHRI');
@@ -133,9 +151,9 @@ const CashDonation = ({
       donationItems.map((donationItem) =>
         donationItem === originalDonationItem
           ? {
-              ...donationItem,
-              [key]: value,
-            }
+            ...donationItem,
+            [key]: value,
+          }
           : donationItem,
       ),
     );
@@ -174,13 +192,21 @@ const CashDonation = ({
   const [donationDate, setDonationDate] = useState(date);
 
   const [donationTime, setDonationTime] = useState(
-    today.toLocaleTimeString('it-IT', {
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: false,
-    }),
+    showUpdateBtn
+      ? ''
+      : today.toLocaleTimeString('it-IT', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false,
+      }),
   );
+
+  const [amountError, setAmountError] = useState('');
+  const [donationTypeError, setDonationTypeError] = useState('');
+  const [numberError, setNumberError] = useState('');
+  const [fullNameError, setFullNameError] = useState('');
+  const [addressError, setAddressError] = useState('');
 
   const addCashDonation = async () => {
     try {
@@ -190,13 +216,64 @@ const CashDonation = ({
         'Authorization'
       ] = `Bearer ${sessionStorage.getItem('token')}`;
 
-      // e.preventDefault();
+      // Validation for amount field
+      console.log("getting country code ", countryCode);
+      console.log("getting custom code ", customCode);
+
+      if (!mobileNo) {
+        setNumberError("Number is required");
+        setSaveButtonDisabled(false);
+        setshowloader(false);
+        return;
+      } else if (countryCode === '+91' && mobileNo.length < 10) {
+        setNumberError("Number must be at least 10 digits for India");
+        setSaveButtonDisabled(false);
+        setShowLoader(false);
+        return;
+      } else {
+        setNumberError('');
+      }
+
+      if (!fullName) {
+        setFullNameError("FullName is required");
+        setSaveButtonDisabled(false);
+        setshowloader(false);
+        return;
+      } else {
+        setFullNameError('');
+      }
+
+      if (!address) {
+        setAddressError("Address is required");
+        setSaveButtonDisabled(false);
+        setshowloader(false);
+        return;
+      } else {
+        setAddressError('');
+      }
+      if (!donationItems[0].type) {
+        setDonationTypeError("Donation Type is required");
+        setSaveButtonDisabled(false);
+        setshowloader(false);
+        return;
+      } else {
+        setDonationTypeError('');
+      }
+
+      if (!donationItems[0].amount || donationItems[0].amount <= 0) {
+        setAmountError('Amount is required and must be greater than 0');
+        setSaveButtonDisabled(false);
+        setshowloader(false);
+        return;
+      } else {
+        setAmountError(''); // Clear the error if validation passes
+      }
 
       if (fullName && donationItems[0].amount && donationItems[0].type) {
         const res = await axios.post(`${backendApiUrl}admin/manual-donation`, {
           name: fullName,
           gender: newMember ? genderp1 : genderp,
-          phoneNo: mobileNo,
+          phoneNo: `${isCustomCode ? customCode : countryCode}${mobileNo}`, // Use customCode if custom is selected
           address: address,
           ReceiptNo: receiptNo,
           new_member: newMember,
@@ -210,10 +287,10 @@ const CashDonation = ({
         let totalamount = donationItems?.amount
           ? donationItems?.amount
           : donationItems &&
-            donationItems?.reduce(
-              (n, { amount }) => parseFloat(n) + parseFloat(amount),
-              0,
-            );
+          donationItems?.reduce(
+            (n, { amount }) => parseFloat(n) + parseFloat(amount),
+            0,
+          );
 
         console.log('res manual donation', res);
         if (res.data.status === true) {
@@ -228,7 +305,7 @@ const CashDonation = ({
           sendsms(totalamount, res?.data?.data?.data?.ReceiptNo);
         } else {
           setshowloader(false);
-          Swal.fire('Error!', 'Somthing went wrong!!', 'error');
+          Swal.fire('Error!', 'Something went wrong!!', 'error');
         }
       }
 
@@ -242,6 +319,7 @@ const CashDonation = ({
     }
   };
 
+
   const sendsms = async (totalamount, ReceiptNo) => {
     try {
       axios.defaults.headers.post[
@@ -252,7 +330,7 @@ const CashDonation = ({
         amount: totalamount,
         rno: ReceiptNo,
       });
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const getall_donatiions = () => {
@@ -388,9 +466,57 @@ const CashDonation = ({
                 }}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={8} md={2}>
+              <CustomInputLabel>Country Code</CustomInputLabel>
+              {!isCustomCode ? (
+                <Select
+                  value={countryCode}
+                  onChange={handleCountryCodeChange}
+                  fullWidth
+                  variant="outlined"
+                  style={{ height: '36px' }}
+                >
+                  <MenuItem value="+1">+1 (USA)</MenuItem>
+                  <MenuItem value="+91">+91 (India)</MenuItem>
+                  <MenuItem value="+44">+44 (UK)</MenuItem>
+                  <MenuItem value="+61">+61 (Australia)</MenuItem>
+                  <MenuItem value="+81">+81 (Japan)</MenuItem>
+                  <MenuItem value="+86">+86 (China)</MenuItem>
+                  <MenuItem value="+49">+49 (Germany)</MenuItem>
+                  <MenuItem value="+33">+33 (France)</MenuItem>
+                  <MenuItem value="+39">+39 (Italy)</MenuItem>
+                  <MenuItem value="+55">+55 (Brazil)</MenuItem>
+                  <MenuItem value="+7">+7 (Russia)</MenuItem>
+                  <MenuItem value="+27">+27 (South Africa)</MenuItem>
+                  <MenuItem value="+34">+34 (Spain)</MenuItem>
+                  <MenuItem value="+52">+52 (Mexico)</MenuItem>
+                  <MenuItem value="+62">+62 (Indonesia)</MenuItem>
+                  <MenuItem value="custom">Enter Custom Code</MenuItem>
+                </Select>
+              ) : (
+                <CustomInput
+                  value={customCode}
+                  onChange={handleCustomCodeChange}
+                  placeholder="Enter custom code"
+                  fullWidth
+                  variant="outlined"
+                  style={{ height: '36px' }}
+                />
+              )}
+            </Grid>
+            <Grid item xs={12} md={4}>
               <CustomInputLabel required htmlFor="mobile-no">
-                Mobile Number
+                <Tooltip
+                  title={numberError ? numberError : ''}
+                  arrow
+                  open={!!numberError} // Open only if there's an error
+                  disableHoverListener={!numberError} // Disable hover when there's no error
+                  placement="top" // Display the tooltip on the upper side
+                >
+                  <span>
+                    Mobile Number
+                  </span>
+                </Tooltip>
               </CustomInputLabel>
               <CustomInput
                 id="mobile-no"
@@ -400,84 +526,93 @@ const CashDonation = ({
             </Grid>
 
             <Grid item xs={12} md={6}>
-              <CustomInputLabel required htmlFor="full-name">
-                {!newMember ? (
-                  <>
-                    <Select
-                      required
-                      sx={{
-                        width: '20%',
-                        fontSize: 14,
-                        '& .MuiSelect-select': {
-                          padding: '1px',
-                        },
-                      }}
-                      value={genderp}
-                      onChange={(e) => setgenderp(e.target.value)}
-                    >
-                      <MenuItem
+              <Tooltip
+                title={fullNameError ? fullNameError : ''}
+                arrow
+                open={!!fullNameError} // Open only if there's an error
+                disableHoverListener={!fullNameError} // Disable hover when there's no error
+                placement="top" // Display the tooltip on the upper side
+              >
+                <CustomInputLabel required htmlFor="full-name">
+                  {!newMember ? (
+                    <>
+                      <Select
+                        required
                         sx={{
+                          width: '20%',
                           fontSize: 14,
+                          '& .MuiSelect-select': {
+                            padding: '1px',
+                          },
                         }}
-                        value={'श्री'}
+                        value={genderp}
+                        onChange={(e) => setgenderp(e.target.value)}
                       >
-                        श्री
-                      </MenuItem>
-                      {genderoptiins.map((item, idx) => {
-                        return (
-                          <MenuItem
-                            sx={{
-                              fontSize: 14,
-                            }}
-                            key={item.id}
-                            value={item.gender}
-                          >
-                            {item.gender}
-                          </MenuItem>
-                        );
-                      })}
-                    </Select>
-                  </>
-                ) : (
-                  <>
-                    <Select
-                      required
-                      sx={{
-                        width: '20%',
-                        fontSize: 14,
-                        '& .MuiSelect-select': {
-                          padding: '1px',
-                        },
-                      }}
-                      value={genderp1}
-                      onChange={(e) => setgenderp1(e.target.value)}
-                    >
-                      <MenuItem
+                        <MenuItem
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={'श्री'}
+                        >
+                          श्री
+                        </MenuItem>
+                        {genderoptiins.map((item, idx) => {
+                          return (
+                            <MenuItem
+                              sx={{
+                                fontSize: 14,
+                              }}
+                              key={item.id}
+                              value={item.gender}
+                            >
+                              {item.gender}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </>
+                  ) : (
+                    <>
+                      <Select
+                        required
                         sx={{
+                          width: '20%',
                           fontSize: 14,
+                          '& .MuiSelect-select': {
+                            padding: '1px',
+                          },
                         }}
-                        value={'SHRI'}
+                        value={genderp1}
+                        onChange={(e) => setgenderp1(e.target.value)}
                       >
-                        SHRI
-                      </MenuItem>
-                      {genderoptiins1.map((item, idx) => {
-                        return (
-                          <MenuItem
-                            sx={{
-                              fontSize: 14,
-                            }}
-                            key={item.id}
-                            value={item.gender}
-                          >
-                            {item.gender}
-                          </MenuItem>
-                        );
-                      })}
-                    </Select>
-                  </>
-                )}
-                Full Name
-              </CustomInputLabel>
+                        <MenuItem
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={'SHRI'}
+                        >
+                          SHRI
+                        </MenuItem>
+                        {genderoptiins1.map((item, idx) => {
+                          return (
+                            <MenuItem
+                              sx={{
+                                fontSize: 14,
+                              }}
+                              key={item.id}
+                              value={item.gender}
+                            >
+                              {item.gender}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </>
+                  )}
+                  Full Name
+
+                </CustomInputLabel>
+              </Tooltip>
               {!newMember ? (
                 <>
                   <ReactTransliterate
@@ -505,9 +640,17 @@ const CashDonation = ({
             </Grid>
 
             <Grid item xs={12} md={6}>
-              <CustomInputLabel required htmlFor="address">
-                Address
-              </CustomInputLabel>
+              <Tooltip
+                title={addressError ? addressError : ''}
+                arrow
+                open={!!addressError} // Open only if there's an error
+                disableHoverListener={!addressError} // Disable hover when there's no error
+                placement="top" // Display the tooltip on the upper side
+              >
+                <CustomInputLabel required htmlFor="address">
+                  Address
+                </CustomInputLabel>
+              </Tooltip>
 
               {!newMember ? (
                 <>
@@ -571,13 +714,29 @@ const CashDonation = ({
                         alignItems: 'center',
                       }}
                     >
-                      Type of donation*
+                      <Tooltip
+                        title={donationTypeError ? 'Type is required' : ''}
+                        arrow
+                        open={!!donationTypeError} // Open only if there's an error
+                        disableHoverListener={!donationTypeError} // Disable hover when there's no error
+                        placement="top" // Display the tooltip on the upper side
+                      >
+                        <span>Type of donation*</span>
+                      </Tooltip>
                       <IconButton aria-label="add" size="small">
                         <AddBoxIcon color="primary" onClick={addDonationItem} />
                       </IconButton>
                     </Box>
                   </TableCell>
-                  <TableCell align="center">Amount*</TableCell>
+                  <TableCell align="center">
+                    <Tooltip
+                      title={amountError ? 'Amount is required and must be greater than 0' : ''}
+                      arrow
+                      open={!!amountError} // Open only if there's an error
+                      disableHoverListener={!amountError} // Disable hover when there's no error
+                      placement="top" // Display the tooltip on the upper side
+                    ><span>Amount*</span>
+                    </Tooltip></TableCell>
                   <TableCell align="center">Remark</TableCell>
                 </TableRow>
               </TableHead>
@@ -639,13 +798,12 @@ const CashDonation = ({
                           type="number"
                           value={item.amount}
                           onChange={(e) =>
-                            handleDonationItemUpdate(
-                              item,
-                              'amount',
-                              e.target.value,
-                            )
+                            handleDonationItemUpdate(item, 'amount', e.target.value)
                           }
+                          error={!!amountError} // Show error styling if there's an error
+                          helperText={amountError} // Display the validation message
                         />
+                        {amountError}
                       </TableCell>
                       <TableCell align="center">
                         {!newMember ? (
@@ -740,7 +898,7 @@ const CashDonation = ({
                 }}
                 variant="contained"
                 type="submit"
-                onClick={()=>addCashDonation()}
+                onClick={() => addCashDonation()}
               >
                 {showloader ? (
                   <CircularProgress
@@ -764,7 +922,7 @@ const CashDonation = ({
                 variant="contained"
                 type="submit"
                 disabled={saveButtonDisabled}
-                onClick={()=>addCashDonation()}
+                onClick={() => addCashDonation()}
               >
                 {showloader ? (
                   <CircularProgress

@@ -68,7 +68,23 @@ const UpdateCommon = ({
   const [address, setAddress] = useState('');
   const [newMember, setNewMember] = useState(false);
   const [mobileNo, setMobileNo] = useState('');
-  const [fetchuserdetail, setfetchuserdetail] = useState(true);
+  const [countryCode, setCountryCode] = useState('+91'); // Default country code
+  const [isCustomCode, setIsCustomCode] = useState(false); // Track if custom code is selected
+  const [customCode, setCustomCode] = useState(''); // Custom country code input
+
+  const handleCountryCodeChange = (event) => {
+    const value = event.target.value;
+    if (value === 'custom') {
+      setIsCustomCode(true); // Enable custom input field
+    } else {
+      setIsCustomCode(false);
+      setCountryCode(value);
+    }
+  };
+
+  const handleCustomCodeChange = (event) => {
+    setCustomCode(event.target.value);
+  };  const [fetchuserdetail, setfetchuserdetail] = useState(true);
   const [genderp, setgenderp] = useState('श्री');
   const [genderp1, setgenderp1] = useState('SHRI');
   const [showloader, setshowloader] = useState(false);
@@ -325,6 +341,44 @@ const UpdateCommon = ({
                   setDonationTime(event.target.value);
                 }}
               />
+            </Grid>
+            <Grid item xs={8} md={2}>
+              <CustomInputLabel>Country Code</CustomInputLabel>
+              {!isCustomCode ? (
+                <Select
+                  value={countryCode}
+                  onChange={handleCountryCodeChange}
+                  fullWidth
+                  variant="outlined"
+                  style={{ height: '36px' }}
+                >
+                  <MenuItem value="+1">+1 (USA)</MenuItem>
+                  <MenuItem value="+91">+91 (India)</MenuItem>
+                  <MenuItem value="+44">+44 (UK)</MenuItem>
+                  <MenuItem value="+61">+61 (Australia)</MenuItem>
+                  <MenuItem value="+81">+81 (Japan)</MenuItem>
+                  <MenuItem value="+86">+86 (China)</MenuItem>
+                  <MenuItem value="+49">+49 (Germany)</MenuItem>
+                  <MenuItem value="+33">+33 (France)</MenuItem>
+                  <MenuItem value="+39">+39 (Italy)</MenuItem>
+                  <MenuItem value="+55">+55 (Brazil)</MenuItem>
+                  <MenuItem value="+7">+7 (Russia)</MenuItem>
+                  <MenuItem value="+27">+27 (South Africa)</MenuItem>
+                  <MenuItem value="+34">+34 (Spain)</MenuItem>
+                  <MenuItem value="+52">+52 (Mexico)</MenuItem>
+                  <MenuItem value="+62">+62 (Indonesia)</MenuItem>
+                  <MenuItem value="custom">Enter Custom Code</MenuItem>
+                </Select>
+              ) : (
+                <CustomInput
+                  value={customCode}
+                  onChange={handleCustomCodeChange}
+                  placeholder="Enter custom code"
+                  fullWidth
+                  variant="outlined"
+                  style={{ height: '36px' }}
+                />
+              )}
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomInputLabel required htmlFor="mobile-no">

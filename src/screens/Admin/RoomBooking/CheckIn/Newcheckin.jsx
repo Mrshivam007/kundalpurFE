@@ -1231,13 +1231,18 @@ const Newcheckin = ({ setopendashboard }) => {
                         </div>
                       </TableCell>
                       <TableCell>
-                        <div style={{ width: '4rem',wordWrap:"break-word" }}>
+                      <div style={{ width: '4rem', wordWrap: "break-word" }}>
                           <p style={{ fontWeight: 300 }}>
-                            {row?.roomNumbers?.map((item) => (
-                              <span>{item},</span>
-                            ))}
+                            {row?.roomNumbers?.length > 0 && 
+                              (row.roomNumbers.every(item => item === row.roomNumbers[0])
+                                ? <span>{row.roomNumbers[0]}</span> // If all are the same, display only once
+                                : row.roomNumbers.map((item, index) => (
+                                    <span key={index}>{item}{index < row.roomNumbers.length - 1 ? ',' : ''}</span>
+                                  ))
+                              )
+                            }
                           </p>
-                        </div>
+                     </div>
                       </TableCell>
                       <TableCell>
                         <div style={{ width: '2rem' }}>

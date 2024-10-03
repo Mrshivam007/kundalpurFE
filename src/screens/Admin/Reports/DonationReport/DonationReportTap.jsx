@@ -27,12 +27,19 @@ const DonationReportTap = ({ setopendashboard }) => {
     <>
       <div className="mobilewidth dashboarmain">
         <div className="container1">
-          <div className="bloc-tabs1">
+          <div
+  className="bloc-tabs1"
+  style={{ background: 'linear-gradient(to right, #B2FFFC, #C9E4CA)' }}
+
+>
             {profiledata?.donation === true ? (
               <>
                 <NavLink
                   to="/admin-panel/electronic/report/elec"
-                  className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                                          className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                        style={({ isActive }) => ({
+                            background: isActive ? '' : 'transparent',
+                        })}
                 >
                   <img
                     style={{ marginRight: '4%', width: '20px' }}
@@ -43,7 +50,10 @@ const DonationReportTap = ({ setopendashboard }) => {
                 </NavLink>
                 <NavLink
                   to="/admin-panel/electronic/report/cheque"
-                  className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                                          className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                        style={({ isActive }) => ({
+                            background: isActive ? '' : 'transparent',
+                        })}
                 >
                   <img
                     style={{ marginRight: '4%', width: '20px' }}
@@ -57,7 +67,10 @@ const DonationReportTap = ({ setopendashboard }) => {
               <>
                 <NavLink
                   to="/admin-panel/electronic/report/cash"
-                  className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                                          className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                        style={({ isActive }) => ({
+                            background: isActive ? '' : 'transparent',
+                        })}
                 >
                   <img
                     style={{ marginRight: '4%', width: '20px' }}
@@ -68,7 +81,10 @@ const DonationReportTap = ({ setopendashboard }) => {
                 </NavLink>
                 <NavLink
                   to="/admin-panel/electronic/report/elec"
-                  className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                                          className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                        style={({ isActive }) => ({
+                            background: isActive ? '' : 'transparent',
+                        })}
                 >
                   <img
                     style={{ marginRight: '4%', width: '20px' }}
@@ -79,7 +95,10 @@ const DonationReportTap = ({ setopendashboard }) => {
                 </NavLink>
                 <NavLink
                   to="/admin-panel/electronic/report/cheque"
-                  className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                                          className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                        style={({ isActive }) => ({
+                            background: isActive ? '' : 'transparent',
+                        })}
                 >
                   <img
                     style={{ marginRight: '4%', width: '20px' }}
@@ -90,7 +109,10 @@ const DonationReportTap = ({ setopendashboard }) => {
                 </NavLink>
                 <NavLink
                   to="/admin-panel/electronic/report/item"
-                  className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                                          className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                        style={({ isActive }) => ({
+                            background: isActive ? '' : 'transparent',
+                        })}
                 >
                   <img
                     style={{ marginRight: '4%', width: '20px' }}
@@ -102,7 +124,10 @@ const DonationReportTap = ({ setopendashboard }) => {
 
                 <NavLink
                   to="/admin-panel/electronic/report/cancel-donations"
-                  className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                                          className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                        style={({ isActive }) => ({
+                            background: isActive ? '' : 'transparent',
+                        })}
                 >
                   <img
                     style={{ marginRight: '4%', width: '20px' }}
@@ -113,7 +138,10 @@ const DonationReportTap = ({ setopendashboard }) => {
                 </NavLink>
                 <NavLink
                   to="/admin-panel/electronic/report/Duplicate"
-                  className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                                          className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                        style={({ isActive }) => ({
+                            background: isActive ? '' : 'transparent',
+                        })}
                 >
                   <img
                     style={{ marginRight: '4%', width: '20px' }}

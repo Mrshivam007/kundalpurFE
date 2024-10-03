@@ -33,7 +33,10 @@ const AllReportTap = ({ setopendashboard }) => {
                 <NavLink
                   style={{ width: '20rem' }}
                   to="/admin-panel/room/AllConsolidedReport"
-                  className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                                          className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                        style={({ isActive }) => ({
+                            background: isActive ? '' : 'transparent',
+                        })}
                 >
                   <img
                     style={{ marginRight: '4%', width: '20px' }}
@@ -45,7 +48,10 @@ const AllReportTap = ({ setopendashboard }) => {
                 <NavLink
                   style={{ width: '20rem' }}
                   to="/admin-panel/allreport/allconsolidated"
-                  className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                                          className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                        style={({ isActive }) => ({
+                            background: isActive ? '' : 'transparent',
+                        })}
                 >
                   <img
                     style={{ marginRight: '4%', width: '20px' }}
@@ -58,7 +64,10 @@ const AllReportTap = ({ setopendashboard }) => {
                 <NavLink
                   style={{ width: '20rem' }}
                   to="/admin-panel/Room/Consolided"
-                  className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                                          className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                        style={({ isActive }) => ({
+                            background: isActive ? '' : 'transparent',
+                        })}
                 >
                   <img
                     style={{ marginRight: '4%', width: '20px' }}
@@ -73,7 +82,10 @@ const AllReportTap = ({ setopendashboard }) => {
                 <NavLink
                   style={{ width: '20rem' }}
                   to="/admin-panel/room/AllConsolidedReport"
-                  className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                                          className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                        style={({ isActive }) => ({
+                            background: isActive ? '' : 'transparent',
+                        })}
                 >
                   <img
                     style={{ marginRight: '4%', width: '20px' }}
@@ -85,7 +97,10 @@ const AllReportTap = ({ setopendashboard }) => {
                 <NavLink
                   style={{ width: '20rem' }}
                   to="/admin-panel/allreport/allhead"
-                  className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                                          className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                        style={({ isActive }) => ({
+                            background: isActive ? '' : 'transparent',
+                        })}
                 >
                   <img
                     style={{ marginRight: '4%', width: '20px' }}
@@ -98,7 +113,10 @@ const AllReportTap = ({ setopendashboard }) => {
                 <NavLink
                   style={{ width: '20rem' }}
                   to="/admin-panel/allreport/allconsolidated"
-                  className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                                          className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                        style={({ isActive }) => ({
+                            background: isActive ? '' : 'transparent',
+                        })}
                 >
                   <img
                     style={{ marginRight: '4%', width: '20px' }}
@@ -110,7 +128,10 @@ const AllReportTap = ({ setopendashboard }) => {
                 <NavLink
                   style={{ width: '20rem' }}
                   to="/admin-panel/allreport/allonline"
-                  className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                                          className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                        style={({ isActive }) => ({
+                            background: isActive ? '' : 'transparent',
+                        })}
                 >
                   <img
                     style={{ marginRight: '4%', width: '20px' }}
@@ -123,7 +144,10 @@ const AllReportTap = ({ setopendashboard }) => {
                 <NavLink
                   style={{ width: '20rem' }}
                   to="/admin-panel/Room/Consolided"
-                  className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                                          className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                        style={({ isActive }) => ({
+                            background: isActive ? '' : 'transparent',
+                        })}
                 >
                   <img
                     style={{ marginRight: '4%', width: '20px' }}

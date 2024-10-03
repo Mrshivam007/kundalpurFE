@@ -620,7 +620,7 @@ const BoliLedger = ({ setopendashboard }) => {
                   borderRadius: '0.5rem',
                   color: 'black',
                   width: '10vw',
-                  backgroundColor: '#fcbb82',
+                  backgroundColor: '#BCEDDF',
                   margin: '1rem',
                   ':hover': {
                     bgcolor: '#f2ad6f',
@@ -636,7 +636,7 @@ const BoliLedger = ({ setopendashboard }) => {
                   borderRadius: '0.5rem',
                   color: 'black',
                   width: '10vw',
-                  backgroundColor: '#fcbb82',
+                  backgroundColor: '#BCEDDF',
                   margin: '1rem',
                   ':hover': {
                     bgcolor: '#f2ad6f',

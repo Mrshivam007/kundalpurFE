@@ -12,10 +12,17 @@ const TapVehicle = ({ setopendashboard }) => {
     <>
       <div className="mobilewidth dashboarmain">
         <div className="container1">
-          <div className="bloc-tabs1">
+          <div
+  className="bloc-tabs1"
+  style={{ background: 'linear-gradient(to right, #B2FFFC, #C9E4CA)' }}
+
+>
             <NavLink
               to="/admin-panel/vehiclepass"
-              className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                                      className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                        style={({ isActive }) => ({
+                            background: isActive ? '' : 'transparent',
+                        })}
             >
               <img
                 style={{ marginRight: '4%', width: '20px' }}
@@ -26,7 +33,10 @@ const TapVehicle = ({ setopendashboard }) => {
             </NavLink>
             <NavLink
               to="/admin-panel/vehicle/GateOut1"
-              className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                                      className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                        style={({ isActive }) => ({
+                            background: isActive ? '' : 'transparent',
+                        })}
             >
               <img
                 style={{ marginRight: '4%', width: '20px' }}
@@ -38,7 +48,10 @@ const TapVehicle = ({ setopendashboard }) => {
 
             <NavLink
               to="/admin-panel/vehicle/GateoutHistory"
-              className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                                      className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                        style={({ isActive }) => ({
+                            background: isActive ? '' : 'transparent',
+                        })}
             >
               <img
                 style={{ marginRight: '4%', width: '20px' }}

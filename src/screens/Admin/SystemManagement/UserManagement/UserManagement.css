@@ -44,12 +44,11 @@
     font-size: 16px;
     line-height: 24px;
     
-    background: #FDC99C;
+    background: linear-gradient(to right, #B2FFFC, #C9E4CA);
     border-radius: 7px;
 }
     .search-header-employee button:hover {
-        background: hsl(28, 96%, 75%);
-    
+        background: linear-gradient(to right, #5b55d0, #bdb3f6);
       }
 
 .uemploye_main{

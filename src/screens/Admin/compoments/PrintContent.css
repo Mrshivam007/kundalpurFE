@@ -152,7 +152,7 @@ table {
 tr:nth-of-type(odd) {
 }
 th {
-  background: rgb(255, 238, 224);
+  background: #BCEDDF;
   color: white;
   font-weight: bold;
   color: black;

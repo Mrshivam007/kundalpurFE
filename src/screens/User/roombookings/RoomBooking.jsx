@@ -134,7 +134,7 @@ function RoomBooking({ setroomfilterdata }) {
   const checkoutcurrDate = Moment(today).format('YYYY-MM-DD');
   const checkoutcurrTime = moment(today, 'HH:mm:ss').format('hh:mm A');
 
-  var today1 = new Date(date);
+  var today1 = new Date(checkintime);
   const checkincurrDate = Moment(today1).format('YYYY-MM-DD');
   const checkincurrTime = moment(today1, 'HH:mm:ss').format('hh:mm A');
 
@@ -194,7 +194,10 @@ function RoomBooking({ setroomfilterdata }) {
       numChildren: chlidremc,
     };
     const res = await axios.post(`${backendApiUrl}room/check-room`, data);
-
+    console.log("getting the search data ", data);
+    console.log("check in date ", checkincurrDate)
+    console.log("check in time ", convertTime12to24(checkincurrTime));
+    
     if (res.status === 200) {
       setfilterdata(res.data.data);
       console.log(res.data.data);

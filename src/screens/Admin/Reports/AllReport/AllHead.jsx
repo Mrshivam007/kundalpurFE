@@ -17,7 +17,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Moment from 'moment-js';
 import { backendApiUrl } from '../../../../config/config';
 import axios from 'axios';
-import { ExportPdfmanul } from '../../compoments/ExportPdf';
+import { ExportPdfmanul, ExportPdfmanulReport } from '../../compoments/ExportPdf';
 import Print from '../../../../assets/Print.png';
 import ExportPdf from '../../../../assets/ExportPdf.png';
 import ExportExcel from '../../../../assets/ExportExcel.png';
@@ -137,6 +137,11 @@ const AllHead = ({ setopendashboard }) => {
     const exportType = 'xls';
     var data = [];
     isData.map((item, index) => {
+      const totalAmount = 
+      (item?.cheque_TOTAL_AMOUNT || 0) +
+      (item?.bank_TOTAL_AMOUNT || 0) +
+      (item?.item_TOTAL_AMOUNT || 0) +
+      (item?.cash_TOTAL_AMOUNT || 0);
       data.push({
         Head: item?.type,
 
@@ -146,7 +151,7 @@ const AllHead = ({ setopendashboard }) => {
         'Amount Bank': item?.bank_TOTAL_AMOUNT ? item?.bank_TOTAL_AMOUNT : '0',
         ' Amount Cash': item?.item_TOTAL_AMOUNT ? item?.item_TOTAL_AMOUNT : '0',
         ' Cheque': item?.cheque_TOTAL_AMOUNT ? item?.cheque_TOTAL_AMOUNT : '0',
-
+        'Total Amount': totalAmount, // Add the Total Amount field
         // 'Created Date': Moment(item?.created_at).format('DD-MM-YYYY'),
       });
     });
@@ -432,7 +437,7 @@ const AllHead = ({ setopendashboard }) => {
               </Tooltip>
               <Tooltip title="Export pdf">
                 <img
-                  onClick={() => ExportPdfmanul(isData, 'HeadReport')}
+                  onClick={() => ExportPdfmanulReport(isData, 'HeadReport')}
                   src={ExportPdf}
                   alt="ss"
                   style={{ width: '30px' }}

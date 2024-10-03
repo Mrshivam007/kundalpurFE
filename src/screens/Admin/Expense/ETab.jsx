@@ -23,10 +23,17 @@ const Etab = ({ setopendashboard }) => {
       {/* <Expense setopendashboard={setopendashboard} /> */}
       <div className="mobilewidth dashboarmain">
         <div className="container1">
-          <div className="bloc-tabs1">
+          <div
+  className="bloc-tabs1"
+  style={{ background: 'linear-gradient(to right, #B2FFFC, #C9E4CA)' }}
+
+>
             <NavLink
               to="/admin-panel/expense/group"
-              className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                                      className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                        style={({ isActive }) => ({
+                            background: isActive ? '' : 'transparent',
+                        })}
             >
               <img
                 style={{ marginRight: '4%', width: '20px' }}
@@ -37,7 +44,10 @@ const Etab = ({ setopendashboard }) => {
             </NavLink>
             <NavLink
               to="/admin-panel/expense/ledger"
-              className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                                      className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                        style={({ isActive }) => ({
+                            background: isActive ? '' : 'transparent',
+                        })}
             >
               <img
                 style={{ marginRight: '4%', width: '20px' }}
@@ -48,7 +58,10 @@ const Etab = ({ setopendashboard }) => {
             </NavLink>
             <NavLink
               to="/admin-panel/expense/voucher"
-              className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                                      className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+                        style={({ isActive }) => ({
+                            background: isActive ? '' : 'transparent',
+                        })}
             >
               <img
                 style={{ marginRight: '4%', width: '20px' }}

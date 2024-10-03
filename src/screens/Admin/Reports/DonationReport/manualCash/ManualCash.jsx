@@ -294,6 +294,7 @@ const ManualCash = ({ setopendashboard }) => {
     const exportType = 'xls';
     var data = [];
     isData.map((item, index) => {
+      console.log("getting excel data ", item);
       data.push({
         Date: Moment(item.donation_date).format('DD-MM-YYYY'),
         'Receipt No': item?.ReceiptNo,

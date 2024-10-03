@@ -227,7 +227,7 @@ const Expense = ({ setopendashboard }) => {
             color: 'black',
             width: '10vw',
             height: '5vh',
-            backgroundColor: '#fcbb82',
+            backgroundColor: '#BCEDDF',
 
             ":hover": {
               bgcolor: '#f2ad6f'
@@ -243,7 +243,7 @@ const Expense = ({ setopendashboard }) => {
             borderRadius: '0.5rem',
             color: 'black',
             width: '10vw',
-            backgroundColor: '#fcbb82',
+            backgroundColor: '#BCEDDF',
 
             ":hover": {
               bgcolor: '#f2ad6f'

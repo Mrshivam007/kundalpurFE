@@ -293,7 +293,11 @@ const OnlinecheckinReceipt = ({ setopendashboard }) => {
                                 </td>
 
                                 <td className="table_tddd lineheight10">
-                                  सहयोग राशि
+                                कुल सहयोग राशि
+                                </td>
+
+                                <td className="table_tddd lineheight10">
+                                जमा सहयोग राशि
                                 </td>
 
                                 <td className="table_tddd lineheight10">
@@ -324,6 +328,12 @@ const OnlinecheckinReceipt = ({ setopendashboard }) => {
                                 <td className="table_tddd lineheight10">
                                   {Number(isData && isData?.roomAmountSum) *
                                     TotalDays}
+                                  .00
+                                </td>
+
+
+                                <td className="table_tddd lineheight10">
+                                  {Number(isData && isData?.roomAmountSum)}
                                   .00
                                 </td>
 

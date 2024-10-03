@@ -993,7 +993,7 @@ const ManualCash = ({ setopendashboard }) => {
               <IconButton>
                 <img
                   onClick={() =>
-                    ExportPdfmanulElectronic(isData, 'ManualCashReport')
+                    ExportPdfmanul(isData, 'ManualCashReport')
                   }
                   src={ExportPdf}
                   alt="cc"

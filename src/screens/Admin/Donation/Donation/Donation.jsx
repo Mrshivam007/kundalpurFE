@@ -210,15 +210,21 @@ const Donation = ({ setopendashboard }) => {
   const handleClose3 = () => setOpen3(false);
   const handleOpen = async () => {
     const role = Number(sessionStorage.getItem('userrole'));
+    console.log("user role ", role);
+    
     if (emproleid === 0) {
     } else {
       if (role === 3) {
         serverInstance('user/check-voucher', 'get').then((res) => {
+          console.log("getting status ", res);
+          
           if (res.status === false) {
             handleOpen3();
           }
           if (res.status === true) {
-            if (emproleid && roleid) {
+            console.log("getting status true");
+            console.log("employee id ", emproleid , "role id ", roleid);
+            if (roleid) {
               setOpen(true);
             }
           }
@@ -333,6 +339,11 @@ const Donation = ({ setopendashboard }) => {
     e.preventDefault();
     setloader(true);
     try {
+
+      let adjustedToDate = new Date(dateto);
+      adjustedToDate.setDate(adjustedToDate.getDate() + 1); // Increment the to date by 1
+      adjustedToDate = adjustedToDate.toISOString().split('T')[0]; // Format the date to YYYY-MM-DD
+
       if (searchvalue) {
         axios.defaults.headers.get[
           'Authorization'
@@ -357,23 +368,13 @@ const Donation = ({ setopendashboard }) => {
         }
       } else {
         serverInstance(
-          `user/searchAllDonation?fromDate=${datefrom}&toDate=${dateto}&fromVoucher=${voucherfrom}&toVoucher=${voucherto}',
+          `user/searchAllDonation?fromDate=${datefrom}&toDate=${adjustedToDate}&fromVoucher=${voucherfrom}&toVoucher=${voucherto}',
           'get`,
         ).then((res) => {
           if (res.data) {
-            if (emproleid === 7) {
-              filterData = res.data.data.filter(
-                (item) => item.isActive === true && item.created_by === empid,
-                setloader(false),
-              );
-            } else {
-              filterData = res.data.data.filter(
-                (item) => item.isActive === true,
-              );
-              setloader(false);
-            }
-            setisData(filterData);
-            setisDataDummy(filterData);
+            setloader(false);
+            setisData(res.data);
+            setisDataDummy(res.data);
           }
         });
       }
@@ -608,7 +609,8 @@ const Donation = ({ setopendashboard }) => {
          dt?.createdBy?.toLowerCase()?.indexOf(userType) > -1 &&
         dt?.voucherNo?.toLowerCase()?.indexOf(voucherno) > -1
     );
-
+    console.log(filtered);
+    
     if (type) {
       filtered = filtered?.map((item) => {
         if (item?.elecItemDetails?.find((typ) => typ.type == type)) {
@@ -1104,7 +1106,7 @@ const Donation = ({ setopendashboard }) => {
                     id="donation-date"
                     className="cuolms_search"
                     type="date"
-                    onChange={(e) => onSearchByOther(e, 'Date')}
+                    // onChange={(e) => onSearchByOther(e, 'Date')}
                     placeholder="Search Date"
                   />
                 </TableCell>

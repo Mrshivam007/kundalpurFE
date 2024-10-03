@@ -49,7 +49,23 @@ const UpdateElec = ({
   const [address, setAddress] = useState('');
   const [newMember, setNewMember] = useState(false);
   const [mobileNo, setMobileNo] = useState('');
-  const [genderp, setgenderp] = useState('श्री');
+  const [countryCode, setCountryCode] = useState('+91'); // Default country code
+  const [isCustomCode, setIsCustomCode] = useState(false); // Track if custom code is selected
+  const [customCode, setCustomCode] = useState(''); // Custom country code input
+
+  const handleCountryCodeChange = (event) => {
+    const value = event.target.value;
+    if (value === 'custom') {
+      setIsCustomCode(true); // Enable custom input field
+    } else {
+      setIsCustomCode(false);
+      setCountryCode(value);
+    }
+  };
+
+  const handleCustomCodeChange = (event) => {
+    setCustomCode(event.target.value);
+  };  const [genderp, setgenderp] = useState('श्री');
   const [genderp1, setgenderp1] = useState('SHRI');
   const [showloader, setshowloader] = useState(false);
   // const [donationTypes,setDonationTypes] = useState()
