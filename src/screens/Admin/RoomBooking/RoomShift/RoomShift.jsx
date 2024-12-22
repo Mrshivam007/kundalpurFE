@@ -774,14 +774,16 @@ const RoomShift = ({ setopendashboard }) => {
                     : isData?.reverse()
                   ).map((row, index) => (
                     <TableRow
-                      key={row.id}
-                      sx={{
-                        '&:last-child td, &:last-child th': { border: 0 },
-                        backgroundColor: shouldHighlightRow(row?.coutDate, row?.coutTime)
-                          ? '#ff7272' // Highlight row in red if true
-                          : 'inherit', // Default background color
-                      }}
-                    >
+                    key={row.id}
+                    sx={{
+                      '&:last-child td, &:last-child th': { border: 0 },
+                      backgroundColor: row?.date && Moment(row.date).isAfter(Moment(), 'day')
+                        ? '#ffff72' // Highlight row in yellow for future dates
+                        : shouldHighlightRow(row?.coutDate, row?.coutTime)
+                        ? '#ff7272' // Highlight row in red if shouldHighlightRow returns true
+                        : 'inherit', // Default background color
+                    }}
+                  >
                       <TableCell>{index + 1}</TableCell>
                       <TableCell>
                         {Moment(row?.date).format('DD-MM-YYYY')}: /

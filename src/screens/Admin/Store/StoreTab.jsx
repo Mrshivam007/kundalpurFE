@@ -19,9 +19,9 @@ const StoreTab = () => {
     setToggleState(index);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
 
-  },[])
+  }, [])
 
 
   return (
@@ -29,17 +29,31 @@ const StoreTab = () => {
       <div className="mobilewidth , dashboarmain">
         <div className="container1">
           <div
-  className="bloc-tabs1"
-  style={{ background: 'linear-gradient(to right, #B2FFFC, #C9E4CA)' }}
+            className="bloc-tabs1"
+            style={{ background: 'linear-gradient(to right, #B2FFFC, #C9E4CA)' }}
 
->
+          >
 
             <NavLink
+              to="/admin-panel/store/master"
+              className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+              style={({ isActive }) => ({
+                background: isActive ? '' : 'transparent',
+              })}
+            >
+              <img
+                style={{ marginRight: '4%', width: '20px' }}
+                src={f1}
+                alt="fast"
+              />
+              Master
+            </NavLink>
+            <NavLink
               to="/admin-panel/store/requirementraise"
-                                      className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
-                        style={({ isActive }) => ({
-                            background: isActive ? '' : 'transparent',
-                        })}
+              className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+              style={({ isActive }) => ({
+                background: isActive ? '' : 'transparent',
+              })}
             >
               <img
                 style={{ marginRight: '4%', width: '20px' }}
@@ -52,7 +66,7 @@ const StoreTab = () => {
 
 
 
-            <NavLink
+            {/* <NavLink
               to="/admin-panel/store/approve"
                                       className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
                         style={({ isActive }) => ({
@@ -65,15 +79,15 @@ const StoreTab = () => {
                 alt="fast"
               />
               Approve
-            </NavLink>
+            </NavLink> */}
 
 
             <NavLink
               to="/admin-panel/store/purchaseorder"
-                                      className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
-                        style={({ isActive }) => ({
-                            background: isActive ? '' : 'transparent',
-                        })}
+              className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+              style={({ isActive }) => ({
+                background: isActive ? '' : 'transparent',
+              })}
             >
               <img
                 style={{ marginRight: '4%', width: '20px' }}
@@ -87,10 +101,10 @@ const StoreTab = () => {
 
             <NavLink
               to="/admin-panel/store/gateentry"
-                                      className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
-                        style={({ isActive }) => ({
-                            background: isActive ? '' : 'transparent',
-                        })}
+              className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+              style={({ isActive }) => ({
+                background: isActive ? '' : 'transparent',
+              })}
             >
               <img
                 style={{ marginRight: '4%', width: '20px' }}
@@ -102,7 +116,7 @@ const StoreTab = () => {
             </NavLink>
 
 
-            <NavLink
+            {/* <NavLink
               to="/admin-panel/store/paymentin"
                                       className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
                         style={({ isActive }) => ({
@@ -116,15 +130,15 @@ const StoreTab = () => {
               />
 
               Payment In
-            </NavLink>
+            </NavLink> */}
 
 
             <NavLink
               to="/admin-panel/store/Inventory"
-                                      className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
-                        style={({ isActive }) => ({
-                            background: isActive ? '' : 'transparent',
-                        })}
+              className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+              style={({ isActive }) => ({
+                background: isActive ? '' : 'transparent',
+              })}
             >
               <img
                 style={{ marginRight: '4%', width: '20px' }}
@@ -136,7 +150,7 @@ const StoreTab = () => {
             </NavLink>
 
 
-            <NavLink
+            {/* <NavLink
               to="/admin-panel/store/Stock"
                                       className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
                         style={({ isActive }) => ({
@@ -150,7 +164,7 @@ const StoreTab = () => {
               />
 
               Transfer Stock
-            </NavLink>
+            </NavLink> */}
 
 
 

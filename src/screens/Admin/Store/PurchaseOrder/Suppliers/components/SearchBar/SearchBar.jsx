@@ -72,8 +72,8 @@ const SearchBar = ({ isData, getPO, handlePrint }) => {
     };
 
     useEffect(() => {
-        getDept();
-        getSupplier();
+        // getDept();
+        // getSupplier();
     }, [])
 
     return (

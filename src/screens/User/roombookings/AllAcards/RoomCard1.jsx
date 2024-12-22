@@ -49,6 +49,10 @@ function RoomCard1({ data, isData, dhramshalaname }) {
             {data?.available_rooms}
           </p>
           <p className="main_text_deltails">
+            <span className="titleText">Available rooms number</span> &nbsp;: &nbsp;
+            {data?.available_room_numbers?.join(', ')}
+            </p>
+          <p className="main_text_deltails">
             <span className="titleText">Rate</span> &nbsp;: &nbsp;
             {data?.roomDetails?.Rate}
           </p>

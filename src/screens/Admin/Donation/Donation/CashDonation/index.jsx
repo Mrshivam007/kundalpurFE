@@ -94,7 +94,8 @@ const CashDonation = ({
 
   const handleCustomCodeChange = (event) => {
     setCustomCode(event.target.value);
-  };  const [genderp, setgenderp] = useState('');
+  };
+  const [genderp, setgenderp] = useState('');
   const [genderp1, setgenderp1] = useState('');
   const [fetchuserdetail, setfetchuserdetail] = useState(true);
   const [showloader, setshowloader] = useState(false);
@@ -223,13 +224,12 @@ const CashDonation = ({
     axios.defaults.headers.put[
       'Authorization'
     ] = `Bearer ${sessionStorage.getItem('token')}`;
-
-    if (!mobileNo) {
-      setNumberError("Number is required");
+    if (countryCode === '+91' && mobileNo && mobileNo.length < 10) {
+      setNumberError("Number must be at least 10 digits for India");
       setSaveButtonDisabled(false);
-      setshowloader(false);
+      setShowLoader(false);
       return;
-    } else {
+    }else {
       setNumberError('');
     }
 

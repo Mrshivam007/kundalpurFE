@@ -1,6 +1,7 @@
 import React ,{useEffect} from 'react'
 import POSubTab from './POSubTab'
 import StoreTab from '../StoreTab'
+import Suppliers from './Suppliers/Suppliers'
 
 const PO = ({ setopendashboard }) => {
 
@@ -13,8 +14,9 @@ const PO = ({ setopendashboard }) => {
       <StoreTab />
 
       <div className='dashboarddiv'>
-
-        <POSubTab setopendashboard={setopendashboard} />
+        
+      <Suppliers />
+        {/* <POSubTab setopendashboard={setopendashboard} /> */}
       </div>
     </>
   )

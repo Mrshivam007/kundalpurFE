@@ -56,7 +56,6 @@ export default function Tabl({ isData ,getGP , componentRef}) {
   const handleInventoryShow = (item) => {
     setInventoryShow(true)
     setInventoryItem(item)
-
   }
 
   const handleInventoryClose = () => {
@@ -198,7 +197,7 @@ export default function Tabl({ isData ,getGP , componentRef}) {
                       />
                     </Tooltip>
 
-                    <Tooltip title="Send To Inventory">
+                    <Tooltip title="Purchase Register Entry">
                       <InventoryIcon
                         style={{ width: '30px', marginRight: '0.8%' }}
                         onClick={() => handleInventoryShow(item)}

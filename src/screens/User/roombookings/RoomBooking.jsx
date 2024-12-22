@@ -115,13 +115,11 @@ function RoomBooking({ setroomfilterdata }) {
   const [checkintime, setcheckintime] = useState('');
 
   const [date, setDate] = useState('');
-  
+
   async function getCorrectTime() {
     try {
       const response = await fetch('https://worldtimeapi.org/api/ip');
       const data = await response.json();
-      // return new Date(data.utc_datetime);
-      console.log("date is date",data);
       setDate(data);
     } catch (error) {
       console.error('Error fetching time:', error);
@@ -206,15 +204,40 @@ function RoomBooking({ setroomfilterdata }) {
     }
   };
 
-  const getALLdharamshala = () => {
+  const getALLdharamshala = async () => {
     setIsLoading(true);
-    serverInstance('room/dharmashala', 'get').then((res) => {
-      if (res.data) {
-        setIsLoading(false);
-        setdharamshalalist(res.data);
+  
+    try {
+      // Fetch all dharamshalas
+      const dharamshalaResponse = await serverInstance('room/dharmashala', 'get');
+      if (dharamshalaResponse.data) {
+        const allDharmashalas = dharamshalaResponse.data;
+  
+        // Fetch all rooms
+        const roomResponse = await serverInstance('room', 'get');
+        if (roomResponse.data) {
+          const allRooms = roomResponse.data;
+  
+          // Filter rooms where roomType is 0 or 2
+          const filteredRooms = allRooms.filter(room => room.roomType === 0 || room.roomType === 2);
+          
+          // Get dharmasala_id from the filtered rooms
+          const filteredDharmasalaIds = filteredRooms.map(room => room.dharmasala_id);
+  
+          // Filter dharamshala list based on dharmasala_id
+          const filteredDharmashalas = allDharmashalas.filter(d => filteredDharmasalaIds.includes(d.dharmasala_id));
+  
+          // Set the filtered dharamshala list
+          setdharamshalalist(filteredDharmashalas);
+        }
       }
-    });
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
+  
 
   useEffect(() => {
     getALLdharamshala();
@@ -418,8 +441,8 @@ function RoomBooking({ setroomfilterdata }) {
             <div className="room_home_main_overlay">
               <div>
                 <h2 className="font_text_color">
-                  Fresh, quiet and <br /> peaceful Kundalpur Dharamshala &
-                  Hotels
+                श्री दिगम्बर जैन सिद्धक्षेत्र कुण्डलगिरि,कुण्डलपुर
+                <br />DHARMSHALA ONLINE ROOM BOOKING
                 </h2>
               </div>
             </div>
@@ -441,7 +464,7 @@ function RoomBooking({ setroomfilterdata }) {
                 required
                 sx={{
                   width: '100%',
-                  height: '26px',
+                  height: '46%',
                   paddingLeft: '0.5rem',
 
                   background:
@@ -489,6 +512,7 @@ function RoomBooking({ setroomfilterdata }) {
               </label>
               <input
                 className="checkouttype"
+                style={{height: "46%"}}
                 min={minDateTime}
                 max={returnmax()}
                 id="donation-time"
@@ -511,6 +535,7 @@ function RoomBooking({ setroomfilterdata }) {
               {console.log('min date is for max', returnmaxcheckout())}
               <input
                 className="checkouttype"
+                style={{height: "46%"}}
                 disabled={checkintime ? false : true}
                 min={checkintime}
                 max={returnmaxcheckout()}
@@ -567,9 +592,8 @@ function RoomBooking({ setroomfilterdata }) {
             <>
               <div className="details-div_dhar">
                 <img
-                  src={`${backendUrl}uploads/images/${
-                    filterdata && filterdata?.dharamshala_img
-                  }`}
+                  src={`${backendUrl}uploads/images/${filterdata && filterdata?.dharamshala_img
+                    }`}
                   alt=" dharam1"
                 />
                 <div className="right_div_deta_dhram">

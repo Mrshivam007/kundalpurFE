@@ -1,6 +1,7 @@
 import React ,{useEffect}from 'react'
 import InventorySubTab from './InventorySubTab'
 import StoreTab from '../StoreTab'
+import Suppliers from './Suppliers/Suppliers'
 
 const Inventory = ({ setopendashboard }) => {
 
@@ -13,7 +14,8 @@ const Inventory = ({ setopendashboard }) => {
       <StoreTab />
       <div className='dashboarddiv'>
 
-        <InventorySubTab setopendashboard={setopendashboard} />
+        {/* <InventorySubTab setopendashboard={setopendashboard} /> */}
+        <Suppliers />
       </div>
     </>
   )

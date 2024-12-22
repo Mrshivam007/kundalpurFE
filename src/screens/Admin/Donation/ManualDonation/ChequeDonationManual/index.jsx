@@ -219,17 +219,12 @@ const ChequeDonation = ({
         'Authorization'
       ] = `Bearer ${sessionStorage.getItem('token')}`;
 
-      if (!mobileNo) {
-        setNumberError("Number is required");
-        setSaveButtonDisabled(false);
-        setshowloader(false);
-        return;
-      } else if (countryCode === '+91' && mobileNo.length < 10) {
+      if (countryCode === '+91' && mobileNo && mobileNo.length < 10) {
         setNumberError("Number must be at least 10 digits for India");
         setSaveButtonDisabled(false);
         setShowLoader(false);
         return;
-      } else {
+      }else {
         setNumberError('');
       }
 
@@ -523,7 +518,7 @@ const ChequeDonation = ({
             </Grid>
             
             <Grid item xs={12} md={4}>
-              <CustomInputLabel required htmlFor="mobile-no">
+              <CustomInputLabel htmlFor="mobile-no">
                 <Tooltip
                   title={numberError ? numberError : ''}
                   arrow

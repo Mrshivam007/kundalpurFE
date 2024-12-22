@@ -42,6 +42,8 @@ const GateEntry = ({ open, onClose, GEData }) => {
 
     const [purchaseOrderNo, setPurchaseOrderNo] = useState('')
     const [gateEntryNo, setGateEntryNo] = useState('')
+    const [challanNo, setChallanNo] = useState('')
+    const [billNo, setBillNo] = useState('')
     const [supName , setSupName] = useState('')
     const [supCode , setSupCode] = useState('')
     const [show, setShow] = useState(open)
@@ -121,6 +123,8 @@ const GateEntry = ({ open, onClose, GEData }) => {
                 supplierName:supName,
                 supplierCode:supCode,
                 gateEntryNo: gateEntryNo,
+                challanNo: challanNo,
+                billNo: billNo,
                 purchaseOrderNo: purchaseOrderNo,
                 gateEntryList: items
             }
@@ -184,8 +188,6 @@ const GateEntry = ({ open, onClose, GEData }) => {
                 aria-describedby="transition-modal-description"
                 open={show}
                 onClose={handleClose}
-
-
             >
                 <Fade in={show}>
                     <Box sx={style}>
@@ -263,7 +265,6 @@ const GateEntry = ({ open, onClose, GEData }) => {
                                             />
                                         </div>
 
-
                                     </div>
 
 
@@ -282,6 +283,19 @@ const GateEntry = ({ open, onClose, GEData }) => {
                                             />
                                         </div>
 
+                                        <div className="inner-input-divadd">
+                                            <label htmlFor="supplierCode">Challan No.</label>
+                                            <input
+                                                type="text"
+                                                id="supType"
+                                                required
+                                                name="supType"
+                                                placeholder="Enter Gate Entry No."
+                                                value={challanNo}
+                                                onChange={(e) => setChallanNo(e.target.value)}
+                                            />
+                                        </div>
+
 
 
                                     </div>
@@ -293,11 +307,22 @@ const GateEntry = ({ open, onClose, GEData }) => {
                                             <input
                                                 type="text"
                                                 id="supType"
-                                                required
                                                 name="supType"
                                                 placeholder="Enter Supplier Name"
                                                 value={supName}
                                                 onChange={(e) => setSupName(e.target.value)}
+                                            />
+                                        </div>
+
+                                        <div className="inner-input-divadd">
+                                            <label htmlFor="supplierCode">Bill No.</label>
+                                            <input
+                                                type="text"
+                                                id="supType"
+                                                name="supType"
+                                                placeholder="Enter Gate Entry No."
+                                                value={billNo}
+                                                onChange={(e) => setBillNo(e.target.value)}
                                             />
                                         </div>
 
@@ -432,8 +457,6 @@ const GateEntry = ({ open, onClose, GEData }) => {
                                                                     required
                                                                     type="text"
                                                                     value={item.quantity}
-
-
                                                                 />
                                                             </TableCell>
 

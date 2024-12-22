@@ -53,6 +53,7 @@ const OnlinecheckinReceipt = ({ setopendashboard }) => {
 
   var options = { year: 'numeric', month: 'short', day: '2-digit' };
   var today = new Date(isData && isData?.date);
+  var todayout = new Date(isData && isData?.coutDate);
   const currDate = today
     .toLocaleDateString('en-IN', options)
     .replace(/-/g, ' ');
@@ -83,10 +84,10 @@ const OnlinecheckinReceipt = ({ setopendashboard }) => {
     today1 = new Date(date.utc_datetime);
   }
 
-  const currDatecheckout = today1
+  const currDatecheckout = todayout
     .toLocaleDateString('en-IN', options)
     .replace(/-/g, ' ');
-  const currTimecheckout = today1.toLocaleString('en-US', {
+  const currTimecheckout = todayout.toLocaleString('en-US', {
     hour: 'numeric',
     minute: 'numeric',
     hour12: true,
@@ -95,15 +96,18 @@ const OnlinecheckinReceipt = ({ setopendashboard }) => {
   let TotalDays;
 
   const days_diff = Math.floor(
-    (today1.getTime() - new Date(isData?.date).getTime()) /
+    (todayout.getTime() - new Date(isData?.date).getTime()) /
       (1000 * 3600 * Number(isData?.coTime - 3)),
   );
 
   const hours_difference = Math.floor(
-    ((today1.getTime() - new Date(isData?.date).getTime()) / (1000 * 60 * 60)) %
+    ((todayout.getTime() - new Date(isData?.date).getTime()) / (1000 * 60 * 60)) %
       Number(isData?.coTime - 3),
   );
 
+  console.log("is data ", isData);
+  console.log("day diff ", days_diff, hours_difference)
+  
   if (days_diff === 0) {
     TotalDays = days_diff + 1;
   } else if (days_diff > 0 && hours_difference < 3) {
@@ -111,6 +115,22 @@ const OnlinecheckinReceipt = ({ setopendashboard }) => {
   } else if (days_diff > 0 && hours_difference >= 3) {
     TotalDays = days_diff + 1;
   }
+
+  let currentTotalDays;
+
+// Parse the isData.date to get the base date and truncate time for comparison
+const startDate = new Date(isData?.date);
+startDate.setHours(0, 0, 0, 0); // Set the time to the start of the day
+
+// Get today's date and truncate time for comparison
+const today_date = new Date();
+today_date.setHours(0, 0, 0, 0);
+
+// Calculate the difference in days
+const diffInDays = Math.floor((today_date - startDate) / (1000 * 60 * 60 * 24));
+
+// Since the minimum day is 1, add 1 to the difference
+currentTotalDays = diffInDays + 1;
 
   console.log('Online is stays days ', TotalDays);
 
@@ -326,20 +346,14 @@ const OnlinecheckinReceipt = ({ setopendashboard }) => {
                                 </td>
 
                                 <td className="table_tddd lineheight10">
-                                  {Number(isData && isData?.roomAmountSum) *
-                                    TotalDays}
-                                  .00
-                                </td>
-
-
-                                <td className="table_tddd lineheight10">
-                                  {Number(isData && isData?.roomAmountSum)}
+                                  {Number(isData && isData?.roomDetails.Rate) *
+                                    currentTotalDays}
                                   .00
                                 </td>
 
                                 <td className="table_tddd lineheight10">
-                                  {Number(isData && isData?.roomAmountSum) *
-                                    TotalDays -
+                                  {Number(isData && isData?.roomDetails.Rate) *
+                                    currentTotalDays -
                                     Number(isData && isData?.roomAmountSum)}
                                   .00
                                 </td>

@@ -18,6 +18,7 @@ import TableRow from '@mui/material/TableRow';
 import MenuItem from '@mui/material/MenuItem';
 import Swal from 'sweetalert2'
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import TotalAmountRow from '../../../../PurchaseOrder/Suppliers/components/common/TotalAmountRow'
 import { CustomInput, CustomInputLabel, CustomTableInput } from '../../../../PurchaseOrder/Suppliers/components/common';
 import { serverInstance } from '../../../../../../../API/ServerInstance'
 import { useAsyncError } from 'react-router-dom'
@@ -51,16 +52,22 @@ const Inventory = ({ inventoryShow, inventoryItem, onClose }) => {
     const [materialName, setMaterialName] = useState('')
     const [deptName, setDeptName] = useState('')
     const [deptCode, setDeptCode] = useState('')
+    const [challanNo, setChallanNo] = useState('')
+    const [billNo, setBillNo] = useState('')
     const [addedBy, setAddedBy] = useState('')
     const [supName, setSupName] = useState('')
     const [supCode, setSupCode] = useState('')
+    const [UOMList, setUOMList] = useState([])
+    const [itemList, setItemList] = useState([])
     const [quantity, setQuantity] = useState('')
     const [amount, setAmount] = useState('')
+    const [totalAmount, setTotalAmount] = useState(0);
     const [dbitems, setdbItems] = useState([
         {
             MaterialCode: ' ',
             MaterialName: '',
             Quantity: '',
+            IssueQuantity: '0',
             Amount: '',
         },
     ]);
@@ -101,14 +108,40 @@ const Inventory = ({ inventoryShow, inventoryItem, onClose }) => {
     };
 
 
-    const handleInputChange = (e, index) => {
-        const { name, value } = e.target;
+    const handleInputChange = async (idx, field, value) => {
+        const updatedItems = [...dbitems];
+        updatedItems[idx][field] = value;
+        // setItems(updatedItems);
 
-        setdbItems((prevItems) =>
-            prevItems.map((item, idx) =>
-                idx === index ? { ...item, [name]: value } : item
-            )
-        );
+        if (field === 'MaterialName') {
+            const selectedItem = itemList.find(item => item.item_name === value);
+
+            if (selectedItem) {
+                updatedItems[idx]['itemNo'] = selectedItem.id;
+                updatedItems[idx]['MaterialCode'] = selectedItem.id;
+                updatedItems[idx]['UOM'] = selectedItem.UOM || ''; // Set UOM if applicable
+                updatedItems[idx]['openingQuantity'] = selectedItem.opening_stock || ''; // Set quantity to opening_stock
+                updatedItems[idx]['availableQuantity'] = selectedItem.current_stock || ''; // Set quantity to opening_stock
+                setDeptCode(selectedItem.department_code)
+                setDeptName(selectedItem.department_name)
+            } else {
+                updatedItems[idx]['itemNo'] = '';
+                updatedItems[idx]['UOM'] = '';
+                updatedItems[idx]['quantity'] = '';
+                updatedItems[idx]['availableQuantity'] = ''; // Set quantity to opening_stock
+            }
+            console.log("selected item ", selectedItem);
+        }
+
+        
+        const item = updatedItems[idx];
+        const calculatedTotal = (item.Quantity * item.price) * (1 - item.discount / 100) * (1 + item.GST / 100);
+        item.total = calculatedTotal;
+        item.Amount = calculatedTotal;
+        const newTotalAmount = updatedItems.reduce((sum, item) => sum + item.total, 0);
+        setTotalAmount(newTotalAmount);
+
+        setdbItems(updatedItems);
     };
 
     const [next, setNext] = useState(false)
@@ -133,6 +166,8 @@ const Inventory = ({ inventoryShow, inventoryItem, onClose }) => {
                 FromDepartmentName: deptName,
                 SupplierName: supName,
                 SupplierCode: supCode,
+                challanNo: challanNo,
+                billNo: billNo,
                 Remark: remark,
                 inventory_list: dbitems
             }
@@ -153,6 +188,27 @@ const Inventory = ({ inventoryShow, inventoryItem, onClose }) => {
         }
     }
 
+    const getItem = async () => {
+        try {
+            const res = await serverInstance('store/get-itemMaster', 'get')
+
+            setItemList(res.data)
+            console.log(res.data)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    const getUOM = async () => {
+        try {
+            const res = await serverInstance('admin/get-UOM', 'get')
+
+            setUOMList(res.data)
+            console.log(res.data)
+        } catch (err) {
+            console.log(err)
+        }
+    }
 
 
 
@@ -167,37 +223,53 @@ const Inventory = ({ inventoryShow, inventoryItem, onClose }) => {
         hour12: true,
     });
 
-    console.log('inv', inventoryItem.gateEntryList[0])
+    console.log('inv', inventoryItem)
 
     useEffect(() => {
-
         if (inventoryItem) {
-            setDate(inventoryItem?.date)
-            setTime(inventoryItem?.time)
-            setPNo(inventoryItem?.purchaseOrderNo)
-            setSupName(inventoryItem?.supplierName)
-            setSupCode(inventoryItem?.supplierCode)
-            setDeptCode(inventoryItem?.gateEntryList[0].departmentCode)
-            setDeptName(inventoryItem?.gateEntryList[0].departmentName)
+            setDate(inventoryItem?.date);
+            setTime(inventoryItem?.time);
+            setPNo(inventoryItem?.purchaseOrderNo);
+            setSupName(inventoryItem?.supplierName);
+            setSupCode(inventoryItem?.supplierCode);
+            setBillNo(inventoryItem?.billNo);
+            setChallanNo(inventoryItem?.challanNo);
+            setDeptCode(inventoryItem?.gateEntryList[0]?.departmentCode);
+            setDeptName(inventoryItem?.gateEntryList[0]?.departmentName);
         }
-
-        if (inventoryItem && inventoryItem?.gateEntryList) {
-            setdbItems(inventoryItem?.gateEntryList.map((item) => ({
-                MaterialCode: item?.itemNo,
-                MaterialName: item?.itemName,
-                Quantity: item?.acceptedQuantity,
-                Amount: item?.total,
-                UOM: item?.UOM
-
-            })));
+    
+        if (inventoryItem?.gateEntryList) {
+            const updatedItems = inventoryItem.gateEntryList.map((item) => {
+                // Find the matching item from itemList based on itemName
+                const matchedItem = itemList.find(
+                    (listItem) => listItem.item_name === item.itemName
+                );
+    
+                return {
+                    MaterialCode: item?.itemNo,
+                    MaterialName: item?.itemName,
+                    Quantity: item?.acceptedQuantity,
+                    IssueQuantity: null,
+                    Amount: item?.total,
+                    UOM: item?.UOM,
+                    availableQuantity: matchedItem?.current_stock || '', // Get availableQuantity from matched item
+                };
+            });
+    
+            setdbItems(updatedItems);
         }
+    }, [inventoryItem, itemList]); // Added itemList as a dependency
+    
+
+    useEffect(() => {
+        getUOM();
+        getItem();
     }, [])
 
-
+    console.log("db items ", dbitems);
 
     return (
         <>
-
             <div>
                 <Modal
                     aria-labelledby="transition-modal-title"
@@ -213,7 +285,7 @@ const Inventory = ({ inventoryShow, inventoryItem, onClose }) => {
 
                                 <form onSubmit={handleSubmit}>
                                     <div className="add-div-close-div">
-                                        <h2 clssName="add_text_only">Send To Inventory</h2>
+                                        <h2 clssName="add_text_only">Purchase Register Entry</h2>
 
                                         <CloseIcon onClick={() => handleClose()} />
 
@@ -337,10 +409,6 @@ const Inventory = ({ inventoryShow, inventoryItem, onClose }) => {
 
                                                 />
                                             </div>
-
-
-
-
                                         </div>
 
 
@@ -397,59 +465,98 @@ const Inventory = ({ inventoryShow, inventoryItem, onClose }) => {
 
                                                 <TableHead>
                                                     <TableRow >
-
-                                                        <TableCell style={{ width: '10%' }} align="center">Material Code</TableCell>
-                                                        <TableCell style={{ width: '25%' }} align="center">Material Name</TableCell>
-                                                        <TableCell style={{ width: '15%' }} align="center">Quantity</TableCell>
-                                                        <TableCell>UOM</TableCell>
-                                                        <TableCell align="center">Price</TableCell>
-
+                                                        {/* <TableCell style={{ width: '15%' }}>
+                                                        Item No. {" "}
+                                                        <a href="#" onClick={() => setShowAddItem(true)}>Add Items</a>
+                                                    </TableCell> */}
+                                                        <TableCell align="center">Item Name</TableCell>
+                                                        <TableCell align="center">UOM {" "}
+                                                            <a href="#" onClick={() => setShowAddUMO(true)}>Add UOM</a></TableCell>
+                                                        <TableCell align="center">Quantity</TableCell>
+                                                        <TableCell align="center">Available Quantity</TableCell>
+                                                        <TableCell align="center">Price (Rs.) </TableCell>
+                                                        <TableCell align="center">Discount (%)</TableCell>
+                                                        <TableCell align="center">GST (%)</TableCell>
+                                                        <TableCell align="center">Total</TableCell>
 
 
                                                     </TableRow>
                                                 </TableHead>
                                                 <TableBody>
-                                                    {inventoryItem && inventoryItem?.gateEntryList?.map((item, idx) => (
+                                                    {dbitems.map((item, idx) => (
                                                         <TableRow key={idx}>
-                                                            <TableCell
-                                                                style={{
-                                                                    paddingInline: 0,
-                                                                }}
-                                                            >
+                                                            <TableCell>
+                                                                <Select
+                                                                    required
+                                                                    sx={{
+                                                                        width: '100%',
+                                                                        fontSize: 14,
+                                                                        '& .MuiSelect-select': {
+                                                                            padding: '1px',
+                                                                        },
+                                                                    }}
+                                                                    value={item.MaterialName || ''} // Bind MaterialName here
+                                                                    onChange={(e) => handleInputChange(idx, 'MaterialName', e.target.value)}
+                                                                    displayEmpty
+                                                                >
+                                                                    <MenuItem value="" disabled>Select Item</MenuItem>
+                                                                    {Array.isArray(itemList) &&
+                                                                        itemList.map((itemOption) => (
+                                                                            <MenuItem
+                                                                                key={itemOption.id}
+                                                                                value={itemOption.item_name} // Use item_name as value
+                                                                                sx={{ fontSize: 14 }}
+                                                                            >
+                                                                                {itemOption.item_name}
+                                                                            </MenuItem>
+                                                                        ))}
+                                                                </Select>
+                                                            </TableCell>
+
+                                                            <TableCell>
+                                                                <Select
+                                                                    required
+                                                                    sx={{
+                                                                        width: '100%',
+                                                                        fontSize: 14,
+                                                                        '& .MuiSelect-select': {
+                                                                            padding: '1px',
+                                                                        },
+                                                                    }}
+                                                                    value={item.UOM || ''} // Bind UOM here
+                                                                    onChange={(e) => handleInputChange(idx, 'UOM', e.target.value)}
+                                                                    displayEmpty
+                                                                >
+                                                                    <MenuItem value="" disabled>Please select</MenuItem>
+                                                                    {UOMList.map((uomOption) => (
+                                                                        <MenuItem
+                                                                            key={uomOption.id}
+                                                                            value={uomOption.UOM}
+                                                                            sx={{ fontSize: 14 }}
+                                                                        >
+                                                                            {uomOption.UOM}
+                                                                        </MenuItem>
+                                                                    ))}
+                                                                </Select>
+                                                            </TableCell>
+
+                                                            {/* Quantity */}
+                                                            <TableCell align="center">
                                                                 <CustomTableInput
                                                                     required
                                                                     type="text"
-                                                                    value={item.itemNo}
-
+                                                                    value={item.Quantity || ''} // Bind Quantity here
+                                                                    onChange={(e) => handleInputChange(idx, 'Quantity', e.target.value)}
                                                                 />
                                                             </TableCell>
 
 
-
-                                                            <TableCell>
+                                                            <TableCell align="center">
                                                                 <CustomTableInput
                                                                     required
-                                                                    type="text"
-                                                                    value={item.itemName}
-
-                                                                />
-                                                            </TableCell>
-
-                                                            <TableCell>
-                                                                <CustomTableInput
-                                                                    required
-                                                                    type="text"
-                                                                    value={item.acceptedQuantity}
-
-                                                                />
-                                                            </TableCell>
-
-                                                            <TableCell>
-                                                                <CustomTableInput
-                                                                    required
-                                                                    type="text"
-                                                                    value={item.UOM}
-
+                                                                    disabled
+                                                                    value={item.availableQuantity}
+                                                                    onChange={(e) => handleInputChange(idx, 'availableQuantity', e.target.value)}
                                                                 />
                                                             </TableCell>
 
@@ -457,22 +564,40 @@ const Inventory = ({ inventoryShow, inventoryItem, onClose }) => {
                                                                 <CustomTableInput
                                                                     required
                                                                     type="text"
-                                                                    value={item.total}
-
+                                                                    value={item.price}
+                                                                    onChange={(e) => handleInputChange(idx, 'price', e.target.value)}
                                                                 />
 
                                                             </TableCell>
 
-                                                            {/*                                                      
+                                                            <TableCell align="center">
+                                                                <CustomTableInput
+                                                                    required
+                                                                    type="text"
+                                                                    value={item.discount}
+                                                                    onChange={(e) => handleInputChange(idx, 'discount', e.target.value)}
+                                                                />
 
-                                                        <TableCell align="center">
-                                                            <CustomTableInput
-                                                                required
-                                                                type="text"
-                                                                value={Number(item.total).toFixed(2)}
-                                                            />
+                                                            </TableCell>
 
-                                                        </TableCell> */}
+                                                            <TableCell align="center">
+                                                                <CustomTableInput
+                                                                    required
+                                                                    type="text"
+                                                                    value={item.GST}
+                                                                    onChange={(e) => handleInputChange(idx, 'GST', e.target.value)}
+                                                                />
+
+                                                            </TableCell>
+
+                                                            <TableCell align="center">
+                                                                <CustomTableInput
+                                                                    required
+                                                                    type="text"
+                                                                    value={Number(item.total).toFixed(2)}
+                                                                />
+
+                                                            </TableCell>
                                                             {idx > 0 && (
                                                                 <IconButton
                                                                     sx={{
@@ -489,7 +614,7 @@ const Inventory = ({ inventoryShow, inventoryItem, onClose }) => {
                                                         </TableRow>
                                                     ))}
 
-
+                                                    <TotalAmountRow totalAmount={totalAmount} />
 
                                                 </TableBody>
                                             </Table>

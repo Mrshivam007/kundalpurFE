@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import RequirementsRaiseSubTab from './RequirementsRaiseSubTab'
 import StoreTab from '../StoreTab'
+import Suppliers from './Suppliers/Suppliers'
 
 
 const RequirementsRaise = ({ setopendashboard }) => {
@@ -14,7 +15,8 @@ const RequirementsRaise = ({ setopendashboard }) => {
       <StoreTab />
       <div className='dashboarddiv'>
 
-        <RequirementsRaiseSubTab />
+        {/* <RequirementsRaiseSubTab /> */}
+        <Suppliers />
       </div>
     </>
 

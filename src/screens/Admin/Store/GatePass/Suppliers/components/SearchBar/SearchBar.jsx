@@ -6,6 +6,7 @@ import ExportPdf from '../../../../../../../assets/ExportPdf.png';
 import ExportExcel from '../../../../../../../assets/ExportExcel.png';
 import { Tooltip, IconButton } from '@mui/material';
 import { Autocomplete, TextField } from '@mui/material';
+import GateEntry from '../Add/GateEntry';
 
 
 const SearchBar = ({ isData, getGP , handlePrint}) => {
@@ -130,6 +131,7 @@ const SearchBar = ({ isData, getGP , handlePrint}) => {
                     {/* <button id="srcbtn">
                         +Add
                     </button> */}
+                    <GateEntry getGP={getGP} />
                     &nbsp;&nbsp;
                 </div>
             </div>

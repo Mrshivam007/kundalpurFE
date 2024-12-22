@@ -1,6 +1,7 @@
 import React ,{useEffect} from 'react'
 import ApproveSubTab from './ApproveSubTab'
 import StoreTab from '../StoreTab'
+import Suppliers from './Suppliers/Suppliers'
 
 const Approve = ({ setopendashboard }) => {
 
@@ -15,7 +16,8 @@ const Approve = ({ setopendashboard }) => {
       <StoreTab />
       <div className='dashboarddiv'>
 
-        <ApproveSubTab setopendashboard={setopendashboard} />
+        {/* <ApproveSubTab setopendashboard={setopendashboard} /> */}
+        <Suppliers />
       </div>
     </>
 

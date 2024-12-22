@@ -166,11 +166,39 @@ function RoomBookingscreen() {
   let currentTime = new Date(checkindata.checkouttime).getTime();
   let updatedTIme = new Date(currentTime + 3 * 60 * 60 * 1000);
 
-  console.log("dddaa",checkindata)
+  // console.log("dddaa",checkindata)
+  var options = { year: 'numeric', month: 'short', day: '2-digit' };
+  var today = new Date(checkindata?.checkouttime);
+  const currDate = today
+    .toLocaleDateString('en-IN', options)
+    .replace(/-/g, ' ');
+  const currTime = today.toLocaleString('en-US', {
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true,
+  });
+
+  var today1 = new Date(checkindata?.checkintime);
+  const currDatecheckout = today1
+    .toLocaleDateString('en-IN', options)
+    .replace(/-/g, ' ');
+  const currTimecheckout = today1.toLocaleString('en-US', {
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true,
+  });
+
+  let difference = today.getTime() - today1.getTime();
+  let TotalDays =
+    Math.floor((today.getTime() - today1.getTime()) / (1000 * 3600 * 27)) != 0
+      ? Math.floor((today.getTime() - today1.getTime()) / (1000 * 3600 * 27)) +
+        1
+      : 1;
   const savedataIntodb = async () => {
     handleclick();
     result = isData && isData?.available_room_numbers.slice(0, 1);
-
+    // console.log("is data ", isData);
+    
     if (mobile && address && fullname) {
       setIsLoading(true);
       serverInstance('room/checkin-user', 'post', {
@@ -182,11 +210,12 @@ function RoomBookingscreen() {
         email: email,
         address: address,
         city: city,
-        roomAmount: isData?.roomDetails?.Rate,
+        roomAmount: isData?.roomDetails?.Rate * TotalDays,
         state: state,
         proof: idproffname,
         idNumber: idproffnumber,
         paymentMode: 1,
+        // paymentStatus: 1,
         male: maleno ? Number(maleno) : 0,
         female: femaleno ? Number(femaleno) : 0,
         child: childrenno ? Number(childrenno) : 0,
@@ -202,6 +231,7 @@ function RoomBookingscreen() {
         }),
         nRoom: roomno,
         roomList: result,
+        // roomList: [1],
         extraM: extraMattress,
       }).then((res) => {
         if (res.data && res.data.status === true) {
@@ -209,6 +239,11 @@ function RoomBookingscreen() {
             window.location.href =
               'http://paymentkundalpur.techjainsupport.co.in/room?booking_id=' +
               res.data?.data[0]?.booking_id;
+            serverInstance(`/room/booking-info/${res.data?.data[0]?.booking_id}`, 'GET').then((res) => {
+              if (res?.data) {
+                setisData(res?.data);
+              }
+            });
           } else {
             Swal.fire('Error!', 'Somthing went wrong!!', 'error');
           }
@@ -217,6 +252,8 @@ function RoomBookingscreen() {
             setIsLoading(false);
             Swal.fire('Error!', res.message, 'error');
           }
+        } else {
+          Swal.fire('Error!', res.data.message, 'error');
         }
 
         if (res?.code) {
@@ -289,33 +326,7 @@ function RoomBookingscreen() {
       }
     }
   }, []);
-  var options = { year: 'numeric', month: 'short', day: '2-digit' };
-  var today = new Date(checkindata?.checkouttime);
-  const currDate = today
-    .toLocaleDateString('en-IN', options)
-    .replace(/-/g, ' ');
-  const currTime = today.toLocaleString('en-US', {
-    hour: 'numeric',
-    minute: 'numeric',
-    hour12: true,
-  });
 
-  var today1 = new Date(checkindata?.checkintime);
-  const currDatecheckout = today1
-    .toLocaleDateString('en-IN', options)
-    .replace(/-/g, ' ');
-  const currTimecheckout = today1.toLocaleString('en-US', {
-    hour: 'numeric',
-    minute: 'numeric',
-    hour12: true,
-  });
-
-  let difference = today.getTime() - today1.getTime();
-  let TotalDays =
-    Math.floor((today.getTime() - today1.getTime()) / (1000 * 3600 * 27)) != 0
-      ? Math.floor((today.getTime() - today1.getTime()) / (1000 * 3600 * 27)) +
-        1
-      : 1;
 
   return (
     <>

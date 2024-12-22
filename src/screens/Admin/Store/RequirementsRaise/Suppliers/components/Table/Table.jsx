@@ -9,6 +9,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Dialog from '@mui/material/Dialog';
+import DownloadIcon from '@mui/icons-material/Download';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import Fade from '@mui/material/Fade';
 import { Button } from "@mui/material";
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -19,6 +23,7 @@ import Edit from '../../../../../../../assets/Edit.png';
 import Delete from '../../../../../../../assets/Delete.png';
 import { serverInstance } from "../../../../../../../API/ServerInstance";
 import UpdatePR from "../Add/UpdatePR";
+import ModalPurchaseRequest from "../../../../../Reciept/ModelPurchaseRequest";
 
 export default function Tabl({ isData, getPR }) {
 
@@ -29,6 +34,8 @@ export default function Tabl({ isData, getPR }) {
   const [deleteId, setDeleteId] = useState('')
   const [rowsPerPage, setRowsPerPage] = useState(25);
   const [page, setPage] = useState(0);
+  const [datasend, setdatasend] = useState('');
+  const [open60, setOpen60] = React.useState(false);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -39,6 +46,13 @@ export default function Tabl({ isData, getPR }) {
 
     setPage(0);
   };
+
+  const handleOpen60 = (data) => {
+    setOpen60(true);
+    setdatasend(data);
+  };
+  const handleClose60 = () => setOpen60(false);
+
 
   const handleDeleteClose = () => {
     setOpenDelete(false)
@@ -59,7 +73,20 @@ export default function Tabl({ isData, getPR }) {
     setOpenEdit(false)
   }
 
-
+  const style50 = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    width: '80%',
+    height: '95%',
+    overflow: 'auto',
+    transform: 'translate(-50%, -50%)',
+    bgcolor: 'background.paper',
+    p: 2,
+  
+    boxShadow: 24,
+    borderRadius: '0px',
+  };
 
   const deletePR = () => {
 
@@ -92,7 +119,24 @@ export default function Tabl({ isData, getPR }) {
   return (
     <>
       <div className="wrapper_abc">
-
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open60}
+        onClose={handleClose60}
+        closeAfterTransition
+      >
+        <Fade in={open60}>
+          <Box sx={style50}>
+            <ModalPurchaseRequest
+              // setopendashboard={setopendashboard}
+              handleClose60={handleClose60}
+              datasend={datasend}
+              // setshowreciept={setshowreciept}
+            />
+          </Box>
+        </Fade>
+      </Modal>
         <Dialog
           open={openDelete}
           onClose={handleDeleteClose}
@@ -125,17 +169,17 @@ export default function Tabl({ isData, getPR }) {
 
               <TableCell>Sn</TableCell>
               <TableCell>Purchase Req. No.</TableCell>
-              <TableCell>Supplier Code</TableCell>
-              <TableCell>Supplier Name</TableCell>
+              {/* <TableCell>Supplier Code</TableCell> */}
+              {/* <TableCell>Supplier Name</TableCell> */}
               <TableCell>Department Code</TableCell>
               <TableCell>Department Name</TableCell>
-              <TableCell>Address</TableCell>
+              {/* <TableCell>Address</TableCell>
               <TableCell>City</TableCell>
               <TableCell>State</TableCell>
-              <TableCell>Pincode</TableCell>
+              <TableCell>Pincode</TableCell> */}
               <TableCell>PR Date</TableCell>
-              <TableCell>Delivery Date</TableCell>
-              <TableCell>Contact No.</TableCell>
+              {/* <TableCell>Delivery Date</TableCell> */}
+              {/* <TableCell>Contact No.</TableCell> */}
               <TableCell>Remark</TableCell>
               <TableCell className="sticky-col first-col" id="acts">
                 Action
@@ -148,17 +192,15 @@ export default function Tabl({ isData, getPR }) {
                 <TableRow key={index}>
                   <TableCell>{index + 1}</TableCell>
                   <TableCell>{item.purchaseRequisitionNo}</TableCell>
-                  <TableCell>{item.supplierCode}</TableCell>
-                  <TableCell>{item.supplierName}</TableCell>
                   <TableCell>{item.departmentCode}</TableCell>
                   <TableCell>{item.departmentName}</TableCell>
-                  <TableCell>{item.address}</TableCell>
+                  {/* <TableCell>{item.address}</TableCell>
                   <TableCell>{item.city}</TableCell>
                   <TableCell>{item.state}</TableCell>
-                  <TableCell>{item.pincode}</TableCell>
+                  <TableCell>{item.pincode}</TableCell> */}
                   <TableCell>{moment(item.purchaseRequisitionDate).format('YYYY-MM-DD')}</TableCell>
-                  <TableCell>{moment(item.deliveryDate).format('YYYY-MM-DD')}</TableCell>
-                  <TableCell>{item.mobileNo}</TableCell>
+                  {/* <TableCell>{moment(item.deliveryDate).format('YYYY-MM-DD')}</TableCell> */}
+                  {/* <TableCell>{item.mobileNo}</TableCell> */}
                   <TableCell>{item.remark}</TableCell>
                   <TableCell>
 
@@ -179,6 +221,16 @@ export default function Tabl({ isData, getPR }) {
                         style={{ width: '20px' }}
                       />
                     </Tooltip>
+
+                    {item ? (
+                          <DownloadIcon
+                            onClick={() => {
+                              handleOpen60(item);
+                            }}
+                          />
+                        ) : (
+                          <ClearIcon />
+                        )}
 
                   </TableCell>
 

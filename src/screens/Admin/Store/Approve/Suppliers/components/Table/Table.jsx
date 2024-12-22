@@ -21,6 +21,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import CloseIcon from '@mui/icons-material/Close';
 import { serverInstance } from "../../../../../../../API/ServerInstance";
+import ViewItem from "../View/ViewItem";
 
 
 export default function Tabl({ getApprover, approver, isData }) {
@@ -40,6 +41,9 @@ export default function Tabl({ getApprover, approver, isData }) {
   const [approver4, setApprover4] = useState('')
   const [rowsPerPage, setRowsPerPage] = useState(25);
   const [page, setPage] = useState(0);
+  const [viewdata, setviewdata] = useState('')
+  const [openView, setOpenView] = useState(false)
+
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -51,6 +55,15 @@ export default function Tabl({ getApprover, approver, isData }) {
     setPage(0);
   };
   console.log('approver', approver)
+
+  const handleEdit = (data) => {
+    setOpenView(true);
+    setviewdata(data)
+  };
+
+  const closeEdit = () => {
+    setOpenView(false)
+  }
 
 
   // const [isApprover1, setIsApprover1] = useState(approver[0].isApprover1)
@@ -374,6 +387,9 @@ export default function Tabl({ getApprover, approver, isData }) {
           </DialogActions>
         </Dialog>
 
+        <ViewItem updatedata={viewdata} openEdit={openView} closeEdit={closeEdit} handleApprove={handleApproveOpen} />
+
+
         <Table>
           <TableHead>
             <TableRow>
@@ -454,6 +470,14 @@ export default function Tabl({ getApprover, approver, isData }) {
                                 sx={{ color: 'red' }}
                               />
                             </Tooltip>
+                            <Tooltip title="Edit">
+                      <img
+                        onClick={() => handleEdit(item)}
+                        src={Edit}
+                        alt="Edit"
+                        style={{ width: '20px', marginRight: '0.5rem' }}
+                      />
+                    </Tooltip>
                           </>
                         )
                       )

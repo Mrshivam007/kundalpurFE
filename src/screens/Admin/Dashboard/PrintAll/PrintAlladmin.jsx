@@ -943,7 +943,7 @@ function PrintAlladmin({ handleClose }) {
                         '&:last-child td, &:last-child th': { border: 0 },
                       }}
                     >
-                      <td>male</td>
+                      <td>Male</td>
                       <td>
                         {isDataadmin[0]?.male === null
                           ? '0'
@@ -955,7 +955,7 @@ function PrintAlladmin({ handleClose }) {
                         '&:last-child td, &:last-child th': { border: 0 },
                       }}
                     >
-                      <td>female</td>
+                      <td>Female</td>
                       <td>
                         {isDataadmin[0]?.female === null
                           ? '0'
@@ -967,7 +967,7 @@ function PrintAlladmin({ handleClose }) {
                         '&:last-child td, &:last-child th': { border: 0 },
                       }}
                     >
-                      <td>child</td>
+                      <td>Child</td>
                       <td>
                         {isDataadmin[0]?.child === null
                           ? '0'
@@ -1096,7 +1096,7 @@ function PrintAlladmin({ handleClose }) {
                             '&:last-child td, &:last-child th': { border: 0 },
                           }}
                         >
-                          <td>male</td>
+                          <td>Male</td>
                           <td>
                             {isDataemp[0]?.male === null
                               ? '0'
@@ -1108,7 +1108,7 @@ function PrintAlladmin({ handleClose }) {
                             '&:last-child td, &:last-child th': { border: 0 },
                           }}
                         >
-                          <td>female</td>
+                          <td>Female</td>
                           <td>
                             {isDataemp[0]?.female === null
                               ? '0'
@@ -1120,7 +1120,7 @@ function PrintAlladmin({ handleClose }) {
                             '&:last-child td, &:last-child th': { border: 0 },
                           }}
                         >
-                          <td>child</td>
+                          <td>Child</td>
                           <td>
                             {isDataemp[0]?.child === null
                               ? '0'
@@ -1358,7 +1358,7 @@ function PrintAlladmin({ handleClose }) {
                             '&:last-child td, &:last-child th': { border: 0 },
                           }}
                         >
-                          <td>male</td>
+                          <td>Male</td>
                           <td>
                             {isDataemp[0]?.male === null
                               ? '0'
@@ -1370,7 +1370,7 @@ function PrintAlladmin({ handleClose }) {
                             '&:last-child td, &:last-child th': { border: 0 },
                           }}
                         >
-                          <td>female</td>
+                          <td>Female</td>
                           <td>
                             {isDataemp[0]?.female === null
                               ? '0'
@@ -1382,7 +1382,7 @@ function PrintAlladmin({ handleClose }) {
                             '&:last-child td, &:last-child th': { border: 0 },
                           }}
                         >
-                          <td>child</td>
+                          <td>Child</td>
                           <td>
                             {isDataemp[0]?.child === null
                               ? '0'

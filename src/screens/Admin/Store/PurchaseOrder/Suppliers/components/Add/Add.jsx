@@ -13,6 +13,7 @@ import Selec from 'react-select';
 
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
+import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import MenuItem from '@mui/material/MenuItem';
@@ -26,6 +27,7 @@ import TotalAmountRow from '../common/TotalAmountRow'
 import { Converter, hiIN } from 'any-number-to-words';
 
 import { CustomInput, CustomInputLabel, CustomTableInput } from '../common';
+
 
 
 import './Add.css'
@@ -45,6 +47,17 @@ const style = {
     p: 4,
 
 };
+
+const custominput = {
+    border: '1px solid #B8B8B8',
+    width: '37rem',
+    height: '39px',
+    borderRadius: '5px',
+    fontSize: '15px',
+    paddingLeft: '0.5rem',
+    marginBottom: '0.5rem',
+    color: 'gray',
+};
 const Add = ({ getPO }) => {
 
 
@@ -59,10 +72,23 @@ const Add = ({ getPO }) => {
     const [supList, setSupList] = useState([])
     const [supCode, setSupCode] = useState('')
     const [supName, setSupName] = useState('')
+    const [itemsCode, setItemsCode] = useState('')
+    const [itemNameEnglish, setItemNameEnglish] = useState('');
+    const [itemNameHindi, setItemNameHindi] = useState('')
+    const [UMOCode, setUMOCode] = useState('')
+    const [UMOName, setUMOName] = useState('')
+    const [supNameEnglish, setSupNameEnglish] = useState('');
+    const [supNameHindi, setSupNameHindi] = useState('')
     const [purchaseReq, setPurchaseReq] = useState('');
     const [PONo, setPONo] = useState('')
     const [deptName, setDeptName] = useState('');
     const [deptCode, setDeptCode] = useState('');
+    const [showAddSupplier, setShowAddSupplier] = useState(false);  // State for showing add supplier form
+    const [showAddDepartment, setShowAddDepartment] = useState(false);  // State for showing add supplier form
+    const [showAddUMO, setShowAddUMO] = useState(false);  // State for showing add supplier form
+    const [showAddItem, setShowAddItem] = useState(false);  // State for showing add supplier form
+    const [departmentName_en, setDepartmentName_en] = useState('')
+    const [departmentName_hi, setDepartmentName_hi] = useState('')
     const [address, setAddress] = useState('');
     const [city, setCity] = useState('');
     const [state, setState] = useState('');
@@ -74,6 +100,7 @@ const Add = ({ getPO }) => {
     const [deliveryDate, setDeliveryDate] = useState('')
     const [PODate, setPODate] = useState('')
     const [itemList, setItemList] = useState([])
+    const [showLoader, setShowLoader] = useState(false);
 
     const [dbitems, setdbItems] = useState([
         {
@@ -90,6 +117,7 @@ const Add = ({ getPO }) => {
     ])
 
     const [UOMList, setUOMList] = useState([])
+    const [PRQList, setPRQList] = useState([])
 
 
 
@@ -147,6 +175,23 @@ const Add = ({ getPO }) => {
         }
     };
 
+    const handleSupNameChange = (e) => {
+        const selectedName = e.target.value;
+        setSupName(selectedName);
+        console.log("getting sup list ", supList, selectedName)
+
+        const selectedSupplier = supList.find(item => item.supplierName === selectedName);
+
+        console.log("geting selected supplier ", selectedSupplier);
+
+
+        if (selectedSupplier) {
+            setSupCode(selectedSupplier.id);
+        } else {
+            setSupCode('');
+        }
+    };
+
 
     const handleDeptCodeChange = (e) => {
         const selectedCode = e.target.value;
@@ -162,6 +207,192 @@ const Add = ({ getPO }) => {
         }
     };
 
+    const handleDeptNameChange = (e) => {
+        const selectedName = e.target.value;
+        setDeptName(selectedName);
+
+        const selectedDepartment = departmentList.find(item => item.departmentName_en === selectedName);
+
+        if (selectedDepartment) {
+            setDeptCode(selectedDepartment.department_code);
+        } else {
+            setDeptCode('');
+        }
+    };
+
+    const handleMasterSupSubmit = async () => {
+        try {
+            setShowLoader(true);
+
+            const data = {
+                supplierCode: supCode,
+                supplierName_en: supNameEnglish,
+                supplierName_hi: supNameHindi,
+            };
+
+            console.log("try 1");
+
+            // Use serverInstance to handle the request
+            serverInstance('admin/add-supplierName', 'post', data).then((res) => {
+                console.log("try 3", res);
+
+                if (res.status) {
+                    // Show success message
+                    // Swal.fire('Great!', res.msg, 'success');
+                    console.log("getting status");
+                    setShowAddSupplier(false);
+                    setSupCode("")
+                    // Reload supplier list
+                    getSupplier();
+                    // Close the modal after submitting
+                } else {
+                    // Handle error case
+                    // Swal.fire('Error!', res?.msg || 'Something went wrong!', 'error');
+                }
+
+                // Stop the loader
+                setShowLoader(false);
+            }).catch((error) => {
+                // Handle network or server errors
+                setShowLoader(false);
+                Swal.fire('Error!', error.message || 'Request failed!', 'error');
+            });
+        } catch (error) {
+            // Handle unexpected errors
+            setShowLoader(false);
+            Swal.fire('Error!', error.message || error, 'error');
+        }
+    };
+
+
+    const handleMasterItemSubmit = async () => {
+        try {
+            setShowLoader(true);
+
+            const data = {
+                itemCode: itemsCode,
+                itemNameEnglish: itemNameEnglish,
+                itemNameHindi: itemNameHindi,
+            };
+
+            console.log("try 1");
+
+            // Use serverInstance to handle the request
+            serverInstance('admin/add-item', 'post', data).then((res) => {
+                console.log("try 3", res);
+
+                if (res.status) {
+                    // Show success message
+                    // Swal.fire('Great!', res.msg, 'success');
+                    console.log("getting status");
+                    setShowAddItem(false);
+                    setItemsCode("")
+                    // Reload supplier list
+                    getItem();
+                    // Close the modal after submitting
+                } else {
+                    // Handle error case
+                    // Swal.fire('Error!', res?.msg || 'Something went wrong!', 'error');
+                }
+
+                // Stop the loader
+                setShowLoader(false);
+            }).catch((error) => {
+                // Handle network or server errors
+                setShowLoader(false);
+                Swal.fire('Error!', error.message || 'Request failed!', 'error');
+            });
+        } catch (error) {
+            // Handle unexpected errors
+            setShowLoader(false);
+            Swal.fire('Error!', error.message || error, 'error');
+        }
+    };
+
+    const handleMasterDeptSubmit = async () => {
+        try {
+            setShowLoader(true);
+
+            const data = {
+                department_code: deptCode,
+                departmentName_en: departmentName_en,
+                departmentName_hi: departmentName_hi,
+            };
+
+            console.log("try 1");
+
+            // Use serverInstance to handle the request
+            serverInstance('admin/add-department', 'post', data).then((res) => {
+                console.log("try 3", res);
+
+                if (res.status) {
+                    // Show success message
+                    // Swal.fire('Great!', res.msg, 'success');
+                    console.log("getting status");
+                    setShowAddDepartment(false);
+                    setDeptCode("")
+                    // Reload supplier list
+                    getDepartment();
+                    // Close the modal after submitting
+                } else {
+                    // Handle error case
+                    // Swal.fire('Error!', res?.msg || 'Something went wrong!', 'error');
+                }
+
+                // Stop the loader
+                setShowLoader(false);
+            }).catch((error) => {
+                // Handle network or server errors
+                setShowLoader(false);
+                Swal.fire('Error!', error.message || 'Request failed!', 'error');
+            });
+        } catch (error) {
+            // Handle unexpected errors
+            setShowLoader(false);
+            Swal.fire('Error!', error.message || error, 'error');
+        }
+    };
+
+    const handleMasterUMOSubmit = async () => {
+        try {
+            setShowLoader(true);
+
+            const data = {
+                UOM: UMOName,
+                UOMCode: UMOCode,
+            };
+
+            // Use serverInstance to handle the request
+            serverInstance('admin/add-uom', 'post', data).then((res) => {
+                console.log("try 3", res);
+
+                if (res.status) {
+                    // Show success message
+                    // Swal.fire('Great!', res.msg, 'success');
+                    console.log("getting status");
+                    setShowAddUMO(false);
+                    // Reload supplier list
+                    getUOM();
+                    // Close the modal after submitting
+                } else {
+                    // Handle error case
+                    // Swal.fire('Error!', res?.msg || 'Something went wrong!', 'error');
+                }
+
+                // Stop the loader
+                setShowLoader(false);
+            }).catch((error) => {
+                // Handle network or server errors
+                setShowLoader(false);
+                Swal.fire('Error!', error.message || 'Request failed!', 'error');
+            });
+        } catch (error) {
+            // Handle unexpected errors
+            setShowLoader(false);
+            Swal.fire('Error!', error.message || error, 'error');
+        }
+    };
+
 
 
     const handleInputChange = async (idx, field, value) => {
@@ -169,16 +400,25 @@ const Add = ({ getPO }) => {
         updatedItems[idx][field] = value;
         setItems(updatedItems);
 
-        if (field === 'itemNo') {
-            const selectedItem = itemList.find(item => item.itemCode === value);
+        if (field === 'itemName') {
+            const selectedItem = itemList.find(item => item.item_name === value);
 
             if (selectedItem) {
-
-                updatedItems[idx]['itemName'] = selectedItem.itemNameEnglish || '';
-
+                updatedItems[idx]['itemNo'] = selectedItem.id || '';
+                updatedItems[idx]['GST'] = '0';
+                updatedItems[idx]['HSN'] = 'HSN';
+                updatedItems[idx]['price'] = '0';
+                updatedItems[idx]['UOM'] = selectedItem.UOM || ''; // Set UOM if applicable
+                updatedItems[idx]['discount'] = '0'; // Set UOM if applicable
+                updatedItems[idx]['openingQuantity'] = selectedItem.opening_stock || ''; // Set quantity to opening_stock
+                updatedItems[idx]['availableQuantity'] = selectedItem.current_stock || ''; // Set quantity to opening_stock
+                setDeptCode(selectedItem.department_code)
+                setDeptName(selectedItem.department_name)
             } else {
-
-                updatedItems[idx]['itemName'] = '';
+                updatedItems[idx]['itemNo'] = '';
+                updatedItems[idx]['UOM'] = '';
+                updatedItems[idx]['quantity'] = '';
+                updatedItems[idx]['availableQuantity'] = ''; // Set quantity to opening_stock
             }
         }
 
@@ -253,7 +493,7 @@ const Add = ({ getPO }) => {
 
     const getItem = async () => {
         try {
-            const res = await serverInstance('admin/get-item', 'get')
+            const res = await serverInstance('store/get-itemMaster', 'get')
 
             setItemList(res.data)
             console.log(res.data)
@@ -265,7 +505,7 @@ const Add = ({ getPO }) => {
 
     const getSupplier = async () => {
         try {
-            const res = await serverInstance('admin/get-supplierName', 'get')
+            const res = await serverInstance('store/get-supplierMaster', 'get')
 
             setSupList(res.data)
             console.log(res.data)
@@ -285,6 +525,16 @@ const Add = ({ getPO }) => {
         }
     }
 
+    const getPRQNo = async () => {
+        try {
+            const res = await serverInstance('store/get-purchaseRequisitionNo', 'get')
+            setPRQList(res.data)
+            console.log(res.data)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
 
 
 
@@ -296,19 +546,19 @@ const Add = ({ getPO }) => {
 
             const data = {
                 purchaseRequisitonNo: purchaseReq,
-                purchaseOrderNo: PONo,
+                // purchaseOrderNo: PONo,
                 supplierCode: supCode,
                 supplierName: supName,
                 departmentCode: deptCode,
                 departmentName: deptName,
-                contactPerson: contactNoStaff,
-                contactName: contactPerson,
+                contactPerson: contactPerson,
+                contactName: contactNo,
                 address: address,
                 state: state,
                 city: city,
                 pincode: pincode,
                 purchaseOrderDate: date,
-                deliveryDate: deliveryDate,
+                deliveryDate: date,
                 mobileNo: contactNo,
                 remark: remark,
                 purchaseOrderList: dbitems,
@@ -351,6 +601,7 @@ const Add = ({ getPO }) => {
         getDepartment();
         getSupplier();
         getUOM();
+        getPRQNo();
         getItem();
     }, [])
 
@@ -412,43 +663,105 @@ const Add = ({ getPO }) => {
 
                                         <div className="inner-input-divadd">
                                             <label htmlFor="supplierCode">Purchase Requisiton No.</label>
-                                            <input
+                                            {/* <input
                                                 type="text"
                                                 required
                                                 placeholder="Enter Purchase Requisition No."
                                                 value={purchaseReq}
                                                 onChange={(e) => setPurchaseReq(e.target.value)}
-                                            />
+                                            /> */}
+                                            <Select
+                                                sx={{
+                                                    width: '18rem',
+                                                    height: '2rem',
+                                                    borderRadius: '0.5rem',
+                                                    fontSize: 14,
+                                                    '& .MuiSelect-select': {
+                                                        padding: '1px',
+                                                    },
+                                                }}
+                                                value={purchaseReq}
+                                                onChange={(e) => setPurchaseReq(e.target.value)}
+                                                displayEmpty
+                                            >
+                                                <MenuItem disabled value="">
+                                                    Select Purchase Reqisition No.
+                                                </MenuItem>
+
+                                                {PRQList &&
+                                                    PRQList?.map((item, index) => (
+                                                        <MenuItem
+                                                            sx={{
+                                                                fontSize: 14,
+                                                            }}
+                                                            key={item.id}
+                                                            value={item?.purchaseRequisitionNo}
+                                                        >
+                                                            {item?.purchaseRequisitionNo}
+                                                        </MenuItem>
+                                                    ))}
+                                            </Select>
+
                                         </div>
 
-                                        <div className="inner-input-divadd">
-                                            <label htmlFor="Tally Head">Contact No.*</label>
+                                        {/* <div className="inner-input-divadd">
+                                            <label htmlFor="supName">Supplier Name</label>
+                                            <Select
+                                                required
+                                                sx={{
+                                                    width: '18rem',
+                                                    height: '2rem',
+                                                    borderRadius: '0.5rem',
+                                                    fontSize: 14,
+                                                    '& .MuiSelect-select': {
+                                                        padding: '1px',
+                                                    },
+                                                }}
+                                                value={supName}
+                                                onChange={handleSupNameChange}
+                                                displayEmpty
+                                            >
+                                                <MenuItem disabled value="">Select Supplier Name</MenuItem>
+
+                                                {supList && supList?.map((item, index) => {
+                                                    return (
+                                                        <MenuItem
+                                                            sx={{
+                                                                fontSize: 14,
+                                                            }}
+                                                            key={item.id}
+                                                            value={item?.supplierName_en}
+
+                                                        >
+                                                            {item?.supplierName_en}
+
+                                                        </MenuItem>
+                                                    )
+                                                })}
+
+                                            </Select>
+
+                                        </div> */}
+
+
+
+                                        {/* <div className="inner-input-divadd">
+                                            <label htmlFor="pincode">Pincode</label>
                                             <input
-                                                id="talHead"
+                                                id="pincode"
                                                 text="text"
                                                 required
-                                                placeholder='Enter Contact No.'
-                                                value={contactNo}
-                                                onChange={(e) => setContactNo(e.target.value)}
+                                                name="payAmt"
+                                                value={pincode}
+                                                onChange={(e) => setPincode(e.target.value)}
+                                                placeholder='Enter Pincode'
                                             />
-                                        </div>
-
-                                        <div className="inner-input-divadd">
-                                            <label htmlFor="City">City</label>
-                                            <input
-                                                id="city"
-                                                type="text"
-                                                required
-                                                placeholder='Enter City'
-                                                value={city}
-                                                onChange={(e) => setCity(e.target.value)}
-
-                                            />
-
-                                        </div>
+                                        </div> */}
 
 
-                                        <div className="inner-input-divadd">
+
+
+                                        {/* <div className="inner-input-divadd">
 
 
                                             <label>Purchase Order Date</label>
@@ -460,11 +773,11 @@ const Add = ({ getPO }) => {
 
                                             />
 
-                                        </div>
+                                        </div> */}
                                     </div>
 
                                     <div className="main-input-div2">
-                                        <div className="inner-input-divadd">
+                                        {/* <div className="inner-input-divadd">
                                             <label htmlFor="supplierCode">Purchase Order No.</label>
                                             <input
                                                 type="text"
@@ -475,9 +788,9 @@ const Add = ({ getPO }) => {
                                                 value={PONo}
                                                 onChange={(e) => setPONo(e.target.value)}
                                             />
-                                        </div>
+                                        </div> */}
 
-                                        <div className="inner-input-divadd">
+                                        {/* <div className="inner-input-divadd">
                                             <label htmlFor="Tally Head">Department Code*</label>
                                             <Select
                                                 required
@@ -511,10 +824,106 @@ const Add = ({ getPO }) => {
                                                         </MenuItem>
                                                     ))}
                                             </Select>
-                                        </div>
-
+                                        </div> */}
 
                                         <div className="inner-input-divadd">
+                                            <label htmlFor="supName">Supplier Name</label>
+                                            <Select
+                                                required
+                                                sx={{
+                                                    width: '18rem',
+                                                    height: '2rem',
+                                                    borderRadius: '0.5rem',
+                                                    fontSize: 14,
+                                                    '& .MuiSelect-select': {
+                                                        padding: '1px',
+                                                    },
+                                                }}
+                                                value={supName}
+                                                onChange={handleSupNameChange}
+                                                displayEmpty
+                                            >
+                                                <MenuItem disabled value="">Select Supplier Name</MenuItem>
+
+                                                {supList && supList?.map((item, index) => {
+                                                    return (
+                                                        <MenuItem
+                                                            sx={{
+                                                                fontSize: 14,
+                                                            }}
+                                                            key={item.id}
+                                                            value={item?.supplierName}
+
+                                                        >
+                                                            {item?.supplierName}
+
+                                                        </MenuItem>
+                                                    )
+                                                })}
+
+                                            </Select>
+
+                                        </div>
+
+                                        {/* <p style={{ fontSize: '12px' }}>
+                                            Don't see your department?{' '}
+                                            <a href="#" onClick={() => setShowAddDepartment(true)}>Add a new supplier</a>
+                                        </p> */}
+
+                                        <Dialog
+                                            open={showAddDepartment}
+                                            onClose={() => setShowAddDepartment(false)} // Close the modal on cancel or outside click
+                                            aria-labelledby="add-supplier-dialog"
+                                        >
+                                            <DialogTitle id="add-supplier-dialog">Add New Department</DialogTitle>
+                                            <DialogContent>
+                                                <div className="inner-input-div2">
+                                                    <label htmlFor="supplierCode">Department</label>
+                                                    <CustomInput
+                                                        id="supplierCode"
+                                                        placeholder="Enter Supplier Code"
+                                                        value={deptCode}
+                                                        onChange={(e) => setDeptCode(e.target.value)}
+                                                    />
+                                                </div>
+
+                                                <div className="inner-input-div2">
+                                                    <label htmlFor="supplierName">Department Name in English</label>
+                                                    <CustomInput
+                                                        id="supplierName"
+                                                        placeholder="Enter Supplier Name"
+                                                        value={departmentName_en}
+                                                        onChange={(e) => setDepartmentName_en(e.target.value)}
+                                                    />
+                                                </div>
+
+                                                <div className="inner-input-div2">
+                                                    <label htmlFor="supplierNameHindi">Enter Department Name in Hindi</label>
+                                                    <ReactTransliterate
+                                                        placeholder="Enter Supplier Name in Hindi"
+                                                        style={{ ...custominput, width: '32rem' }} // Combine custominput styles with width
+                                                        id="supplierNameHindi"
+                                                        required
+                                                        value={departmentName_hi}
+                                                        onChangeText={(supNameHindi) => setDepartmentName_hi(supNameHindi)}
+                                                        onChange={(e) => setDepartmentName_hi(e.target.value)}
+                                                        lang="hi"
+                                                    />
+                                                </div>
+                                            </DialogContent>
+
+                                            <DialogActions>
+                                                <Button onClick={() => setShowAddDepartment(false)} color="secondary">
+                                                    Cancel
+                                                </Button>
+                                                <Button onClick={handleMasterDeptSubmit} color="primary" disabled={showLoader}>
+                                                    Submit
+                                                </Button>
+                                            </DialogActions>
+                                        </Dialog>
+
+
+                                        {/* <div className="inner-input-divadd">
                                             <label htmlFor="State">State</label>
                                             <input
                                                 id="state"
@@ -525,9 +934,98 @@ const Add = ({ getPO }) => {
                                                 onChange={(e) => setState(e.target.value)}
 
                                             />
-                                        </div>
+                                        </div> */}
+
+
+
+                                        {/* <div className="inner-input-divadd">
+                                            <label htmlFor="Tally Head">Contact No.*</label>
+                                            <input
+                                                id="talHead"
+                                                text="text"
+                                                required
+                                                placeholder='Enter Contact No.'
+                                                value={contactNo}
+                                                onChange={(e) => setContactNo(e.target.value)}
+                                            />
+                                        </div> */}
+
+                                        {/* <div className="inner-input-divadd">
+                                            <label htmlFor="deliveryDate">Delivery Date*</label>
+                                            <input
+                                                id="deliveryDate"
+                                                type="date"
+                                                required
+                                                name="deliveryDate"
+
+                                                onChange={(e) => setDeliveryDate(e.target.value)}
+                                            />
+                                        </div> */}
+                                    </div>
+                                    <div className="main-input-div3">
+
+
+
+                                        {/* <div className="inner-input-divadd">
+                                            <label htmlFor="supplierCode">Department Name</label>
+                                            <Select
+                                                required
+                                                sx={{
+                                                    width: '18rem',
+                                                    height: '2rem',
+                                                    borderRadius: '0.5rem',
+                                                    fontSize: 14,
+                                                    '& .MuiSelect-select': {
+                                                        padding: '1px',
+                                                    },
+                                                }}
+                                                value={deptName}
+                                                onChange={handleDeptNameChange}
+                                                displayEmpty
+                                            >
+                                                <MenuItem disabled value="">Select Department</MenuItem>
+
+                                                {departmentList && departmentList?.map((item, index) => {
+                                                    return (
+                                                        <MenuItem
+                                                            sx={{
+                                                                fontSize: 14,
+                                                            }}
+                                                            key={item.id}
+                                                            value={item?.departmentName_en}
+
+                                                        >
+                                                            {item?.departmentName_en}
+
+                                                        </MenuItem>
+                                                    )
+                                                })}
+
+                                            </Select>
+                                        </div> */}
 
                                         <div className="inner-input-divadd">
+                                            <label>Purchase Order Date</label>
+                                            <input
+                                                type="text"
+                                                required
+                                                value={date}
+                                            />
+                                        </div>
+                                        {/* <div className="inner-input-divadd">
+                                            <label htmlFor="City">City</label>
+                                            <input
+                                                id="city"
+                                                type="text"
+                                                required
+                                                placeholder='Enter City'
+                                                value={city}
+                                                onChange={(e) => setCity(e.target.value)}
+
+                                            />
+                                        </div> */}
+
+                                        {/* <div className="inner-input-divadd">
                                             <label htmlFor="contactPerson">Contact Person Name(Staff)</label>
                                             <input
                                                 id="contactPerson"
@@ -538,15 +1036,27 @@ const Add = ({ getPO }) => {
                                                 onChange={(e) => setContactPerson(e.target.value)}
 
                                             />
-                                        </div>
 
+                                        </div> */}
 
+                                        {/* <div className="inner-input-divadd">
+                                            <label htmlFor="Company Location">Remark</label>
+                                            <input
+                                                id="payAmt"
+                                                text="text"
+                                                name="payAmt"
+                                                value={remark}
+                                                onChange={(e) => setRemark(e.target.value)}
+                                                placeholder='Enter Remark'
+                                            />
+                                        </div> */}
 
                                     </div>
 
-                                    <div className="main-input-div3">
+                                    <div className="main-input-div4">
 
-                                        <div className="inner-input-divadd">
+
+                                        {/* <div className="inner-input-divadd">
                                             <label htmlFor="supplierCode">Supplier Code*</label>
                                             <Select
                                                 required
@@ -580,72 +1090,80 @@ const Add = ({ getPO }) => {
                                                         </MenuItem>
                                                     ))}
                                             </Select>
-                                        </div>
+                                        </div> */}
 
                                         <div className="inner-input-divadd">
-                                            <label htmlFor="supplierCode">Department Name</label>
+                                            <label htmlFor="Company Location">Remark</label>
                                             <input
-                                                type="text"
-                                                id="supType"
-                                                required
-                                                name="supType"
-                                                placeholder="Enter Department Name"
-                                                value={deptName}
-                                                onChange={(e) => setDeptName(e.target.value)}
-                                            />
-                                        </div>
-
-
-
-
-
-                                        <div className="inner-input-divadd">
-                                            <label htmlFor="pincode">Pincode</label>
-                                            <input
-                                                id="pincode"
+                                                id="payAmt"
                                                 text="text"
-                                                required
                                                 name="payAmt"
-                                                value={pincode}
-                                                onChange={(e) => setPincode(e.target.value)}
-                                                placeholder='Enter Pincode'
+                                                value={remark}
+                                                onChange={(e) => setRemark(e.target.value)}
+                                                placeholder='Enter Remark'
                                             />
                                         </div>
 
+                                        {/* <p style={{ fontSize: '12px' }}>
+                                            Don't see your supplier?{' '}
+                                            <a href="#" onClick={() => setShowAddSupplier(true)}>Add a new supplier</a>
+                                        </p> */}
+
+                                        {/* Supplier Form Dialog (Pop-up) */}
+                                        <Dialog
+                                            open={showAddSupplier}
+                                            onClose={() => setShowAddSupplier(false)} // Close the modal on cancel or outside click
+                                            aria-labelledby="add-supplier-dialog"
+                                        >
+                                            <DialogTitle id="add-supplier-dialog">Add New Supplier</DialogTitle>
+                                            <DialogContent>
+                                                <div className="inner-input-div2">
+                                                    <label htmlFor="supplierCode">Supplier Code</label>
+                                                    <CustomInput
+                                                        id="supplierCode"
+                                                        placeholder="Enter Supplier Code"
+                                                        value={supCode}
+                                                        onChange={(e) => setSupCode(e.target.value)}
+                                                    />
+                                                </div>
+
+                                                <div className="inner-input-div2">
+                                                    <label htmlFor="supplierName">Supplier Name in English</label>
+                                                    <CustomInput
+                                                        id="supplierName"
+                                                        placeholder="Enter Supplier Name"
+                                                        value={supNameEnglish}
+                                                        onChange={(e) => setSupNameEnglish(e.target.value)}
+                                                    />
+                                                </div>
+
+                                                <div className="inner-input-div2">
+                                                    <label htmlFor="supplierNameHindi">Enter Supplier Name in Hindi</label>
+                                                    <ReactTransliterate
+                                                        placeholder="Enter Supplier Name in Hindi"
+                                                        style={{ ...custominput, width: '32rem' }} // Combine custominput styles with width
+                                                        id="supplierNameHindi"
+                                                        required
+                                                        value={supNameHindi}
+                                                        onChangeText={(supNameHindi) => setSupNameHindi(supNameHindi)}
+                                                        onChange={(e) => setSupNameHindi(e.target.value)}
+                                                        lang="hi"
+                                                    />
+                                                </div>
+                                            </DialogContent>
+
+                                            <DialogActions>
+                                                <Button onClick={() => setShowAddSupplier(false)} color="secondary">
+                                                    Cancel
+                                                </Button>
+                                                <Button onClick={handleMasterSupSubmit} color="primary" disabled={showLoader}>
+                                                    Submit
+                                                </Button>
+                                            </DialogActions>
+                                        </Dialog>
 
 
-
-                                        <div className="inner-input-divadd">
-                                            <label htmlFor="ContactNo">Contact No.(Staff)</label>
-                                            <input
-                                                id="contactNo"
-                                                text="text"
-                                                required
-                                                name="contactNo"
-                                                value={contactNoStaff}
-                                                onChange={(e) => setContactNoStaff(e.target.value)}
-                                                placeholder='Enter Contact No.'
-                                            />
-                                        </div>
-
-                                    </div>
-
-                                    <div className="main-input-div4">
-
-                                        <div className="inner-input-divadd">
-                                            <label htmlFor="supName">Supplier Name</label>
-                                            <input
-                                                id="address"
-                                                type="text"
-                                                required
-                                                value={supName}
-                                                onChange={(e) => setSupName(e.target.value)}
-                                                placeholder="Enter Supplier Name"
-                                            />
-
-                                        </div>
-
-                                        <div className="inner-input-divadd">
+                                        {/* <div className="inner-input-divadd">
                                             <label htmlFor="Company Location">Address</label>
                                             <input
                                                 id="address"
@@ -656,33 +1174,25 @@ const Add = ({ getPO }) => {
                                                 placeholder='Enter Address'
 
                                             />
-                                        </div>
+                                        </div> */}
 
 
-                                        <div className="inner-input-divadd">
-                                            <label htmlFor="deliveryDate">Delivery Date*</label>
+
+
+                                        {/* <div className="inner-input-divadd">
+                                            <label htmlFor="ContactNo">Contact No.(Staff)</label>
                                             <input
-                                                id="deliveryDate"
-                                                type="date"
-                                                required
-                                                name="deliveryDate"
-
-                                                onChange={(e) => setDeliveryDate(e.target.value)}
-                                            />
-                                        </div>
-
-                                        <div className="inner-input-divadd">
-                                            <label htmlFor="Company Location">Remark</label>
-                                            <input
-                                                id="payAmt"
+                                                id="contactNo"
                                                 text="text"
                                                 required
-                                                name="payAmt"
-                                                value={remark}
-                                                onChange={(e) => setRemark(e.target.value)}
-                                                placeholder='Enter Remark'
+                                                name="contactNo"
+                                                value={contactNoStaff}
+                                                onChange={(e) => setContactNoStaff(e.target.value)}
+                                                placeholder='Enter Contact No.'
                                             />
-                                        </div>
+                                        </div> */}
+
+
 
                                     </div>
                                 </div>
@@ -738,17 +1248,19 @@ const Add = ({ getPO }) => {
 
                                             <TableHead>
                                                 <TableRow >
-                                                    <TableCell style={{ width: '15%' }}>
-                                                        Item No.
-                                                    </TableCell>
-                                                    <TableCell style={{ width: '15%' }} align="center">Item Name</TableCell>
-                                                    <TableCell style={{ width: '10%' }} align="center">HSN</TableCell>
-                                                    <TableCell style={{ width: '10%' }} align="center">UOM</TableCell>
+                                                    {/* <TableCell style={{ width: '15%' }}>
+                                                        Item No. {" "}
+                                                        <a href="#" onClick={() => setShowAddItem(true)}>Add Items</a>
+                                                    </TableCell> */}
+                                                    <TableCell align="center">Item Name</TableCell>
+                                                    <TableCell align="center">UOM {" "}
+                                                        <a href="#" onClick={() => setShowAddUMO(true)}>Add UOM</a></TableCell>
                                                     <TableCell align="center">Quantity</TableCell>
-                                                    <TableCell align="center">Price (Rs.) </TableCell>
+                                                    <TableCell align="center">Available Quantity</TableCell>
+                                                    {/* <TableCell align="center">Price (Rs.) </TableCell>
                                                     <TableCell align="center">Discount (%)</TableCell>
                                                     <TableCell align="center">GST (%)</TableCell>
-                                                    <TableCell align="center">Total</TableCell>
+                                                    <TableCell align="center">Total</TableCell> */}
 
 
                                                 </TableRow>
@@ -756,7 +1268,7 @@ const Add = ({ getPO }) => {
                                             <TableBody>
                                                 {dbitems.map((item, idx) => (
                                                     <TableRow key={idx}>
-                                                        <TableCell
+                                                        {/* <TableCell
                                                             style={{
                                                                 paddingInline: 0,
                                                             }}
@@ -767,31 +1279,47 @@ const Add = ({ getPO }) => {
                                                                 value={itemList.find((item) => item.itemCode === item.itemNo)}
                                                                 onChange={(newValue) => handleInputChange(idx, 'itemNo', newValue ? newValue.itemCode : '')}
                                                                 options={itemList}
-                                                                getOptionLabel={(option) => option.itemCode}
+                                                                getOptionLabel={(option) => option.itemNameEnglish}
                                                                 getOptionValue={(option) => option.itemCode}
                                                             />
-                                                        </TableCell>
-
-
+                                                        </TableCell> */}
 
                                                         <TableCell>
-                                                            <CustomTableInput
+                                                            <Select
                                                                 required
-                                                                type="text"
-                                                                value={item.itemName}
-
+                                                                sx={{
+                                                                    width: '100%',
+                                                                    fontSize: 14,
+                                                                    '& .MuiSelect-select': {
+                                                                        padding: '1px',
+                                                                    },
+                                                                }}
+                                                                value={item.itemName || ''} // Use itemName here
                                                                 onChange={(e) => handleInputChange(idx, 'itemName', e.target.value)}
-                                                            />
+                                                                displayEmpty
+                                                            >
+                                                                <MenuItem value="" disabled>Select Item</MenuItem>
+                                                                {Array.isArray(itemList) &&
+                                                                    itemList.map((itemOption) => (
+                                                                        <MenuItem
+                                                                            key={itemOption.id}
+                                                                            value={itemOption.item_name} // Use item_name as value
+                                                                            sx={{ fontSize: 14 }}
+                                                                        >
+                                                                            {itemOption.item_name}
+                                                                        </MenuItem>
+                                                                    ))}
+                                                            </Select>
                                                         </TableCell>
 
-                                                        <TableCell>
+                                                        {/* <TableCell>
                                                             <CustomTableInput
                                                                 required
                                                                 type="text"
                                                                 value={item.HSN}
                                                                 onChange={(e) => handleInputChange(idx, 'HSN', e.target.value)}
                                                             />
-                                                        </TableCell>
+                                                        </TableCell> */}
 
                                                         <TableCell
                                                             style={{
@@ -853,6 +1381,15 @@ const Add = ({ getPO }) => {
                                                         <TableCell align="center">
                                                             <CustomTableInput
                                                                 required
+                                                                disabled
+                                                                value={item.availableQuantity}
+                                                                onChange={(e) => handleInputChange(idx, 'availableQuantity', e.target.value)}
+                                                            />
+                                                        </TableCell>
+
+                                                        {/* <TableCell align="center">
+                                                            <CustomTableInput
+                                                                required
                                                                 type="text"
                                                                 value={item.price}
                                                                 onChange={(e) => handleInputChange(idx, 'price', e.target.value)}
@@ -887,7 +1424,7 @@ const Add = ({ getPO }) => {
                                                                 value={Number(item.total).toFixed(2)}
                                                             />
 
-                                                        </TableCell>
+                                                        </TableCell> */}
                                                         {idx > 0 && (
                                                             <IconButton
                                                                 sx={{
@@ -904,7 +1441,7 @@ const Add = ({ getPO }) => {
                                                     </TableRow>
                                                 ))}
 
-                                                <TotalAmountRow totalAmount={totalAmount} />
+                                                {/* <TotalAmountRow totalAmount={totalAmount} /> */}
 
                                             </TableBody>
                                         </Table>
@@ -938,6 +1475,98 @@ const Add = ({ getPO }) => {
                                 </div>
 
                             </form>
+
+                            <Dialog
+                                open={showAddItem}
+                                onClose={() => setShowAddItem(false)} // Close the modal on cancel or outside click
+                                aria-labelledby="add-supplier-dialog"
+                            >
+                                <DialogTitle id="add-supplier-dialog">Add New Items</DialogTitle>
+                                <DialogContent>
+                                    <div className="inner-input-div2">
+                                        <label htmlFor="supplierCode">Item Code</label>
+                                        <CustomInput
+                                            id="supplierCode"
+                                            placeholder="Enter Supplier Code"
+                                            value={itemsCode}
+                                            onChange={(e) => setItemsCode(e.target.value)}
+                                        />
+                                    </div>
+
+                                    <div className="inner-input-div2">
+                                        <label htmlFor="supplierName">Itme Name in English</label>
+                                        <CustomInput
+                                            id="supplierName"
+                                            placeholder="Enter Item Name"
+                                            value={itemNameEnglish}
+                                            onChange={(e) => setItemNameEnglish(e.target.value)}
+                                        />
+                                    </div>
+
+                                    <div className="inner-input-div2">
+                                        <label htmlFor="supplierNameHindi">Enter Item Name in Hindi</label>
+                                        <ReactTransliterate
+                                            placeholder="Enter Item Name in Hindi"
+                                            style={{ ...custominput, width: '32rem' }} // Combine custominput styles with width
+                                            id="supplierNameHindi"
+                                            required
+                                            value={itemNameHindi}
+                                            onChangeText={(supNameHindi) => setItemNameHindi(supNameHindi)}
+                                            onChange={(e) => setItemNameHindi(e.target.value)}
+                                            lang="hi"
+                                        />
+                                    </div>
+                                </DialogContent>
+
+                                <DialogActions>
+                                    <Button onClick={() => setShowAddItem(false)} color="secondary">
+                                        Cancel
+                                    </Button>
+                                    <Button onClick={handleMasterItemSubmit} color="primary" disabled={showLoader}>
+                                        Submit
+                                    </Button>
+                                </DialogActions>
+                            </Dialog>
+
+                            <Dialog
+                                open={showAddUMO}
+                                onClose={() => setShowAddUMO(false)} // Close the modal on cancel or outside click
+                                aria-labelledby="add-supplier-dialog"
+                            >
+                                <DialogTitle id="add-supplier-dialog">Add New UMO</DialogTitle>
+                                <DialogContent>
+                                    <div className="inner-input-div2">
+                                        <label htmlFor="supplierCode">UMO Code</label>
+                                        <CustomInput
+                                            id="supplierCode"
+                                            placeholder="Enter Supplier Code"
+                                            style={{ width: '32rem' }}
+                                            value={UMOCode}
+                                            onChange={(e) => setUMOCode(e.target.value)}
+                                        />
+                                    </div>
+
+                                    <div className="inner-input-div2">
+                                        <label htmlFor="supplierName">UMO Name</label>
+                                        <CustomInput
+                                            id="supplierName"
+                                            placeholder="Enter Supplier Name"
+                                            value={UMOName}
+                                            onChange={(e) => setUMOName(e.target.value)}
+                                        />
+                                    </div>
+
+                                </DialogContent>
+
+                                <DialogActions>
+                                    <Button onClick={() => setShowAddUMO(false)} color="secondary">
+                                        Cancel
+                                    </Button>
+                                    <Button onClick={handleMasterUMOSubmit} color="primary" disabled={showLoader}>
+                                        Submit
+                                    </Button>
+                                </DialogActions>
+                            </Dialog>
 
 
                         </div>

@@ -81,6 +81,16 @@ const Adjust = ({ stockData, open, close, getStock, isData, getInventory }) => {
 
     };
 
+    useEffect(() => {
+        if (openingQuantity && showQuantity) {
+            let calculatedQuantity = parseInt(openingQuantity) + parseInt(showQuantity);
+            if (adjustmentType === 'reduce') {
+                calculatedQuantity = parseInt(openingQuantity) - parseInt(showQuantity);
+            }
+            setStockQuantity(calculatedQuantity);
+        }
+    }, [openingQuantity, adjustmentType, showQuantity]);
+
     const handleAdjust = async (e, newQuantity) => {
         try {
 
@@ -173,7 +183,6 @@ const Adjust = ({ stockData, open, close, getStock, isData, getInventory }) => {
                                         <div style={{ marginTop: '1rem' }}>
                                             <span><b>OPENING QUANTITY</b></span> <br />
                                             <div style={{ display: 'flex' }}>
-
                                                 <CustomInput
                                                     required
                                                     type="text"
@@ -181,9 +190,7 @@ const Adjust = ({ stockData, open, close, getStock, isData, getInventory }) => {
                                                     value={openingQuantity}
                                                     onChange={(e) => setOpeningQuantity(e.target.value)}
                                                 />
-
                                             </div>
-
                                         </div>
                                         <div style={{ marginTop: '2rem' }}>
                                             <span><b>ADD OR REDUCE STOCK</b></span>

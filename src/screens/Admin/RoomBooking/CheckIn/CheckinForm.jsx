@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { serverInstance } from '../../../../API/ServerInstance';
 import InputBase from '@mui/material/InputBase';
 import Swal from 'sweetalert2';
-import { MenuItem, Select, Box, Typography, Button } from '@mui/material';
+import { MenuItem, Select, Box, Typography, Button, Grid } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
@@ -142,6 +142,23 @@ function CheckinForm({
   const [fullname, setfullname] = useState('');
   const [email, setemail] = useState('');
   const [phoneno, setphoneno] = useState('');
+  const [countryCode, setCountryCode] = useState('+91'); // Default country code
+  const [isCustomCode, setIsCustomCode] = useState(false); // Track if custom code is selected
+  const [customCode, setCustomCode] = useState(''); // Custom country code input
+
+  const handleCountryCodeChange = (event) => {
+    const value = event.target.value;
+    if (value === 'custom') {
+      setIsCustomCode(true); // Enable custom input field
+    } else {
+      setIsCustomCode(false);
+      setCountryCode(value);
+    }
+  };
+
+  const handleCustomCodeChange = (event) => {
+    setCustomCode(event.target.value);
+  };
   const [address, setaddress] = useState('');
   const [city, setcity] = useState('');
   const [state, setstate] = useState('');
@@ -189,12 +206,18 @@ function CheckinForm({
   let result = [];
   const handlesubmit = async () => {
     setSaveButtonDisabled(true);
-
+  
     try {
+      // Ensure unique room numbers
+      const uniqueRoomno = [...new Set(roomno)]; // Remove duplicates from roomno
+  
+      console.log("getting room count ", uniqueRoomno.length); // Updated room count based on unique rooms
+      console.log("getting room list ", roomlist);
+  
       let dataa = {
         dharamshalaname: dharamshalaname,
         chlidremc: Children,
-        roomcount: roomno,
+        roomcount: uniqueRoomno.length, // Use unique room count
         cateDetails: cateDetails,
         dDetails: dDetails,
         memale: maleno,
@@ -210,10 +233,11 @@ function CheckinForm({
           hour12: false,
         }),
         dharamshala: roomlist,
-        nRoom: result.length,
-        roomList: result,
+        nRoom: uniqueRoomno.length, // Use unique room number count
+        roomList: uniqueRoomno, // Send only unique room numbers
         days: staydays,
       };
+  
       if (fullname && phoneno && address && idproff && idproffname) {
         setshowprocess(true);
         serverInstance('room/checkin', 'post', {
@@ -231,10 +255,10 @@ function CheckinForm({
           advanceAmount: Number(mainAvanceRate)
             ? Number(staydays) > 1
               ? (Number(staydays) > 1
-                  ? roomno.length * mainAvanceRate +
-                    roomno.length * Number(mainRate) * Number(staydays - 1)
-                  : roomno.length * mainAvanceRate) / roomno.length
-              : (roomno.length * mainAvanceRate) / roomno.length
+                  ? uniqueRoomno.length * mainAvanceRate +
+                    uniqueRoomno.length * Number(mainRate) * Number(staydays - 1)
+                  : uniqueRoomno.length * mainAvanceRate) / uniqueRoomno.length
+              : (uniqueRoomno.length * mainAvanceRate) / uniqueRoomno.length
             : 0,
           state: state,
           proof: idproffname,
@@ -253,8 +277,8 @@ function CheckinForm({
             second: '2-digit',
             hour12: false,
           }),
-          nRoom: roomno.length,
-          roomList: roomno,
+          nRoom: uniqueRoomno.length, // Use unique room number count
+          roomList: uniqueRoomno, // Send only unique room numbers
           extraM: '',
         }).then((res) => {
           if (res.data && res.data.status === true) {
@@ -266,6 +290,9 @@ function CheckinForm({
                 checkindata: dataa,
               },
             });
+          } else {
+            Swal.fire('Error!', res.data.message, 'error');
+            setshowprocess(false);
           }
           if (res.message) {
             Swal.fire('Error!', res.message, 'error');
@@ -273,7 +300,7 @@ function CheckinForm({
           }
         });
       }
-
+  
       setTimeout(() => {
         setSaveButtonDisabled(false);
       }, 5000);
@@ -281,6 +308,7 @@ function CheckinForm({
       // Swal.fire('Error!', error, 'error');
     }
   };
+  
 
   const getDonatedUserDetails = () => {
     serverInstance(`room/checkin-history-by-num/${phoneno}`, 'get').then(
@@ -376,6 +404,8 @@ function CheckinForm({
 
     if (!phoneno) {
       errors.mobile = 'Mobile is required';
+    }else if(countryCode === '+91' && phoneno && phoneno.length < 10){
+      errors.mobile = "Number must be at least 10 digits"
     }
 
     if (!address) {
@@ -481,42 +511,13 @@ function CheckinForm({
       </Box>
       <div
         className="cash-donation-div"
-        style={{ height: '33rem', overflowY: 'scroll', paddingTop: '32rem' }}
+        style={{ height: '33rem', overflowY: 'scroll',paddingTop: roomlist ? '30rem' : '20rem'}}
       >
         <>
           <div className="cash-donation-contddainer-innser">
             <div className="main_div_checkindddd_div">
               <div className="cash-donation-container-innser10">
                 <>
-                  <div className="date_and_time_div">
-                    <div className="inpur_div_room">
-                      <label htmlFor="donation-time">Date</label>
-                      <CustomInput
-                        disabled={true}
-                        style={{ width: '80%' }}
-                        type="date"
-                        required
-                        id="donation-time"
-                        name="date"
-                        value={date}
-                        onChange={(e) => setdate(e.target.value)}
-                      />
-                    </div>
-
-                    <div className="inpur_div_room">
-                      <label htmlFor="donation-time">Time</label>
-                      <CustomInput
-                        disabled={true}
-                        style={{ width: '100%' }}
-                        id="donation-time"
-                        type="time"
-                        required
-                        name="time"
-                        value={time}
-                        onChange={(e) => settime(e.target.value)}
-                      />
-                    </div>
-                  </div>
                   <div className="form-div" style={{ marginBottom: '1rem' }}>
                     <div className="form-input-div_add_user">
                       <div className="inner-input-div2">
@@ -725,6 +726,44 @@ function CheckinForm({
               </div>
               <div style={{ padding: '1rem' }}>
                 <div className="minddle_div_room">
+                <Grid item xs={8} md={2}>
+              Country Code
+              {!isCustomCode ? (
+                <Select
+                  value={countryCode}
+                  onChange={handleCountryCodeChange}
+                  fullWidth
+                  variant="outlined"
+                  style={{ height: '36px' }}
+                >
+                  <MenuItem value="+1">+1 (USA)</MenuItem>
+                  <MenuItem value="+91">+91 (India)</MenuItem>
+                  <MenuItem value="+44">+44 (UK)</MenuItem>
+                  <MenuItem value="+61">+61 (Australia)</MenuItem>
+                  <MenuItem value="+81">+81 (Japan)</MenuItem>
+                  <MenuItem value="+86">+86 (China)</MenuItem>
+                  <MenuItem value="+49">+49 (Germany)</MenuItem>
+                  <MenuItem value="+33">+33 (France)</MenuItem>
+                  <MenuItem value="+39">+39 (Italy)</MenuItem>
+                  <MenuItem value="+55">+55 (Brazil)</MenuItem>
+                  <MenuItem value="+7">+7 (Russia)</MenuItem>
+                  <MenuItem value="+27">+27 (South Africa)</MenuItem>
+                  <MenuItem value="+34">+34 (Spain)</MenuItem>
+                  <MenuItem value="+52">+52 (Mexico)</MenuItem>
+                  <MenuItem value="+62">+62 (Indonesia)</MenuItem>
+                  <MenuItem value="custom">Enter Custom Code</MenuItem>
+                </Select>
+              ) : (
+                <CustomInput
+                  value={customCode}
+                  onChange={handleCustomCodeChange}
+                  placeholder="Enter custom code"
+                  fullWidth
+                  variant="outlined"
+                  style={{ height: '36px' }}
+                />
+              )}
+            </Grid>
                   <div className="minddle_div_room_innear">
                     <label htmlFor="phoneno">Mobile Number</label>
                     <CustomInput

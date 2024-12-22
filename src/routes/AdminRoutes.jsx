@@ -227,6 +227,7 @@ import StoreMaster from '../screens/Admin/masters/StoreMasters/StoreTab'
 
 import DuplicateRoomReceipt from '../screens/Admin/RoomBooking/RoomBookingReports/DuplicateRoomReceipt';
 import SalSlip from '../screens/Admin/HR/hr/screens/EmpSalary/Components/Print/SalSlip';
+import Master from '../screens/Admin/Store/Master';
 function AdminRoutes({ setopendashboard, setshowreciept }) {
   const [addleftmargin, setaddleftmargin] = useState(false);
   return (
@@ -1492,6 +1493,14 @@ function AdminRoutes({ setopendashboard, setshowreciept }) {
           element={
             <Adminprivateroute>
               <RequirementsRaise setopendashboard={setopendashboard} />
+            </Adminprivateroute>
+          }
+        />
+        <Route
+          path="/admin-panel/store/master"
+          element={
+            <Adminprivateroute>
+              <Master setopendashboard={setopendashboard} />
             </Adminprivateroute>
           }
         />

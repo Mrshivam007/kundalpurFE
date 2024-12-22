@@ -150,7 +150,7 @@ const GuestInRoom = ({ setopendashboard }) => {
                   '&:last-child td, &:last-child th': { border: 0 },
                 }}
               >
-                <TableCell>male</TableCell>
+                <TableCell>Male</TableCell>
                 <TableCell>
                   {isData[0]?.male === null ? '0' : isData[0]?.male}
                 </TableCell>
@@ -160,7 +160,7 @@ const GuestInRoom = ({ setopendashboard }) => {
                   '&:last-child td, &:last-child th': { border: 0 },
                 }}
               >
-                <TableCell>female</TableCell>
+                <TableCell>Female</TableCell>
                 <TableCell>
                   {isData[0]?.female === null ? '0' : isData[0]?.female}
                 </TableCell>
@@ -170,7 +170,7 @@ const GuestInRoom = ({ setopendashboard }) => {
                   '&:last-child td, &:last-child th': { border: 0 },
                 }}
               >
-                <TableCell>child</TableCell>
+                <TableCell>Child</TableCell>
                 <TableCell>
                   {isData[0]?.child === null ? '0' : isData[0]?.child}
                 </TableCell>

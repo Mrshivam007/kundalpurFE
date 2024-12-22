@@ -1,6 +1,7 @@
 import React ,{useEffect}from 'react'
 import InvoiceSubTab from './InvoiceSubtab'
 import StoreTab from '../StoreTab'
+import Suppliers from './Suppliers/Suppliers'
 
 const Invoice = ({ setopendashboard }) => {
 
@@ -13,7 +14,8 @@ const Invoice = ({ setopendashboard }) => {
       <StoreTab />
       <div className='dashboarddiv'>
 
-        <InvoiceSubTab setopendashboard={setopendashboard} />
+        {/* <InvoiceSubTab setopendashboard={setopendashboard} /> */}
+        <Suppliers />
       </div>
     </>
   )

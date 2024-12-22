@@ -26,13 +26,18 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Swal from "sweetalert2";
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import Fade from '@mui/material/Fade';
 import { useNavigate } from "react-router-dom";
 import Edit from '../../../../../../../assets/Edit.png';
 import Delete from '../../../../../../../assets/Delete.png';
+import DownloadIcon from '@mui/icons-material/Download';
 import PaymentIn from '../Add/PaymentIn'
 import GateEntry from "../GateEntry/GateEntry";
 import { serverInstance } from "../../../../../../../API/ServerInstance";
 import UpdatePO from "../Add/UpdatePO";
+import ModalPurchaseOrder from "../../../../../Reciept/ModelPurchaseOrder";
 
 
 
@@ -53,6 +58,15 @@ export default function Tabl({ getPO, isData, searchData, componentRef }) {
   const [rowsPerPage, setRowsPerPage] = useState(25);
   const [page, setPage] = useState(0);
 
+  const [datasend, setdatasend] = useState('');
+  const [open60, setOpen60] = React.useState(false);
+
+  const handleOpen60 = (data) => {
+    setOpen60(true);
+    setdatasend(data);
+  };
+  const handleClose60 = () => setOpen60(false);
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -64,6 +78,21 @@ export default function Tabl({ getPO, isData, searchData, componentRef }) {
   };
 
   console.log('isData', isData)
+
+  const style50 = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    width: '80%',
+    height: '95%',
+    overflow: 'auto',
+    transform: 'translate(-50%, -50%)',
+    bgcolor: 'background.paper',
+    p: 2,
+  
+    boxShadow: 24,
+    borderRadius: '0px',
+  };
 
   const handleEdit = (data) => {
     setOpenEdit(true);
@@ -150,6 +179,25 @@ export default function Tabl({ getPO, isData, searchData, componentRef }) {
       {gateEntryShow && <GateEntry GEData={GEData} open={gateEntryShow} onClose={handleGateEntryClose} />}
       <div className="wrapper_abc" ref={componentRef}>
 
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open60}
+        onClose={handleClose60}
+        closeAfterTransition
+      >
+        <Fade in={open60}>
+          <Box sx={style50}>
+            <ModalPurchaseOrder
+              // setopendashboard={setopendashboard}
+              handleClose60={handleClose60}
+              datasend={datasend}
+              // setshowreciept={setshowreciept}
+            />
+          </Box>
+        </Fade>
+      </Modal>
+
 
         <Dialog
           open={openDelete}
@@ -187,13 +235,13 @@ export default function Tabl({ getPO, isData, searchData, componentRef }) {
               <TableCell>Supplier Name </TableCell>
               <TableCell>Department Code</TableCell>
               <TableCell>Department Name</TableCell>
-              <TableCell>Address</TableCell>
+              {/* <TableCell>Address</TableCell>
               <TableCell>City</TableCell>
               <TableCell>State</TableCell>
-              <TableCell>Pincode</TableCell>
+              <TableCell>Pincode</TableCell> */}
               <TableCell>Purchase Order Date</TableCell>
-              <TableCell>Deliver Date</TableCell>
-              <TableCell>Contact No.</TableCell>
+              {/* <TableCell>Deliver Date</TableCell> */}
+              {/* <TableCell>Contact No.</TableCell> */}
 
               <TableCell className="sticky-col first-col" id="acts">
                 Action
@@ -213,13 +261,13 @@ export default function Tabl({ getPO, isData, searchData, componentRef }) {
                 <TableCell>{item.supplierName}</TableCell>
                 <TableCell>{item.departmentCode}</TableCell>
                 <TableCell>{item.departmentName}</TableCell>
-                <TableCell>{item.address}</TableCell>
+                {/* <TableCell>{item.address}</TableCell>
                 <TableCell>{item.city}</TableCell>
                 <TableCell>{item.state}</TableCell>
-                <TableCell>{item.pincode}</TableCell>
+                <TableCell>{item.pincode}</TableCell> */}
                 <TableCell>{moment(item.purchaseOrderDate).format('DD/MM/YYYY')}</TableCell>
-                <TableCell>{moment(item.deliveryDate).format('DD/MM/YYYY')}</TableCell>
-                <TableCell>{item.mobileNo}</TableCell>
+                {/* <TableCell>{moment(item.deliveryDate).format('DD/MM/YYYY')}</TableCell> */}
+                {/* <TableCell>{item.mobileNo}</TableCell> */}
 
                 <TableCell>
 
@@ -269,6 +317,15 @@ export default function Tabl({ getPO, isData, searchData, componentRef }) {
                         alt="GateEntry"
                       />
                     </Tooltip>
+                  {item ? (
+                          <DownloadIcon
+                            onClick={() => {
+                              handleOpen60(item);
+                            }}
+                          />
+                        ) : (
+                          <ClearIcon />
+                        )}
                   </div>
 
                 </TableCell>

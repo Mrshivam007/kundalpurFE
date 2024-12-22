@@ -386,7 +386,7 @@ const UpdateChe = ({
               )}
             </Grid>
             <Grid item xs={12} md={6}>
-              <CustomInputLabel required htmlFor="mobile-no">
+              <CustomInputLabel htmlFor="mobile-no">
                 Mobile Number
               </CustomInputLabel>
               <CustomInput

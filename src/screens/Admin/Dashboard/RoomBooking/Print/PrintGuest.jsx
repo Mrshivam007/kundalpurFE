@@ -75,7 +75,7 @@ function PrintGuest({ handleClose, isData }) {
                         '&:last-child td, &:last-child th': { border: 0 },
                       }}
                     >
-                      <td>male</td>
+                      <td>Male</td>
                       <td>
                         {isData[0]?.male === null ? '0' : isData[0]?.male}
                       </td>
@@ -85,7 +85,7 @@ function PrintGuest({ handleClose, isData }) {
                         '&:last-child td, &:last-child th': { border: 0 },
                       }}
                     >
-                      <td>female</td>
+                      <td>Female</td>
                       <td>
                         {isData[0]?.female === null ? '0' : isData[0]?.female}
                       </td>
@@ -95,7 +95,7 @@ function PrintGuest({ handleClose, isData }) {
                         '&:last-child td, &:last-child th': { border: 0 },
                       }}
                     >
-                      <td>child</td>
+                      <td>Child</td>
                       <td>
                         {isData[0]?.child === null ? '0' : isData[0]?.child}
                       </td>

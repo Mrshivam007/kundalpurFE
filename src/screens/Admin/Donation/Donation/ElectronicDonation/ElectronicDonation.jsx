@@ -370,6 +370,7 @@ const ElectronicDonation = ({
     // getall_donatiions();
     // setDonationTypes(typesOfDonation);
     if (updateData) {
+      console.log("getting update data ", updateData);
       setAddress(updateData?.address);
       setFullName(updateData?.name);
       setMobileNo(updateData?.phoneNo);

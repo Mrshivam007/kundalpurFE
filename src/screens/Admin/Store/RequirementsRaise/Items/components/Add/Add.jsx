@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Modal from '@mui/material/Modal'
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
@@ -24,6 +24,7 @@ import { CustomInput, CustomInputLabel, CustomTableInput } from '../common';
 
 
 import './Add.css'
+import { serverInstance } from '../../../../../../../API/ServerInstance'
 
 
 const Add = ({
@@ -42,7 +43,7 @@ const Add = ({
             },
         ]);
     }
-    
+
     function removeDonationItem(item) {
         setDonationItems(
             donationItems.filter((donationItem) => donationItem !== item),
@@ -178,6 +179,33 @@ const Add = ({
     const [show2, setShow2] = useState(false)
     const [showSecondModal, setShowSecondModal] = useState(false);
     const [departmentName, setDepartmentName] = useState('');
+    const [supList, setSupList] = useState([])
+    const [supName, setSupName] = useState('')
+
+    const handleSupNameChange = (e) => {
+        const selectedName = e.target.value;
+        setSupName(selectedName);
+        
+        const selectedSupplier = supList.find(item => item.supplierName_en === selectedName_en);
+
+        if (selectedSupplier) {
+            setSupName(selectedSupplier.supplierName_en);
+        } else {
+            setSupName('');
+        }
+    };
+
+    const getSupplier = async () => {
+        try {
+            const res = await serverInstance('admin/get-supplierName', 'get')
+
+            setSupList(res.data)
+            console.log(res.data)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
 
     const handleShowSecondModal = () => {
         setShowSecondModal(true);
@@ -207,15 +235,13 @@ const Add = ({
         setNext(false);
     };
 
-
-
     const handleShow = () => {
         setStep(1);
         setShow(true);
         setNext(false);
     };
 
- 
+
 
 
     var options = { year: 'numeric', month: 'short', day: '2-digit' };
@@ -228,6 +254,14 @@ const Add = ({
         minute: 'numeric',
         hour12: true,
     });
+
+    useEffect(() => {
+        // getStaff();
+        // getItem();
+        // getDepartment();
+        getSupplier();
+    }, [])
+
 
 
     return (
@@ -300,9 +334,25 @@ const Add = ({
                                                                 padding: '1px',
                                                             },
                                                         }}
-
+                                                        value={supName}
+                                                        onChange={handleSupNameChange}
+                                                        displayEmpty
                                                     >
+                                                        <MenuItem disabled value="">Select Supplier Name</MenuItem>
 
+                                                        {supList && supList?.map((item, index) => {
+                                                            return (
+                                                                <MenuItem
+                                                                    sx={{
+                                                                        fontSize: 14,
+                                                                    }}
+                                                                    key={item.id}
+                                                                    value={item?.supplierName_en}
+                                                                >
+                                                                    {item?.supplierName_en}
+                                                                </MenuItem>
+                                                            )
+                                                        })}
 
                                                     </Select>
                                                 </div>
@@ -622,7 +672,7 @@ const Add = ({
                                     (
 
 
-                                        <form onSubmit={(e)=>e.preventDefault()}>
+                                        <form onSubmit={(e) => e.preventDefault()}>
                                             {/* <form onSubmit={handlesubmit}> */}
                                             <div className="add-div-close-div">
                                                 <h2 clssName="add_text_only">Department User </h2>
@@ -650,9 +700,9 @@ const Add = ({
                                                         <label htmlFor="email">Department Name</label>
                                                         <input
                                                             type="text"
-                                                            
+
                                                             required
-                                                            
+
                                                             placeholder="Enter Department Name"
                                                             value={departmentName}
                                                             onChange={(e) => setDepartmentName(e.target.value)}
@@ -666,7 +716,7 @@ const Add = ({
 
                                             <div className="save-div-btn" style={{ marginTop: '15%' }}>
                                                 <button className="save-div-btn-btn"
-                                                    style={{cursor:"pointer"}}
+                                                    style={{ cursor: "pointer" }}
                                                     disabled={!departmentName}
                                                     onClick={() => setStep(step + 1)}
                                                     type="button"
@@ -695,7 +745,7 @@ const Add = ({
 
 
                                     ) : (
-                                        <form onSubmit={(e)=>e.preventDefault()} >
+                                        <form onSubmit={(e) => e.preventDefault()} >
                                             {/* <form onSubmit={handlesubmit}> */}
                                             <div className="add-div-close-div">
                                                 <h2 clssName="add_text_only">Approve Report </h2>
@@ -736,7 +786,7 @@ const Add = ({
 
                                             </div>
 
-                                            <div className="save-div-btn" style={{ marginTop: '15%' , gap:'2%'}}>
+                                            <div className="save-div-btn" style={{ marginTop: '15%', gap: '2%' }}>
                                                 <button className="save-div-btn-btn"
                                                 // onClick={handlesubmit}
 
@@ -756,7 +806,7 @@ const Add = ({
 
                                                 <button
                                                     type="button"
-                                                    
+
                                                     className="save-div-btn-btn-cancel"
                                                 >
                                                     Send Back
@@ -764,7 +814,7 @@ const Add = ({
 
                                                 <button
                                                     type="button"
-                                                    onClick={() =>handleClose() }
+                                                    onClick={() => handleClose()}
                                                     className="save-div-btn-btn-cancel"
                                                 >
                                                     Cancel

@@ -6,6 +6,7 @@ import Moment from 'moment-js';
 import moment from 'moment';
 import './PrintContent.css';
 import { backendUrl } from '../../../config/config';
+import { serverInstance } from '../../../API/ServerInstance';
 const converter = new Converter(hiIN);
 function PrintContentModalManual({
   setopendashboard,
