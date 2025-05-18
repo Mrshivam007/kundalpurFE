@@ -203,19 +203,17 @@ const ElectronicDonation = ({
         'Authorization'
       ] = `Bearer ${sessionStorage.getItem('token')}`;
 
-      if (!mobileNo) {
-        setNumberError("Number is required");
-        setSaveButtonDisabled(false);
-        setshowloader(false);
-        return;
-      } else if (countryCode === '+91' && mobileNo.length < 10) {
-        setNumberError("Number must be at least 10 digits for India");
-        setSaveButtonDisabled(false);
-        setShowLoader(false);
-        return;
-      } else {
-        setNumberError('');
+      if(!updateData){
+        if (countryCode === '+91' && mobileNo && mobileNo.length < 10) {
+          setNumberError("Number must be at least 10 digits for India");
+          setSaveButtonDisabled(false);
+          setShowLoader(false);
+          return;
+        }else {
+          setNumberError('');
+        }
       }
+
 
       if (!fullName) {
         setFullNameError("FullName is required");
@@ -268,7 +266,7 @@ const ElectronicDonation = ({
             id: updateData?.id,
             name: fullName,
             gender: newMember ? genderp1 : genderp,
-            phoneNo: `${isCustomCode ? customCode : countryCode}${mobileNo}`, // Use customCode if custom is selected
+            phoneNo: `${isCustomCode ? customCode : countryCode}${mobileNo}`.replace(/^(?:\+91)+/, '+91'), // Ensure only one +91 is present
             address: address,
             new_member: newMember,
             modeOfDonation: 1,
@@ -524,7 +522,7 @@ const ElectronicDonation = ({
               )}
             </Grid>
             <Grid item xs={12} md={4}>
-              <CustomInputLabel required htmlFor="mobile-no">
+              <CustomInputLabel htmlFor="mobile-no">
               <Tooltip
                   title={numberError ? numberError : ''}
                   arrow

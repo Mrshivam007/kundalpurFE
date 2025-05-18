@@ -59,6 +59,8 @@ function UDAddForm({ setOpen, updatedata }) {
     const [department, setDepartment] = useState([]);  // Stores department data
     const [departmentName, setDepartmentName] = useState('');
     const [departmentCode, setDepartmentCode] = useState('');
+    const [UOMList, setUOMList] = useState([])
+    const [UOMName, setUOMName] = useState('');
     const [itemName, setItemName] = useState('');
     const [openingStock, setOpeningStock] = useState(0);
     const [currentStock, setCurrentStock] = useState(0);
@@ -83,6 +85,26 @@ function UDAddForm({ setOpen, updatedata }) {
         }
     };
 
+    const getUOM = async () => {
+        try {
+            const res = await serverInstance('admin/get-UOM', 'get')
+
+            setUOMList(res.data)
+            console.log(res.data)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    const handleUOMChange = (e) => {
+        const selectedUOM = e.target.value;
+        const departmentObj = UOMList.find(dept => dept.UOM === selectedUOM);
+
+        if (departmentObj) {
+            setUOMName(departmentObj.UOM);
+        }
+    };
+
 
     const handlesubmit = async () => {
         try {
@@ -94,6 +116,7 @@ function UDAddForm({ setOpen, updatedata }) {
                 department_code: departmentCode,
                 opening_stock: openingStock,
                 current_stock: currentStock,
+                UOM: UOMName,
                 id: updatedata?.id,
             }
             axios.defaults.headers.put[
@@ -132,9 +155,24 @@ function UDAddForm({ setOpen, updatedata }) {
         }
     };
 
+    const handleOpeningStockChange = (e) => {
+        const newOpeningStock = parseFloat(e.target.value) || 0; // Handle NaN gracefully for decimal numbers
+        const changeInStock = newOpeningStock - openingStock; // Calculate the stock change
+        setOpeningStock(newOpeningStock); // Update the opening stock
+        // setCurrentStock((prevCurrentStock) => prevCurrentStock + changeInStock); // Adjust current stock
+    };
+
+    const handleCurrentStockChange = (e) => {
+        const newOpeningStock = parseFloat(e.target.value) || 0; // Handle NaN gracefully for decimal numbers
+        const changeInStock = newOpeningStock - openingStock; // Calculate the stock change
+        setCurrentStock(newOpeningStock); // Update the opening stock
+        // setCurrentStock((prevCurrentStock) => prevCurrentStock + changeInStock); // Adjust current stock
+    };
+
     // Call fetchDepartments on component mount
     useEffect(() => {
         fetchDepartments();
+        getUOM();
     }, []);
 
     useEffect(() => {
@@ -143,6 +181,7 @@ function UDAddForm({ setOpen, updatedata }) {
             setDepartmentName(updatedata?.department_name);
             setDepartmentCode(updatedata?.department_code);
             setOpeningStock(updatedata?.opening_stock);
+            setUOMName(updatedata?.UOM)
             setCurrentStock(updatedata?.current_stock);
         }
     }, []);
@@ -167,6 +206,7 @@ function UDAddForm({ setOpen, updatedata }) {
                         <div className="inner-input-divadd">
                             <label htmlFor="supplierName">Item Name*</label>
                             <input
+                                style={{ width: '200px' }}
                                 type="text"
                                 id="Department Code"
                                 required
@@ -200,6 +240,7 @@ function UDAddForm({ setOpen, updatedata }) {
                         <div className="inner-input-divadd">
                             <label htmlFor="departmentCode">Department Code*</label>
                             <input
+                                style={{ width: '200px' }}
                                 type="text"
                                 id="departmentCode"
                                 required
@@ -211,33 +252,54 @@ function UDAddForm({ setOpen, updatedata }) {
                         </div>
 
                         <div className="inner-input-divadd">
-                            <label htmlFor="supplierName">Item Opening Stock*</label>
+                            <label htmlFor="departmentName">Item UOM*</label>
+                            <Select
+                                labelId="department-select-label"
+                                id="departmentName"
+                                value={UOMName}
+                                onChange={handleUOMChange}
+                                displayEmpty
+                                sx={{
+                                    paddingRight: '50px', marginRight: '20px'
+                                }}
+                            >
+                                <MenuItem value="" disabled>Select UOM</MenuItem>
+                                {UOMList.map((dept) => (
+                                    <MenuItem key={dept.id} value={dept.UOM} sx={{ fontSize: 14 }}>
+                                        {dept.UOM}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </div>
+
+                        <div className="inner-input-divadd">
+                            <label htmlFor="openingStock">Item Opening Stock*</label>
                             <input
+                                style={{ width: "200px" }}
                                 type="number"
-                                id="Department Code"
+                                id="openingStock"
                                 required
-                                name="supplierName"
-                                placeholder="Enter Supplier Name"
+                                name="openingStock"
+                                placeholder="Enter Opening Stock"
                                 value={openingStock}
-                                onChange={(e) => setOpeningStock(e.target.value)}
-                            />
+                                onChange={handleOpeningStockChange}
+                                />
                         </div>
                         <div className="inner-input-divadd">
-                            <label htmlFor="supplierName">Item Current Stock*</label>
+                            <label htmlFor="currentStock">Item Current Stock*</label>
                             <input
+                                style={{ width: "200px" }}
                                 type="number"
-                                id="Department Code"
+                                id="currentStock"
                                 required
-                                name="supplierName"
-                                placeholder="Enter Supplier Name"
+                                name="currentStock"
+                                placeholder="Enter Current Stock"
                                 value={currentStock}
-                                onChange={(e) => setCurrentStock(e.target.value)}
+                                onChange={handleCurrentStockChange}
+                                // disabled // Make this input field read-only
                             />
                         </div>
-
                     </div>
-
-
 
                     <div className="save-div-btn">
                         <button onClick={() => handlesubmit()} className="save-div-btn-btn">

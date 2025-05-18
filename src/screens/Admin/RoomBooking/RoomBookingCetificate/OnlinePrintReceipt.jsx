@@ -72,24 +72,53 @@ const OnlinePrintReceipt = ({ setopendashboard }) => {
     hour12: true,
   });
 
-  let TotalDays;
+  const now = new Date();
+  const actualCheckoutDateTime = new Date(
+    `${isData?.coutDate?.split('T')[0]}T${isData?.coutTime}`
+  );
+  const finalCheckoutDateTime = now < actualCheckoutDateTime ? now : actualCheckoutDateTime;
+
+  const checkInDate = new Date(isData?.date);
+
+  let TotalDays = Math.ceil((finalCheckoutDateTime - checkInDate) / (1000 * 60 * 60 * 24));
 
   const days_diff = Math.floor(
     (today1.getTime() - new Date(isData?.date).getTime()) /
-      (1000 * 3600 * Number(isData?.coTime - 3)),
+    (1000 * 3600 * Number(isData?.coTime - 3)),
   );
 
-  const hours_difference = Math.floor(
-    ((today1.getTime() - new Date(isData?.date).getTime()) / (1000 * 60 * 60)) %
-      Number(isData?.coTime - 3),
-  );
+  // const hours_difference = Math.floor(
+  //   ((today1.getTime() - new Date(isData?.date).getTime()) / (1000 * 60 * 60)) %
+  //   Number(isData?.coTime - 3),
+  // );
 
-  if (days_diff === 0) {
-    TotalDays = days_diff + 1;
-  } else if (days_diff > 0 && hours_difference < 3) {
-    TotalDays = days_diff;
-  } else if (days_diff > 0 && hours_difference >= 3) {
-    TotalDays = days_diff + 1;
+  const dataHour = parseInt(isData?.coutTime?.split(':')[0]) || 0;
+
+  // Get current hour (e.g., 23:19:00 → 23)
+  const currentHour = new Date().getHours();
+
+  // Calculate hour difference: (currentHour - dataHour) - 3
+  let hours_difference = (currentHour - dataHour);
+
+  console.log("day difference ", days_diff);
+  console.log("hour data ", dataHour);
+  console.log("hour current ", currentHour);
+  console.log("hour difference ", hours_difference);
+
+  // if (days_diff === 0) {
+  //   TotalDays = days_diff + 1;
+  // } else if (days_diff > 0 && hours_difference < 3) {
+  //   TotalDays = days_diff;
+  // } else if (days_diff > 0 && hours_difference >= 3) {
+  //   TotalDays = days_diff + 1;
+  // }
+
+  if (TotalDays == 1) {
+    TotalDays = 1
+  } else if (TotalDays > 1 && hours_difference < 3) {
+    TotalDays = TotalDays
+  } else {
+    TotalDays = TotalDays + 1
   }
 
   useEffect(() => {
@@ -193,14 +222,20 @@ const OnlinePrintReceipt = ({ setopendashboard }) => {
                                 style={{ color: 'gray' }}
                                 className="lineheight"
                               >
-                                यात्री का नाम :
+                                मोबाईल न :
                               </p>
+
                               <p
                                 style={{ color: 'gray' }}
                                 className="lineheight"
                               >
-                                पिता/पति श्री :
+                                यात्री का नाम :
                               </p>
+
+                              <p style={{ color: 'gray' }} className="lineheight">
+                                पता-
+                              </p>
+
                             </div>
                             <div className="main_left">
                               <p className="lineheight">
@@ -208,10 +243,14 @@ const OnlinePrintReceipt = ({ setopendashboard }) => {
                               </p>
 
                               <p className="lineheight">
+                                {isData && isData?.contactNo}
+                              </p>
+
+                              <p className="lineheight">
                                 {isData && isData?.name}
                               </p>
                               <p className="lineheight">
-                                {isData && isData?.Fname}
+                                {isData && isData?.address}
                               </p>
                             </div>
                           </div>
@@ -223,12 +262,25 @@ const OnlinePrintReceipt = ({ setopendashboard }) => {
                               >
                                 आगमन दिनांक :
                               </p>
+                              <p
+                                style={{ color: 'gray' }}
+                                className="lineheight"
+                              >
+                                प्रस्थान दिनाँक :
+                              </p>
 
                               <p
                                 style={{ color: 'gray' }}
                                 className="lineheight"
                               >
-                                मोबाईल न :
+                                पिता/पति श्री :
+                              </p>
+
+                              <p
+                                style={{ color: 'gray' }}
+                                className="lineheight"
+                              >
+                                Id Proof :
                               </p>
                             </div>
                             <div className="main_left">
@@ -236,19 +288,20 @@ const OnlinePrintReceipt = ({ setopendashboard }) => {
                                 {currDate}/{convertTime12to24(currTime)}
                               </p>
                               <p className="lineheight">
-                                {isData && isData?.contactNo}
+                                {currDatecheckout}/
+                                {convertTime12to24(currTimecheckout)}
+                              </p>
+                              <p className="lineheight">
+                                {isData && isData?.Fname}
+                              </p>
+                              <p className="lineheight">
+                                {isData && isData?.proof} - {isData && isData?.idNumber}
                               </p>
                             </div>
                           </div>
                         </div>
 
                         <div className="yyy_text_div">
-                          <p style={{ color: 'gray' }} className="lineheight">
-                            पता-
-                          </p>
-                          <p className="lineheight">
-                            {isData && isData?.address}
-                          </p>
 
                           <p className="lineheight">
                             यात्री संख्या- Male: {isData && isData?.male}
@@ -285,6 +338,10 @@ const OnlinePrintReceipt = ({ setopendashboard }) => {
                                 <td className="table_tddd lineheight10">
                                   सहयोग राशि
                                 </td>
+
+                                <td className="table_tddd lineheight10">
+                                  जमा सहयोग राशि
+                                </td>
                                 {/* <td className="table_tddd lineheight10">
                                   अमानत राशि
                                 </td> */}
@@ -313,7 +370,13 @@ const OnlinePrintReceipt = ({ setopendashboard }) => {
                                 </td>
 
                                 <td className="table_tddd lineheight10">
-                                  {Number(isData && isData?.roomAmountSum)}.00
+                                  {Number(isData && isData?.roomAmountSum) * TotalDays}
+                                  .00
+                                </td>
+
+                                <td className="table_tddd lineheight10">
+                                  {Number(isData && isData?.roomAmountSum)}
+                                  .00
                                 </td>
                                 {/* <td className="table_tddd lineheight10">
                                   {Number(isData && isData?.advanceAmount) +

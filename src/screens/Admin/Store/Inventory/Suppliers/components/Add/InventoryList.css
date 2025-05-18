@@ -1,0 +1,27 @@
+.inventory-item-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.inventory-item-field {
+    flex: 1 1 150px;
+    min-width: 150px;
+}
+
+.inventory-item-field label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.inventory-item-field input {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}

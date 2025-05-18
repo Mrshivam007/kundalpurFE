@@ -13,6 +13,7 @@ import { Box, Button } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import CloseIcon from '@mui/icons-material/Close';
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import exportFromJSON from 'export-from-json';
 import Moment from 'moment-js';
 import moment from 'moment';
@@ -30,7 +31,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import RoomShiftForm from '../RoomShift/RoomShiftForm';
+import RoomShiftForm from '../RoomEdit/RoomShiftForm';
 import Printcheckin from './Printcheckin';
 import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
 import ForceCheckoutOptions from './ForceCheckoutOptions';
@@ -128,6 +129,14 @@ const Newcheckin = ({ setopendashboard }) => {
         setchangedata8(data);
       }
     });
+  };
+
+  const [openEdit, setOpenEdit] = React.useState(false);
+  const [changedataEdit, setchangedataEdit] = useState('');
+  const handleCloseEdit = () => setOpenEdit(false);
+  const handleOepnEdit = async (data) => {
+    setOpenEdit(true);
+    setchangedataEdit(data);
   };
 
   console.log('data is', isData);
@@ -272,7 +281,7 @@ const Newcheckin = ({ setopendashboard }) => {
         Staydays: Math.floor(
           (new Date(item?.coutDate).getTime() -
             new Date(item?.date).getTime()) /
-            (1000 * 3600 * 24),
+          (1000 * 3600 * 24),
         ),
         TotalGuest:
           Number(item?.female) + Number(item?.child) + Number(item?.male),
@@ -378,7 +387,7 @@ const Newcheckin = ({ setopendashboard }) => {
     getall_donation();
     setopendashboard(true);
     setuserrole(Number(sessionStorage.getItem('userrole')));
-  }, [open, open1, open3, open4, open8, optionss]);
+  }, [open, open1, open3, open4, open8, openEdit, optionss]);
   const [roomDetails, setroomDetails] = useState('');
   const [dharamId, setdharamId] = useState('');
   const [dDetails, setdDetails] = useState('');
@@ -475,7 +484,7 @@ const Newcheckin = ({ setopendashboard }) => {
         dt?.bookedByName?.indexOf(checkoutBy) > -1 &&
         dt?.address?.toLowerCase().indexOf(address) > -1 &&
         dt?.dharmasalaData?.name?.toLowerCase().indexOf(dharamshalanamee) >
-          -1 &&
+        -1 &&
         dt?.contactNo?.toLowerCase().indexOf(mobileno) > -1,
     );
 
@@ -613,6 +622,40 @@ const Newcheckin = ({ setopendashboard }) => {
               </div>
 
               <ShowAllRooms setOpen={setOpen8} changedata={changedata8} />
+            </div>
+          </Box>
+        </Fade>
+      </Modal>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={openEdit}
+        onClose={handleCloseEdit}
+        closeAfterTransition
+      >
+        <Fade in={openEdit}>
+          <Box sx={style1}>
+            <div>
+              <div className="add-div-close-div">
+                <div>
+                  <h2 style={{ marginBottom: '0.5rem', marginLeft: '1rem' }}>
+                    Room Edit
+                  </h2>
+                  <Typography
+                    style={{ marginLeft: '1rem' }}
+                    variant="body2"
+                    color="primary"
+                  >
+                    {currDate} / {currTime}
+                  </Typography>
+                </div>
+                <IconButton>
+                  <CloseIcon onClick={() => handleCloseEdit()} />
+                </IconButton>
+              </div>
+
+              {/* <ShowAllRooms setOpen={setOpenEdit} changedata={changedataEdit} /> */}
+              <RoomShiftForm setOpen={setOpenEdit} changedata={changedataEdit} />
             </div>
           </Box>
         </Fade>
@@ -1164,11 +1207,11 @@ const Newcheckin = ({ setopendashboard }) => {
                 <>
                   {(rowsPerPage > 0
                     ? isData
-                        ?.reverse()
-                        ?.slice(
-                          page * rowsPerPage,
-                          page * rowsPerPage + rowsPerPage,
-                        )
+                      ?.reverse()
+                      ?.slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage,
+                      )
                     : isData?.reverse()
                   ).map((row, index) => (
                     <TableRow
@@ -1212,13 +1255,13 @@ const Newcheckin = ({ setopendashboard }) => {
                             {Math.floor(
                               (new Date(isData[0]?.coutDate).getTime() -
                                 new Date(isData[0]?.date).getTime()) /
-                                (1000 * 3600 * 27),
+                              (1000 * 3600 * 27),
                             ) != 0
                               ? Math.floor(
-                                  (new Date(isData[0]?.coutDate).getTime() -
-                                    new Date(isData[0]?.date).getTime()) /
-                                    (1000 * 3600 * 27),
-                                )
+                                (new Date(isData[0]?.coutDate).getTime() -
+                                  new Date(isData[0]?.date).getTime()) /
+                                (1000 * 3600 * 27),
+                              )
                               : 1}
                           </p>
                         </div>
@@ -1231,18 +1274,18 @@ const Newcheckin = ({ setopendashboard }) => {
                         </div>
                       </TableCell>
                       <TableCell>
-                      <div style={{ width: '4rem', wordWrap: "break-word" }}>
+                        <div style={{ width: '4rem', wordWrap: "break-word" }}>
                           <p style={{ fontWeight: 300 }}>
-                            {row?.roomNumbers?.length > 0 && 
+                            {row?.roomNumbers?.length > 0 &&
                               (row.roomNumbers.every(item => item === row.roomNumbers[0])
                                 ? <span>{row.roomNumbers[0]}</span> // If all are the same, display only once
                                 : row.roomNumbers.map((item, index) => (
-                                    <span key={index}>{item}{index < row.roomNumbers.length - 1 ? ',' : ''}</span>
-                                  ))
+                                  <span key={index}>{item}{index < row.roomNumbers.length - 1 ? ',' : ''}</span>
+                                ))
                               )
                             }
                           </p>
-                     </div>
+                        </div>
                       </TableCell>
                       <TableCell>
                         <div style={{ width: '2rem' }}>
@@ -1299,9 +1342,9 @@ const Newcheckin = ({ setopendashboard }) => {
                             </Tooltip>
                           </>
                         )}
-                        <Tooltip title="Room Shift">
+                        {/* <Tooltip title="Room Edit">
                           <img
-                            onClick={() => handleOepn8(row)}
+                            onClick={() => handleOepnEdit(row)}
                             src={Edit}
                             alt="print"
                             style={{
@@ -1309,6 +1352,9 @@ const Newcheckin = ({ setopendashboard }) => {
                               marginRight: '0.3rem',
                             }}
                           />
+                        </Tooltip> */}
+                        <Tooltip title="Room Shift">
+                          <SwapHorizIcon sx={{ width: '30px' }} onClick={() => handleOepn8(row)} />
                         </Tooltip>
                         <Tooltip title="All Cancel">
                           <CloseIcon onClick={() => handleClickOpen3(row)} />

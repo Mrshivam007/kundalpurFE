@@ -97,7 +97,6 @@ export default function Tabl({ getPO, isData, searchData, componentRef }) {
   const handleEdit = (data) => {
     setOpenEdit(true);
     setupdatedata(data)
-
   };
 
   const closeEdit = () => {

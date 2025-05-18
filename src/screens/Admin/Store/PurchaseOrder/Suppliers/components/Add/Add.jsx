@@ -32,6 +32,7 @@ import { CustomInput, CustomInputLabel, CustomTableInput } from '../common';
 
 import './Add.css'
 import { serverInstance } from '../../../../../../../API/ServerInstance'
+import ModalPurchaseOrder from '../../../../../Reciept/ModelPurchaseOrder'
 
 
 
@@ -123,6 +124,14 @@ const Add = ({ getPO }) => {
 
 
     const [totalAmount, setTotalAmount] = useState(0);
+    const [datasend, setdatasend] = useState('');
+    const [openDownload, setOpenDownload] = React.useState(false);
+    const handleCloseDownload = () => setOpenDownload(false);
+    const handleOpenDownload = (data) => {
+        setOpenDownload(true);
+        setdatasend(data);
+    };
+
 
 
 
@@ -134,7 +143,19 @@ const Add = ({ getPO }) => {
 
     const converter = new Converter(hiIN);
 
-
+    const style50 = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        width: '80%',
+        height: '95%',
+        overflow: 'auto',
+        transform: 'translate(-50%, -50%)',
+        bgcolor: 'background.paper',
+        p: 2,
+        boxShadow: 24,
+        borderRadius: '0px',
+    };
 
     function addItem() {
         setdbItems([
@@ -540,10 +561,7 @@ const Add = ({ getPO }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
         try {
-
-
             const data = {
                 purchaseRequisitonNo: purchaseReq,
                 // purchaseOrderNo: PONo,
@@ -563,12 +581,13 @@ const Add = ({ getPO }) => {
                 remark: remark,
                 purchaseOrderList: dbitems,
             }
-
             serverInstance('store/add-purchaseOrder', 'post', data).then((res) => {
                 if (res.status) {
                     getPO();
+                    console.log("po r ", res);
+                    handleOpenDownload(res?.data.data)
                     handleClose()
-                    Swal.fire('Great!', res.msg, 'success')
+                    // Swal.fire('Great!', res.msg, 'success')
                 }
 
                 if (res.status === false) {
@@ -610,6 +629,25 @@ const Add = ({ getPO }) => {
 
     return (
         <div>
+
+            <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                open={openDownload}
+                onClose={handleCloseDownload}
+                closeAfterTransition
+            >
+                <Fade in={openDownload}>
+                    <Box sx={style50}>
+                        <ModalPurchaseOrder
+                            // setopendashboard={setopendashboard}
+                            handleClose60={handleCloseDownload}
+                            datasend={datasend}
+                        // setshowreciept={setshowreciept}
+                        />
+                    </Box>
+                </Fade>
+            </Modal>
 
             <Button sx={{
                 borderRadius: '0.5rem',
@@ -1375,7 +1413,6 @@ const Add = ({ getPO }) => {
                                                                 value={item.quantity}
                                                                 onChange={(e) => handleInputChange(idx, 'quantity', e.target.value)}
                                                             />
-
                                                         </TableCell>
 
                                                         <TableCell align="center">

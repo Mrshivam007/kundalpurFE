@@ -39,7 +39,7 @@ const style = {
 };
 
 
-const Inventory = ({ inventoryShow, inventoryItem, onClose }) => {
+const Inventory = ({ inventoryShow, inventoryItem, getGP, onClose }) => {
 
 
     const [show, setShow] = useState(inventoryShow)
@@ -54,6 +54,7 @@ const Inventory = ({ inventoryShow, inventoryItem, onClose }) => {
     const [deptCode, setDeptCode] = useState('')
     const [challanNo, setChallanNo] = useState('')
     const [billNo, setBillNo] = useState('')
+    const [gateEntryNo, setGateEntryNo] = useState('')
     const [addedBy, setAddedBy] = useState('')
     const [supName, setSupName] = useState('')
     const [supCode, setSupCode] = useState('')
@@ -164,10 +165,12 @@ const Inventory = ({ inventoryShow, inventoryItem, onClose }) => {
 
                 FromDepartmentCode: deptCode,
                 FromDepartmentName: deptName,
+                GateEntryId: inventoryItem?.id,
                 SupplierName: supName,
                 SupplierCode: supCode,
                 challanNo: challanNo,
                 billNo: billNo,
+                gateEntryNo: gateEntryNo, 
                 Remark: remark,
                 inventory_list: dbitems
             }
@@ -176,6 +179,7 @@ const Inventory = ({ inventoryShow, inventoryItem, onClose }) => {
 
             if (res.status) {
                 handleClose();
+                getGP();
                 Swal.fire('Great!', res?.msg, 'success')
             } if (res.status === false) {
                 handleClose();
@@ -233,6 +237,7 @@ const Inventory = ({ inventoryShow, inventoryItem, onClose }) => {
             setSupName(inventoryItem?.supplierName);
             setSupCode(inventoryItem?.supplierCode);
             setBillNo(inventoryItem?.billNo);
+            setGateEntryNo(inventoryItem?.gateEntryNo);
             setChallanNo(inventoryItem?.challanNo);
             setDeptCode(inventoryItem?.gateEntryList[0]?.departmentCode);
             setDeptName(inventoryItem?.gateEntryList[0]?.departmentName);
@@ -386,7 +391,6 @@ const Inventory = ({ inventoryShow, inventoryItem, onClose }) => {
                                                 <input
 
                                                     text="text"
-                                                    required
                                                     value={remark}
                                                     placeholder='Enter Remark'
                                                     onChange={(e) => setRemark(e.target.value)}
@@ -573,7 +577,7 @@ const Inventory = ({ inventoryShow, inventoryItem, onClose }) => {
                                                             <TableCell align="center">
                                                                 <CustomTableInput
                                                                     required
-                                                                    type="text"
+                                                                    type="number"
                                                                     value={item.discount}
                                                                     onChange={(e) => handleInputChange(idx, 'discount', e.target.value)}
                                                                 />
@@ -583,7 +587,7 @@ const Inventory = ({ inventoryShow, inventoryItem, onClose }) => {
                                                             <TableCell align="center">
                                                                 <CustomTableInput
                                                                     required
-                                                                    type="text"
+                                                                    type="number"
                                                                     value={item.GST}
                                                                     onChange={(e) => handleInputChange(idx, 'GST', e.target.value)}
                                                                 />

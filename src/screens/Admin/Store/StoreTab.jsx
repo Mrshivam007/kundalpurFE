@@ -149,7 +149,20 @@ const StoreTab = () => {
               Inventory
             </NavLink>
 
-
+            <NavLink
+              to="/admin-panel/store/Reports"
+              className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}
+              style={({ isActive }) => ({
+                background: isActive ? '' : 'transparent',
+              })}
+            >
+              <img
+                style={{ marginRight: '4%', width: '20px' }}
+                src={f1}
+                alt="fast"
+              />
+              Reports
+            </NavLink>
             {/* <NavLink
               to="/admin-panel/store/Stock"
                                       className={({ isActive }) => (isActive ? 'tabs2' : 'tabs1')}

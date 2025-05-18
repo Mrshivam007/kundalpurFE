@@ -20,7 +20,7 @@ const OnlyElectronicAdd = ({ setopendashboard, setshowreciept, onlineId }) => {
     serverInstance(
       `user/donation-receiptElectronic?id=${isData?.id}`,
       'get',
-    ).then((res) => {});
+    ).then((res) => { });
   };
   function printDiv() {
     shareReceipt();
@@ -100,7 +100,7 @@ const OnlyElectronicAdd = ({ setopendashboard, setshowreciept, onlineId }) => {
           <div className="reciptimg">
             {isData?.LedgerNo ? (
               <>
-                <div className="reciptbody" style={{marginBottom:'1rem'}}>
+                <div className="reciptbody" style={{ marginBottom: '1rem' }}>
                   <div className="leftdata">
                     <span className="leftitems">
                       <h2>
@@ -274,20 +274,20 @@ const OnlyElectronicAdd = ({ setopendashboard, setshowreciept, onlineId }) => {
                       {isData && isData?.TYPE
                         ? isData?.TYPE
                         : isData &&
-                          isData.elecItemDetails.map((item) => {
-                            return (
-                              <>
-                                {item?.remark}
-                                {item?.itemType && (
-                                  <>
-                                    ( {item?.itemType}-{item?.quantity}{' '}
-                                    &nbsp;नग&nbsp;
-                                    {item?.size} {item?.unit})
-                                  </>
-                                )}
-                              </>
-                            );
-                          })}
+                        isData.elecItemDetails.map((item) => {
+                          return (
+                            <>
+                              {item?.remark}
+                              {item?.itemType && (
+                                <>
+                                  ( {item?.itemType}-{item?.quantity}{' '}
+                                  &nbsp;नग&nbsp;
+                                  {item?.size} {item?.unit})
+                                </>
+                              )}
+                            </>
+                          );
+                        })}
                     </h2>
                   </span>
                 </>
@@ -307,20 +307,20 @@ const OnlyElectronicAdd = ({ setopendashboard, setshowreciept, onlineId }) => {
                       {isData && isData?.TYPE
                         ? isData?.TYPE
                         : isData &&
-                          isData.elecItemDetails.map((item) => {
-                            return (
-                              <>
-                                {item?.remark}
-                                {item?.itemType && (
-                                  <>
-                                    ( {item?.itemType}-{item?.quantity} &nbsp;नग
-                                    &nbsp;
-                                    {item?.size} {item?.unit} )
-                                  </>
-                                )}
-                              </>
-                            );
-                          })}
+                        isData.elecItemDetails.map((item) => {
+                          return (
+                            <>
+                              {item?.remark}
+                              {item?.itemType && (
+                                <>
+                                  ( {item?.itemType}-{item?.quantity} &nbsp;नग
+                                  &nbsp;
+                                  {item?.size} {item?.unit} )
+                                </>
+                              )}
+                            </>
+                          );
+                        })}
                     </h2>
                   </span>
                 </>
@@ -367,13 +367,13 @@ const OnlyElectronicAdd = ({ setopendashboard, setshowreciept, onlineId }) => {
                   {isData && isData?.REMARK
                     ? isData?.REMARK
                     : isData &&
-                      isData.elecItemDetails.map((item) => {
-                        return (
-                          <>
-                            {item?.remark} ({item?.BankName})
-                          </>
-                        );
-                      })}
+                    isData.elecItemDetails.map((item) => {
+                      return (
+                        <>
+                          {item?.remark} ({item?.BankName})
+                        </>
+                      );
+                    })}
                 </h2>
               </span>
             )}
@@ -388,19 +388,38 @@ const OnlyElectronicAdd = ({ setopendashboard, setshowreciept, onlineId }) => {
                   {isData && isData?.REMARK
                     ? isData?.REMARK
                     : isData &&
-                      isData.elecItemDetails.map((item) => {
-                        return (
-                          <>
-                            {item?.remark}{' '}
-                            {item?.BankName && (
-                              <>
-                                ({item?.BankName}
-                                {item?.ChequeNo})
-                              </>
-                            )}
-                          </>
-                        );
-                      })}
+                    isData.elecItemDetails.map((item) => {
+                      return (
+                        <>
+                          {item?.remark}
+                        </>
+                      );
+                    })}
+                </h2>
+              </span>
+            )}
+
+            {isData && isData?.modeOfDonation === '3' && (
+              <span className="rightitems2 ">
+                <div className="dan_ka_mad">
+                  <h2 style={{ marginBottom: '1rem' }}>भुगतान विवरण :</h2>
+                </div>
+                <h2 className="center_receipt_format  font_bold_in_donation">
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  {isData && isData?.REMARK
+                    ? isData?.REMARK
+                    : isData &&
+                    isData.elecItemDetails.map((item) => {
+                      return (
+                        <>
+                          {item?.BankName && (
+                            <>
+                              {item?.BankName} ({item?.ChequeNo})
+                            </>
+                          )}
+                        </>
+                      );
+                    })}
                 </h2>
               </span>
             )}
@@ -415,13 +434,38 @@ const OnlyElectronicAdd = ({ setopendashboard, setshowreciept, onlineId }) => {
                   {isData && isData?.REMARK
                     ? isData?.REMARK
                     : isData &&
-                      isData.elecItemDetails.map((item) => {
-                        return (
-                          <>
-                            {item?.remark} ({item?.BankName})
-                          </>
-                        );
-                      })}
+                    isData.elecItemDetails.map((item) => {
+                      return (
+                        <>
+                          {item?.remark}
+                        </>
+                      );
+                    })}
+                </h2>
+              </span>
+            )}
+
+            {isData && isData?.modeOfDonation === '1' && (
+              <span className="rightitems2 ">
+                <div className="dan_ka_mad">
+                  <h2 style={{ marginBottom: '1rem' }}>भुगतान विवरण :</h2>
+                </div>
+                <h2 className="center_receipt_format  font_bold_in_donation">
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  {isData && isData?.REMARK
+                    ? isData?.REMARK
+                    : isData &&
+                    isData.elecItemDetails.map((item) => {
+                      return (
+                        <>
+                          {item?.BankName && (
+                            <>
+                              {item?.BankName} ({item?.transactionNo})
+                            </>
+                          )}
+                        </>
+                      );
+                    })}
                 </h2>
               </span>
             )}
@@ -436,24 +480,24 @@ const OnlyElectronicAdd = ({ setopendashboard, setshowreciept, onlineId }) => {
                   {isData && isData?.REMARK
                     ? isData?.REMARK
                     : isData &&
-                      isData.elecItemDetails.map((item) => {
-                        return (
-                          <>
-                            {item?.remark}{' '}
-                            {item?.BankName && (
-                              <>
-                                ({item?.BankName}
-                                {item?.ChequeNo})
-                              </>
-                            )}
-                          </>
-                        );
-                      })}
+                    isData.elecItemDetails.map((item) => {
+                      return (
+                        <>
+                          {item?.remark}{' '}
+                          {item?.BankName && (
+                            <>
+                              ({item?.BankName}
+                              {item?.ChequeNo})
+                            </>
+                          )}
+                        </>
+                      );
+                    })}
                 </h2>
               </span>
             )}
             {(isData && isData?.modeOfDonation === '4') ||
-            (isData && isData?.modeOfDonation === 4) ? (
+              (isData && isData?.modeOfDonation === 4) ? (
               <>
                 <span className="rightitems2 " style={{ width: '100%' }}>
                   <h2 style={{ textAlign: 'center' }}>
@@ -518,14 +562,14 @@ const OnlyElectronicAdd = ({ setopendashboard, setshowreciept, onlineId }) => {
                           isData?.AMOUNT
                             ? isData?.AMOUNT
                             : Number(
-                                isData &&
-                                  isData.elecItemDetails &&
-                                  isData.elecItemDetails.reduce(
-                                    (n, { amount }) =>
-                                      parseFloat(n) + parseFloat(amount),
-                                    0,
-                                  ),
+                              isData &&
+                              isData.elecItemDetails &&
+                              isData.elecItemDetails.reduce(
+                                (n, { amount }) =>
+                                  parseFloat(n) + parseFloat(amount),
+                                0,
                               ),
+                            ),
                           {
                             comma: true,
                           },

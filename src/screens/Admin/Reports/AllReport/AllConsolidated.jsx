@@ -462,7 +462,7 @@ const AllConsolidated = ({ setopendashboard }) => {
               <TableRow>
                 <TableCell>&nbsp; </TableCell>
                 <TableCell>
-                  Employee Name    Type
+                  Employee Name Type
                   <i
                     style={{ marginLeft: '0.5rem' }}
                     onClick={() => sortData('employeeName')}

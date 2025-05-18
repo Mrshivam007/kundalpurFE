@@ -1,0 +1,556 @@
+import React, { useState, useEffect } from 'react'
+import Modal from '@mui/material/Modal'
+import Button from '@mui/material/Button'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import Fade from '@mui/material/Fade'
+import CloseIcon from '@mui/icons-material/Close';
+import Select from '@mui/material/Select'
+import IconButton from '@mui/material/IconButton';
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import TextareaAutosize from '@mui/material/TextareaAutosize'
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import MenuItem from '@mui/material/MenuItem';
+import Swal from 'sweetalert2'
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import TotalAmountRow from '../../../../PurchaseOrder/Suppliers/components/common/TotalAmountRow'
+import { CustomInput, CustomInputLabel, CustomTableInput } from '../../../../PurchaseOrder/Suppliers/components/common';
+import { serverInstance } from '../../../../../../../API/ServerInstance'
+import { useAsyncError } from 'react-router-dom'
+
+
+
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+
+    bgcolor: 'background.paper',
+    background: '#FFFFF',
+    borderRadius: '15px',
+    boxShadow: 24,
+    p: 4,
+};
+
+
+const Inventory = ({ gateEntryShow, inventoryItem, onClose }) => {
+
+
+    const [show, setShow] = useState(gateEntryShow)
+    const [showloader, setshowloader] = useState(false);
+    const [PNO, setPNo] = useState('')
+    const [date, setDate] = useState('')
+    const [remark, setRemark] = useState('')
+    const [time, setTime] = useState('')
+    const [materialCode, setMaterialCode] = useState('')
+    const [materialName, setMaterialName] = useState('')
+    const [deptName, setDeptName] = useState('')
+    const [deptCode, setDeptCode] = useState('')
+    const [challanNo, setChallanNo] = useState('')
+    const [billNo, setBillNo] = useState('')
+    const [gateEntryNo, setGateEntryNo] = useState('')
+    const [addedBy, setAddedBy] = useState('')
+    const [supName, setSupName] = useState('')
+    const [supCode, setSupCode] = useState('')
+    const [UOMList, setUOMList] = useState([])
+    const [itemList, setItemList] = useState([])
+    const [quantity, setQuantity] = useState('')
+    const [amount, setAmount] = useState('')
+    const [totalAmount, setTotalAmount] = useState(0);
+    const [dbitems, setdbItems] = useState([
+        {
+            MaterialCode: ' ',
+            MaterialName: '',
+            Quantity: '',
+            IssueQuantity: '0',
+            Amount: '',
+        },
+    ]);
+
+
+
+    const initialItem = {
+        MaterialCode: ' ',
+        MaterialName: '',
+        Quantity: '',
+        Amount: '',
+    };
+
+    function addItem() {
+        setdbItems([
+            ...dbitems,
+            {
+                quantity: 0,
+                price: 0,
+                discount: 0,
+                GST: 0,
+                total: 0,
+            },
+        ]);
+    }
+
+    const removeItems = (itemToRemove) => {
+        const updatedItems = dbitems.filter(item => item !== itemToRemove);
+
+
+        const newTotalAmount = updatedItems.reduce((sum, item) => sum + item.total, 0);
+
+
+        // setTotalAmount(newTotalAmount);
+
+        setdbItems(updatedItems);
+
+    };
+
+
+    const handleInputChange = async (idx, field, value) => {
+        const updatedItems = [...dbitems];
+        updatedItems[idx][field] = value;
+        // setItems(updatedItems);
+
+        if (field === 'MaterialName') {
+            const selectedItem = itemList.find(item => item.item_name === value);
+
+            if (selectedItem) {
+                updatedItems[idx]['itemNo'] = selectedItem.id;
+                updatedItems[idx]['MaterialCode'] = selectedItem.id;
+                updatedItems[idx]['UOM'] = selectedItem.UOM || ''; // Set UOM if applicable
+                updatedItems[idx]['openingQuantity'] = selectedItem.opening_stock || ''; // Set quantity to opening_stock
+                updatedItems[idx]['availableQuantity'] = selectedItem.current_stock || ''; // Set quantity to opening_stock
+                setDeptCode(selectedItem.department_code)
+                setDeptName(selectedItem.department_name)
+            } else {
+                updatedItems[idx]['itemNo'] = '';
+                updatedItems[idx]['UOM'] = '';
+                updatedItems[idx]['quantity'] = '';
+                updatedItems[idx]['availableQuantity'] = ''; // Set quantity to opening_stock
+            }
+            console.log("selected item ", selectedItem);
+        }
+
+
+        const item = updatedItems[idx];
+        const calculatedTotal = (item.Quantity * item.price) * (1 - item.discount / 100) * (1 + item.GST / 100);
+        item.total = calculatedTotal;
+        item.Amount = calculatedTotal;
+        const newTotalAmount = updatedItems.reduce((sum, item) => sum + item.total, 0);
+        setTotalAmount(newTotalAmount);
+
+        setdbItems(updatedItems);
+    };
+
+    const [next, setNext] = useState(false)
+
+
+    const handleClose = () => {
+        setShow(false);
+        setNext(false);
+        onClose();
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        try {
+
+
+            const data = {
+                Date: date,
+                Time: time,
+
+                FromDepartmentCode: deptCode,
+                FromDepartmentName: deptName,
+                SupplierName: supName,
+                SupplierCode: supCode,
+                challanNo: challanNo,
+                billNo: billNo,
+                gateEntryNo: gateEntryNo,
+                Remark: remark,
+                inventory_list: dbitems
+            }
+
+            const res = await serverInstance('/store/add-inventory', 'post', data)
+
+            if (res.status) {
+                handleClose();
+                Swal.fire('Great!', res?.msg, 'success')
+            } if (res.status === false) {
+                handleClose();
+                Swal.fire('Error!', 'There might be some Error', 'error')
+            }
+
+        } catch (err) {
+            console.log(err)
+            Swal.fire('Error!', 'There might be some Error', 'error')
+        }
+    }
+
+    const getItem = async () => {
+        try {
+            const res = await serverInstance('store/get-itemMaster', 'get')
+
+            setItemList(res.data)
+            console.log(res.data)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    const getUOM = async () => {
+        try {
+            const res = await serverInstance('admin/get-UOM', 'get')
+
+            setUOMList(res.data)
+            console.log(res.data)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+
+
+    var options = { year: 'numeric', month: 'short', day: '2-digit' };
+    var today = new Date();
+    const currDate = today
+        .toLocaleDateString('en-IN', options)
+        .replace(/-/g, ' ');
+    const currTime = today.toLocaleString('en-US', {
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: true,
+    });
+
+    console.log('inv', inventoryItem)
+
+    useEffect(() => {
+        if (inventoryItem) {
+            setDate(inventoryItem?.date);
+            setTime(inventoryItem?.time);
+            setPNo(inventoryItem?.purchaseOrderNo);
+            setSupName(inventoryItem?.supplierName);
+            setSupCode(inventoryItem?.supplierCode);
+            setBillNo(inventoryItem?.billNo);
+            setGateEntryNo(inventoryItem?.gateEntryNo);
+            setChallanNo(inventoryItem?.challanNo);
+            setDeptCode(inventoryItem?.gateEntryList[0]?.departmentCode);
+            setDeptName(inventoryItem?.gateEntryList[0]?.departmentName);
+        }
+
+        if (inventoryItem?.gateEntryList) {
+            const updatedItems = inventoryItem.gateEntryList.map((item) => {
+                // Find the matching item from itemList based on itemName
+                const matchedItem = itemList.find(
+                    (listItem) => listItem.item_name === item.itemName
+                );
+
+                return {
+                    MaterialCode: item?.itemNo,
+                    MaterialName: item?.itemName,
+                    Quantity: item?.acceptedQuantity,
+                    IssueQuantity: null,
+                    DepartmentName: item?.departmentName,
+                    departmentCode: item?.departmentCode,
+                    Amount: item?.total,
+                    UOM: item?.UOM,
+                    availableQuantity: matchedItem?.current_stock || '', // Get availableQuantity from matched item
+                };
+            });
+
+            setdbItems(updatedItems);
+        }
+    }, [inventoryItem, itemList]); // Added itemList as a dependency
+
+
+    useEffect(() => {
+        getUOM();
+        getItem();
+    }, [])
+
+    console.log("db items ", dbitems);
+
+    return (
+        <>
+            <div>
+                <Modal
+                    aria-labelledby="transition-modal-title"
+                    aria-describedby="transition-modal-description"
+                    open={show}
+                    onClose={handleClose}
+
+                >
+                    <Fade in={show}>
+                        <Box sx={style}>
+                            <div>
+
+
+                                <form onSubmit={handleSubmit}>
+                                    <div className="add-div-close-div">
+                                        <h2 clssName="add_text_only">Purchase Register Entry</h2>
+
+                                        <CloseIcon onClick={() => handleClose()} />
+
+                                    </div>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+
+                                        <Typography variant="body2" color="primary" align="right" >
+                                            {currDate} / {currTime}
+                                        </Typography>
+
+                                    </div>
+                                    <div className="flex_div_main_add_user" >
+                                        <div className="main-input-div1">
+
+                                            <div className="inner-input-divadd">
+                                                <label htmlFor="date">Date</label>
+                                                <input
+                                                    type="date"
+                                                    id="date"
+                                                    required
+                                                    name="date"
+                                                    placeholder="Enter Purchase Order No."
+                                                    value={date}
+                                                    onChange={(e) => setDate(e.target.value)}
+                                                />
+                                            </div>
+
+                                            <div className="inner-input-divadd">
+
+
+                                                <label htmlFor="deptCode">Purchase Order No</label>
+                                                <input
+                                                    id="deptCode"
+                                                    type="text"
+                                                    required
+                                                    name="deptCode"
+                                                    placeholder='Null'
+                                                    disabled
+                                                    value={inventoryItem?.purchaseOrderNo}
+                                                    onChange={(e) => setDeptCode(e.target.value)}
+                                                />
+
+                                            </div>
+
+
+
+                                        </div>
+
+                                        <div className="main-input-div2">
+
+                                            <div className="inner-input-divadd">
+
+
+                                                <label htmlFor="deptName">Time</label>
+                                                <input
+                                                    id="deptName"
+                                                    type="time"
+                                                    required
+                                                    placeholder='Enter Time'
+                                                    value={time}
+                                                    onChange={(e) => setTime(e.target.value)}
+                                                />
+
+                                            </div>
+
+
+                                            <div className="inner-input-divadd">
+                                                <label htmlFor="deptName">Gate Entry No</label>
+                                                <input
+                                                    text="text"
+                                                    id="deptName"
+                                                    required
+                                                    value={inventoryItem?.gateEntryNo}
+                                                    // onChange={(e) => setDeptName(e.target.value)}
+                                                    placeholder="Null"
+                                                    disabled
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className="main-input-div3">
+
+
+
+                                            <div className="inner-input-divadd">
+                                                <label htmlFor="supplierCode">Supplier Code*</label>
+                                                <input
+                                                    text="text"
+                                                    id="supCode"
+                                                    required
+                                                    value={supCode}
+                                                    onChange={(e) => setSupCode(e.target.value)}
+                                                    placeholder="Enter Supplier Code"
+
+                                                />
+                                            </div>
+                                            <div className="inner-input-divadd">
+                                                <label htmlFor="remark">Challan No</label>
+                                                <input
+
+                                                    text="text"
+                                                    required
+                                                    value={inventoryItem?.challanNo}
+                                                    placeholder='Null'
+                                                    disabled
+
+                                                />
+                                            </div>
+
+                                        </div>
+
+                                        <div className="main-input-div3">
+
+                                            <div className="inner-input-divadd">
+                                                <label htmlFor="Company Location">Supplier Name</label>
+                                                <input
+
+                                                    text="text"
+                                                    required
+                                                    value={supName}
+                                                    onChange={(e) => setSupName(e.target.value)}
+
+                                                />
+                                            </div>
+                                            <div className="inner-input-divadd">
+                                                <label htmlFor="remark">Bill No</label>
+                                                <input
+
+                                                    text="text"
+                                                    required
+                                                    value={inventoryItem?.billNo}
+                                                    placeholder='Null'
+                                                    disabled
+
+                                                />
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div className="flex_div_main_add_user" >
+                                        <TableContainer
+                                            sx={{
+
+                                                maxHeight: '350px',
+                                                overflowY: 'auto',
+                                                mt: 4,
+                                                width: 1250
+                                            }}
+                                        >
+                                            <Table
+                                                stickyHeader
+                                                sx={{
+
+                                                    border: '1px solid #C4C4C4',
+                                                    '& th': {
+                                                        padding: 0,
+                                                        fontSize: 14,
+                                                        fontWeight: 500,
+                                                        backgroundColor: '#E4E3E3',
+                                                        color: '#05313C',
+                                                        outline: '1px solid #C4C4C4',
+                                                    },
+                                                    '& td': {
+                                                        padding: 0,
+                                                        fontSize: 14,
+                                                    },
+                                                }}
+                                                aria-label="customized table"
+                                            >
+
+                                                <TableHead>
+                                                    <TableRow >
+                                                        {/* <TableCell style={{ width: '15%' }}>
+                                                        Item No. {" "}
+                                                        <a href="#" onClick={() => setShowAddItem(true)}>Add Items</a>
+                                                    </TableCell> */}
+                                                        <TableCell align="center">Item Name</TableCell>
+                                                        <TableCell align="center">Department Name</TableCell>
+                                                        <TableCell align="center">Department Code</TableCell>
+                                                        <TableCell align="center">UOM {" "} </TableCell>
+                                                        <TableCell align="center">Quantity</TableCell>
+                                                    </TableRow>
+                                                </TableHead>
+                                                <TableBody>
+                                                    {dbitems.map((item, idx) => (
+                                                        <TableRow key={idx}>
+                                                            <TableCell>
+                                                                <input
+                                                                    text="text"
+                                                                    required
+                                                                    value={item.MaterialName}
+                                                                    placeholder='Null'
+                                                                    disabled
+                                                                />
+                                                            </TableCell>
+
+                                                            <TableCell>
+                                                                <input
+                                                                    text="text"
+                                                                    required
+                                                                    value={item.DepartmentName}
+                                                                    placeholder='Null'
+                                                                    disabled
+                                                                />
+                                                            </TableCell>
+                                                            <TableCell>
+                                                                <input
+                                                                    text="text"
+                                                                    required
+                                                                    value={item.departmentCode}
+                                                                    placeholder='Null'
+                                                                    disabled
+                                                                />
+                                                            </TableCell>
+                                                            <TableCell>
+                                                                <input
+                                                                    text="text"
+                                                                    required
+                                                                    value={item.UOM}
+                                                                    placeholder='Null'
+                                                                    disabled
+                                                                />
+                                                            </TableCell>
+                                                            {/* Quantity */}
+                                                            <TableCell align="center">
+                                                                <CustomTableInput
+                                                                    required
+                                                                    type="text"
+                                                                    value={item.Quantity || ''} // Bind Quantity here
+                                                                    disabled
+                                                                    onChange={(e) => handleInputChange(idx, 'Quantity', e.target.value)}
+                                                                />
+                                                            </TableCell>
+
+                                                        </TableRow>
+                                                    ))}
+
+                                                </TableBody>
+                                            </Table>
+                                        </TableContainer>
+                                    </div>
+                                    <div className="save-div-btn" style={{ marginTop: '5%' }}>
+                                        <button
+                                            type='button'
+                                            onClick={() => handleClose()}
+                                            className="save-div-btn-btn-cancel"
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </Box>
+                    </Fade>
+                </Modal>
+            </div>
+
+        </>
+    )
+}
+
+export default Inventory

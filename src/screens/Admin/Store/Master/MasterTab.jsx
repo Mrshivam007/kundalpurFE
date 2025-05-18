@@ -5,6 +5,7 @@ import Suppliers from './Supplers/Suppliers';
 import Departments from './Department/Departments';
 // import UOM from '../../masters/StoreMasters/UOM/UOM'
 import UOM from './UOM/UOM'
+import IssuePerson from './IssuePerson/Suppliers';
 
 const MasterTab = () => {
     const [activeSubtab, setActiveSubtab] = useState('subtab1');
@@ -18,7 +19,9 @@ const MasterTab = () => {
             case 'subtab3':
                 return <Items />;
             case 'subtab4':
-                return <UOM />
+                return <UOM />;
+            case 'subtab5':
+                return <IssuePerson />;
             default:
                 return null;
         }
@@ -59,6 +62,14 @@ const MasterTab = () => {
                     >
                         <img style={{ marginRight: '4%', width: '20px' }} src={f1} alt="fast" />
                         UOM
+                    </button>
+                    <button
+                        className={activeSubtab === 'subtab5' ? 'tabs2' : 'tabs1'}
+                        onClick={() => setActiveSubtab('subtab5')}
+                        id="issuePerson"
+                    >
+                        <img style={{ marginRight: '4%', width: '20px' }} src={f1} alt="fast" />
+                        Issue Person
                     </button>
                 </div>
             </div>

@@ -6,6 +6,8 @@ function ShowAllRooms({ changedata, setOpen }) {
   const [changeda, setchangeda] = useState('');
   const [showroomshift, setshowroomshift] = useState(false);
 
+  console.log("data ", changedata);
+
 
   useEffect(() => {
     serverInstance(

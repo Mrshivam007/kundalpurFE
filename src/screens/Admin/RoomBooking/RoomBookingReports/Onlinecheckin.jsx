@@ -9,7 +9,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableFooter from '@mui/material/TableFooter';
 import TablePagination from '@mui/material/TablePagination';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import CloseIcon from '@mui/icons-material/Close';
@@ -19,19 +19,34 @@ import moment from 'moment';
 import Print from '../../../../assets/Print.png';
 import Checkout21 from '../../../../assets/Checkout21.png';
 import ExportPdf from '../../../../assets/ExportPdf.png';
+import fordd from '../../../../assets/for.jpeg';
 import ExportExcel from '../../../../assets/ExportExcel.png';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import { Select, MenuItem } from '@mui/material';
 import RoomBookingReportsTab from './RoomBookingReportsTab';
+import EditIcon from '@mui/icons-material/Edit';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { format } from 'date-fns';
 import Printcheckin from '../CheckIn/Printcheckin';
 import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
+import ShowEditRoom from '../RoomShift/ShowEditRooms';
 const style = {
   position: 'absolute',
   top: '47%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 'auto',
+  bgcolor: 'background.paper',
+  p: 2,
+  boxShadow: 24,
+  borderRadius: '5px',
+};
+
+const style1 = {
+  position: 'absolute',
+  top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 'auto',
@@ -89,6 +104,7 @@ const Onlinecheckin = ({ setopendashboard }) => {
   const handleClose8 = () => setOpen8(false);
   const handleOepn8 = (data) => {
     setOpen8(true);
+    console.log("getting data to edit ", data);
     setchangedata8(data);
   };
   var options = { year: 'numeric', month: 'short', day: '2-digit' };
@@ -241,6 +257,32 @@ const Onlinecheckin = ({ setopendashboard }) => {
         Swal('Error', 'somthing went  wrong', 'error');
       }
     });
+  };
+  const convertTime12to24 = (time12h) => {
+    const [time, modifier] = time12h.split(' ');
+
+    let [hours, minutes] = time.split(':');
+
+    if (hours === '12') {
+      hours = '00';
+    }
+
+    if (modifier === 'PM') {
+      hours = parseInt(hours, 10) + 12;
+    }
+
+    return `${hours}:${minutes}`;
+  };
+  const retruetime = (date) => {
+    var options = { year: 'numeric', month: 'short', day: '2-digit' };
+    var today = new Date(date);
+
+    const currTime = today.toLocaleString('en-US', {
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true,
+    });
+    return currTime;
   };
   useEffect(() => {
     getallemp_list();
@@ -434,6 +476,39 @@ const Onlinecheckin = ({ setopendashboard }) => {
           </Box>
         </Fade>
       </Modal>
+            <Modal
+              aria-labelledby="transition-modal-title"
+              aria-describedby="transition-modal-description"
+              open={open8}
+              onClose={handleClose8}
+              closeAfterTransition
+            >
+              <Fade in={open8}>
+                <Box sx={style1}>
+                  <div>
+                    <div className="add-div-close-div">
+                      <div>
+                        <h2 style={{ marginBottom: '0.5rem', marginLeft: '1rem' }}>
+                          Edit Room
+                        </h2>
+                        <Typography
+                          style={{ marginLeft: '1rem' }}
+                          variant="body2"
+                          color="primary"
+                        >
+                          {currDate} / {currTime}
+                        </Typography>
+                      </div>
+                      <IconButton>
+                        <CloseIcon onClick={() => handleClose8()} />
+                      </IconButton>
+                    </div>
+      
+                    <ShowEditRoom setOpen={setOpen8} changedata={changedata8} />
+                  </div>
+                </Box>
+              </Fade>
+            </Modal>
       <RoomBookingReportsTab setopendashboard={setopendashboard} />
       <div style={{ marginLeft: '5rem', marginRight: '1rem' }}>
         <div className="search-header " style={{ paddingLeft: '65%' }}>
@@ -532,7 +607,7 @@ const Onlinecheckin = ({ setopendashboard }) => {
           </div>
         </div>
 
-        <div className="table-div-maain">
+        <div className="table-div-maain" style={{ width: '200%'}}>
           <Table
             sx={{ minWidth: 650, width: '100%' }}
             // style={{ marginLeft: '1rem' }}
@@ -542,23 +617,7 @@ const Onlinecheckin = ({ setopendashboard }) => {
               <TableRow>
                 <TableCell>S.No</TableCell>
                 <TableCell>
-                  Checkin
-                  <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortData('date')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
-                <TableCell>
-                  Checkout
-                  <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortData('coutDate')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
-                <TableCell>
-                  Booking_ID
+                  B_Id
                   <i
                     style={{ marginLeft: '0rem' }}
                     onClick={() => sortData('booking_id')}
@@ -573,7 +632,6 @@ const Onlinecheckin = ({ setopendashboard }) => {
                     class={`fa fa-sort`}
                   />
                 </TableCell>
-
                 <TableCell>
                   Customer
                   <i
@@ -582,11 +640,43 @@ const Onlinecheckin = ({ setopendashboard }) => {
                     class={`fa fa-sort`}
                   />
                 </TableCell>
-                <TableCell>
+                <TableCell style={{width: '0px'}}>
                   Address
                   <i
                     style={{ marginLeft: '0rem' }}
                     onClick={() => sortData('address')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell style={{ width: '6rem' }}>
+                  Guest
+                  <i
+                    style={{ marginLeft: '0rem' }}
+                    onClick={() => sortData('name')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell style={{ width: '6rem' }}>
+                  CheckIn Date
+                  <i
+                    style={{ marginLeft: '0rem' }}
+                    onClick={() => sortData('name')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell style={{ width: '6rem' }}>
+                  CheckOut Date
+                  <i
+                    style={{ marginLeft: '0rem' }}
+                    onClick={() => sortData('name')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell style={{ width: '6rem' }}>
+                  Stay Days
+                  <i
+                    style={{ marginLeft: '0rem' }}
+                    onClick={() => sortData('name')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
@@ -615,6 +705,22 @@ const Onlinecheckin = ({ setopendashboard }) => {
                     class={`fa fa-sort`}
                   />
                 </TableCell>
+                <TableCell>
+                  Advance Amt
+                  <i
+                    style={{ marginLeft: '0rem' }}
+                    onClick={() => sortData('roomAmount')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell>
+                  Remaining Amt
+                  <i
+                    style={{ marginLeft: '0rem' }}
+                    onClick={() => sortData('roomAmount')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
                 {/* <TableCell>
                   Advance
                   <i
@@ -623,37 +729,17 @@ const Onlinecheckin = ({ setopendashboard }) => {
                     class={`fa fa-sort`}
                   />
                 </TableCell> */}
-                <TableCell>
-                  Emp
-                  <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortData('checkoutByName')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
+
                 <TableCell>PayMode</TableCell>
+                <TableCell>Transaction Number</TableCell>
+
+                <TableCell style={{ width: '5rem' }}>Add_at</TableCell>
                 <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               <TableRow>
                 <TableCell>&nbsp;</TableCell>
-                <TableCell>
-                  <input
-                    style={{ width: '5rem' }}
-                    className="cuolms_search"
-                    type="date"
-                    onChange={(e) => onSearchByOther(e, 'date')}
-                  />
-                </TableCell>
-                <TableCell>
-                  <input
-                    style={{ width: '5rem' }}
-                    className="cuolms_search"
-                    type="date"
-                    onChange={(e) => onSearchByOther(e, 'coutDate')}
-                  />
-                </TableCell>
                 <TableCell>
                   <input
                     style={{ width: '4rem' }}
@@ -665,14 +751,13 @@ const Onlinecheckin = ({ setopendashboard }) => {
                 </TableCell>
                 <TableCell>
                   <input
-                    style={{ width: '6rem' }}
+                    style={{ width: '7rem' }}
                     className="cuolms_search"
                     type="text"
                     onChange={(e) => onSearchByOther(e, 'contactNo')}
                     placeholder="Mobile No"
                   />
                 </TableCell>
-
                 <TableCell>
                   <input
                     style={{ width: '6rem' }}
@@ -691,13 +776,31 @@ const Onlinecheckin = ({ setopendashboard }) => {
                     placeholder="Address"
                   />
                 </TableCell>
+                <TableCell>&nbsp;</TableCell>
                 <TableCell>
                   <input
-                    style={{ width: '6rem' }}
+                    style={{ width: '5rem' }}
+                    className="cuolms_search"
+                    type="date"
+                    onChange={(e) => onSearchByOther(e, 'date')}
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    style={{ width: '5rem' }}
+                    className="cuolms_search"
+                    type="date"
+                    onChange={(e) => onSearchByOther(e, 'coutDate')}
+                  />
+                </TableCell>
+                <TableCell>&nbsp;</TableCell>
+                <TableCell>
+                  <input
+                    style={{ width: '9rem' }}
                     className="cuolms_search"
                     type="text"
                     onChange={(e) => {
-                      onSearchByOther(e, 'dharmasalaName');
+                      onSearchByOther(e, 'dharmasala');
                     }}
                     placeholder="Dharamshala Name"
                   />
@@ -715,7 +818,7 @@ const Onlinecheckin = ({ setopendashboard }) => {
                 </TableCell>
                 <TableCell>
                   <input
-                    style={{ width: '4rem' }}
+                    style={{ width: '5rem' }}
                     className="cuolms_search"
                     type="text"
                     onChange={(e) => {
@@ -724,37 +827,13 @@ const Onlinecheckin = ({ setopendashboard }) => {
                     placeholder="Rent"
                   />
                 </TableCell>
-                {/* <TableCell>
-                  <input
-                    style={{ width: '4rem' }}
-                    className="cuolms_search"
-                    type="text"
-                    onChange={(e) => {
-                      onSearchByOther(e, 'advanceAmount');
-                    }}
-                    placeholder="Advance"
-                  />
-                </TableCell> */}
-                <TableCell>
-                  <select
-                    name="cars"
-                    id="cars"
-                    style={{ width: '5rem' }}
-                    className="cuolms_search"
-                    onChange={(e) => {
-                      onSearchByOther(e, 'checkoutByName');
-                      console.log(e.target.value);
-                    }}
-                  >
-                    <option value="">All user</option>
-                    {emplist &&
-                      emplist.map((item, idx) => {
-                        return (
-                          <option value={item.Username}>{item.Username}</option>
-                        );
-                      })}
-                  </select>
-                </TableCell>
+
+                <TableCell>&nbsp;</TableCell>
+
+                <TableCell>&nbsp;</TableCell>
+                <TableCell>&nbsp;</TableCell>
+
+                <TableCell>&nbsp;</TableCell>
                 <TableCell>&nbsp;</TableCell>
                 <TableCell>
                   <button
@@ -771,30 +850,61 @@ const Onlinecheckin = ({ setopendashboard }) => {
               {isData ? (
                 <>
                   {(rowsPerPage > 0
-                    ? isData.slice(
+                    ? isData
+                      ?.reverse()
+                      ?.slice(
                         page * rowsPerPage,
                         page * rowsPerPage + rowsPerPage,
                       )
-                    : isData
+                    : isData?.reverse()
                   ).map((row, index) => (
                     <TableRow
                       key={row.id}
                       sx={{
                         '&:last-child td, &:last-child th': { border: 0 },
+                        backgroundColor: row?.date && Moment(row.date).isAfter(Moment(), 'day')
+                          ? '#ffff72' // Highlight row in yellow for future dates
+                          : shouldHighlightRow(row?.coutDate, row?.coutTime)
+                            ? '#ff7272' // Highlight row in red if shouldHighlightRow returns true
+                            : 'inherit', // Default background color
                       }}
                     >
                       <TableCell>{index + 1}</TableCell>
-                      <TableCell>
-                        {Moment(row?.date).format('DD-MM-YYYY')}&nbsp;&nbsp;
-                      </TableCell>
-                      <TableCell>
-                        {Moment(row?.coutDate).format('DD-MM-YYYY')}&nbsp;&nbsp;
-                      </TableCell>
                       <TableCell>{row?.booking_id}</TableCell>
+                      {/* <TableCell>
+                        {Moment(row?.date).format('DD-MM-YYYY')}: /
+                        {convertTime12to24(retruetime(row?.date))}
+                        &nbsp;&nbsp;
+                      </TableCell> */}
                       <TableCell>{row?.contactNo}</TableCell>
-
                       <TableCell>{row?.name}</TableCell>
                       <TableCell>{row?.address}</TableCell>
+                      <TableCell>
+                        <div style={{ width: '2rem' }}>
+                          <p style={{ fontWeight: 300 }}>
+                            {Number(row?.female) +
+                              Number(row?.child) +
+                              Number(row?.male)}
+                          </p>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        {Moment(row?.date).format('DD-MM-YYYY')}: /
+                        {convertTime12to24(retruetime(row?.date))}
+                        &nbsp;&nbsp;
+                      </TableCell>
+                      <TableCell>
+                        {Moment(row?.coutDate).format('DD-MM-YYYY')}: /
+                        {convertTime12to24(retruetime(row?.coutDate))}
+                        &nbsp;&nbsp;
+                      </TableCell>
+                      <TableCell>
+                        {row?.date && row?.coutDate
+                          ? `${Math.ceil(
+                            (new Date(row?.coutDate) - new Date(row?.date)) / (1000 * 60 * 60 * 24)
+                          )} days`
+                          : '-'}
+                      </TableCell>
                       <TableCell> {row?.dharmasalaData?.name}</TableCell>
                       <TableCell>
                         {row?.roomNumbers?.map((item) => (
@@ -802,23 +912,94 @@ const Onlinecheckin = ({ setopendashboard }) => {
                         ))}
                       </TableCell>
                       <TableCell> {row?.roomAmountSum}.00</TableCell>
-                      {/* <TableCell>{Number(row?.advanceAmountSum)}</TableCell> */}
-                      <TableCell>{row?.checkoutByName}</TableCell>
+                      <TableCell> {row?.advanceAmountSum}.00</TableCell>
+                      <TableCell>
+                        {row?.roomAmountSum && row?.advanceAmountSum
+                          ? `${(row?.roomAmountSum - row?.advanceAmountSum).toFixed(2)}`
+                          : '0.00'}
+                      </TableCell>
+                      {/* <TableCell>
+                        {Number(row?.roomAmount) + Number(row?.advanceAmount)}
+                      </TableCell> */}
                       <TableCell>
                         {row?.paymentMode === 2 ? 'Cash' : 'Online'}
                       </TableCell>
-                      <TableCell style={{ display: 'flex' }}>
-                        <img
-                          src={Checkout21}
-                          style={{ width: '25px', marginRight: '0.5rem' }}
-                          onClick={() => downloadcheckout(row)}
-                        />
+                      <TableCell>
+                        {row?.transactionId}
+                      </TableCell>
+                      <TableCell style={{ width: '5rem' }}>
+                        {Moment(row?.createdAt).format('DD-MM-YYYY')}
+                      </TableCell>
+                      <TableCell>
+                        {optionss === 'History' ? (
+                          <>
+                            <Tooltip title="Print">
+                              <img
+                                onClick={() => downloadrecept(row)}
+                                src={Print}
+                                alt="print"
+                                style={{ width: '25px', marginRight: '0.3rem' }}
+                              />
+                            </Tooltip>
+                          </>
+                        ) : (
+                          <>
+                            <Tooltip title="Print">
+                              <img
+                                onClick={() => downloadrecept(row)}
+                                src={Print}
+                                alt="print"
+                                style={{ width: '25px', marginRight: '0.3rem' }}
+                              />
+                            </Tooltip>
 
-                        <img
-                          src={Print}
-                          style={{ width: '25px' }}
-                          onClick={() => downloadrecept(row)}
-                        />
+                            {userrole === 1 && (
+                              <>
+                                <Tooltip title="Force Checkout">
+                                  <img
+                                    onClick={() =>
+                                      navigation(
+                                        '/admin-panel/Room/OnlineForce',
+                                        {
+                                          state: {
+                                            data: row,
+                                          },
+                                        },
+                                      )
+                                    }
+                                    src={fordd}
+                                    alt="print"
+                                    style={{
+                                      width: '25px',
+                                      // marginRight: '0.3rem',
+                                    }}
+                                  />
+                                </Tooltip>
+                              </>
+                            )}
+
+                            <Tooltip title="Checkout">
+                              <img
+                                onClick={() =>
+                                  navigation(
+                                    '/admin-panel/Room/OnlinecheckinReceipt',
+                                    {
+                                      state: {
+                                        data: row,
+                                      },
+                                    },
+                                  )
+                                }
+                                src={Checkout21}
+                                alt="print"
+                                style={{ width: '25px', marginRight: '0.3rem' }}
+                              />
+                            </Tooltip>
+                            <Tooltip title="Edit Room">
+                              <EditIcon sx={{ width: '30px' }} onClick={() => handleOepn8(row)} />
+                            </Tooltip>
+                          </>
+                        )}
                       </TableCell>
                     </TableRow>
                   ))}
@@ -834,7 +1015,6 @@ const Onlinecheckin = ({ setopendashboard }) => {
                 <TableCell></TableCell>
                 <TableCell></TableCell>
                 <TableCell></TableCell>
-                <TableCell></TableCell>
                 <TableCell>TotalAmount</TableCell>
                 <TableCell style={{ fontWeight: 800 }}>
                   {isData &&
@@ -842,10 +1022,10 @@ const Onlinecheckin = ({ setopendashboard }) => {
                       (n, { roomAmountSum }) =>
                         parseFloat(n) + parseFloat(roomAmountSum),
                       0,
-                    )}.00
+                    )}
+                  .00
                 </TableCell>
 
-                <TableCell></TableCell>
                 <TableCell></TableCell>
                 <TableCell></TableCell>
               </TableRow>

@@ -55,8 +55,8 @@ const ModalElecReceipt = ({
       setisData(datasend);
     }
 
-    console.log('data', location.state?.userdata);
   }, []);
+  console.log('data', isData);
 
   return (
     <>
@@ -363,7 +363,7 @@ const ModalElecReceipt = ({
                 </h2>
               </span>
             )}
-            {isData && isData?.modeOfDonation === 1 && (
+            {/* {isData && isData?.modeOfDonation === 1 && (
               <span className="rightitems2 ">
                 <div className="dan_ka_mad">
                   <h2 style={{ marginBottom: '1rem' }}>विवरण :</h2>
@@ -377,6 +377,26 @@ const ModalElecReceipt = ({
                         return (
                           <>
                             {item?.remark} ({item?.BankName})
+                          </>
+                        );
+                      })}
+                </h2>
+              </span>
+            )} */}
+            {isData && isData?.modeOfDonation === 1 && (
+              <span className="rightitems2 ">
+                <div className="dan_ka_mad">
+                  <h2 style={{ marginBottom: '1rem' }}>bank name :</h2>
+                </div>
+                <h2 className="center_receipt_format  font_bold_in_donation">
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  {isData && isData?.REMARK
+                    ? isData?.REMARK
+                    : isData &&
+                      isData.elecItemDetails.map((item) => {
+                        return (
+                          <>
+                            {item?.BankName} ({item?.transactionNo})
                           </>
                         );
                       })}
@@ -411,6 +431,31 @@ const ModalElecReceipt = ({
               </span>
             )}
 
+            {isData && isData?.modeOfDonation === '3' && (
+              <span className="rightitems2 ">
+                <div className="dan_ka_mad">
+                  <h2 style={{ marginBottom: '1rem' }}>भुगतान विवरण:</h2>
+                </div>
+                <h2 className="center_receipt_format  font_bold_in_donation">
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  {isData && isData?.REMARK
+                    ? isData?.REMARK
+                    : isData &&
+                      isData.elecItemDetails.map((item) => {
+                        return (
+                          <>
+                            {item?.BankName && (
+                              <>
+                                {item?.BankName} ({item?.ChequeNo})
+                              </>
+                            )}
+                          </>
+                        );
+                      })}
+                </h2>
+              </span>
+            )}
+
             {isData && isData?.modeOfDonation === '1' && (
               <span className="rightitems2 ">
                 <div className="dan_ka_mad">
@@ -424,7 +469,28 @@ const ModalElecReceipt = ({
                       isData.elecItemDetails.map((item) => {
                         return (
                           <>
-                            {item?.remark} ({item?.BankName})
+                            {item?.remark}
+                          </>
+                        );
+                      })}
+                </h2>
+              </span>
+            )}
+
+            {isData && isData?.modeOfDonation === '1' && (
+              <span className="rightitems2 ">
+                <div className="dan_ka_mad">
+                  <h2 style={{ marginBottom: '1rem' }}>भुगतान विवरण:</h2>
+                </div>
+                <h2 className="center_receipt_format  font_bold_in_donation">
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  {isData && isData?.REMARK
+                    ? isData?.REMARK
+                    : isData &&
+                      isData.elecItemDetails.map((item) => {
+                        return (
+                          <>
+                            {item?.BankName} ({item?.transactionNo})
                           </>
                         );
                       })}

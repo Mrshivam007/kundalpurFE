@@ -7,6 +7,7 @@ import Moment from 'moment-js';
 import moment from 'moment';
 import './PrintContent.css';
 import { backendUrl } from '../../../config/config';
+import { serverInstance } from '../../../API/ServerInstance';
 const converter = new Converter(hiIN);
 function PrintElecModalContent({
   setopendashboard,
@@ -22,7 +23,7 @@ function PrintElecModalContent({
     serverInstance(
       `user/donation-receiptElectronic?id=${isData?.id}`,
       'get',
-    ).then((res) => {});
+    ).then((res) => { });
   };
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
@@ -33,7 +34,7 @@ function PrintElecModalContent({
 
     if (datasend) {
       setisData(datasend);
-    } 
+    }
     setTimeout(() => {
       handlePrint();
     }, 50);
@@ -107,8 +108,8 @@ function PrintElecModalContent({
                   </p>
 
                   {isData &&
-                  isData.elecItemDetails &&
-                  isData.elecItemDetails[0].itemType ? (
+                    isData.elecItemDetails &&
+                    isData.elecItemDetails[0].itemType ? (
                     <></>
                   ) : (
                     <>{isData && isData.modeOfDonation && <></>}</>
@@ -153,15 +154,15 @@ function PrintElecModalContent({
                     {isData && isData?.MobileNo
                       ? isData?.MobileNo
                       : isData &&
-                        isData.phoneNo && (
-                          <>
-                            (
-                            {isData && isData?.MobileNo
-                              ? isData?.MobileNo
-                              : isData && isData.phoneNo}
-                            )
-                          </>
-                        )}
+                      isData.phoneNo && (
+                        <>
+                          (
+                          {isData && isData?.MobileNo
+                            ? isData?.MobileNo
+                            : isData && isData.phoneNo}
+                          )
+                        </>
+                      )}
                   </span>
                 </div>
               </div>
@@ -278,20 +279,20 @@ function PrintElecModalContent({
                               {isData && isData?.TYPE
                                 ? isData?.TYPE
                                 : isData &&
-                                  isData.elecItemDetails.map((item) => {
-                                    return (
-                                      <>
-                                        {item?.remark}
-                                        {item?.itemType && (
-                                          <>
-                                            ( {item?.itemType}-{item?.quantity}-
-                                            {item?.size}
-                                            {item?.unit})
-                                          </>
-                                        )}
-                                      </>
-                                    );
-                                  })}
+                                isData.elecItemDetails.map((item) => {
+                                  return (
+                                    <>
+                                      {item?.remark}
+                                      {item?.itemType && (
+                                        <>
+                                          ( {item?.itemType}-{item?.quantity}-
+                                          {item?.size}
+                                          {item?.unit})
+                                        </>
+                                      )}
+                                    </>
+                                  );
+                                })}
                             </span>
                           </div>
                         </>
@@ -308,19 +309,19 @@ function PrintElecModalContent({
                               {isData && isData?.TYPE
                                 ? isData?.TYPE
                                 : isData &&
-                                  isData.elecItemDetails.map((item) => {
-                                    return (
-                                      <>
-                                        {item?.remark}
-                                        {item?.itemType && (
-                                          <>
-                                            ( {item?.itemType}-{item?.quantity}-
-                                            {item?.size} {item?.unit})
-                                          </>
-                                        )}
-                                      </>
-                                    );
-                                  })}
+                                isData.elecItemDetails.map((item) => {
+                                  return (
+                                    <>
+                                      {item?.remark}
+                                      {item?.itemType && (
+                                        <>
+                                          ( {item?.itemType}-{item?.quantity}-
+                                          {item?.size} {item?.unit})
+                                        </>
+                                      )}
+                                    </>
+                                  );
+                                })}
                             </span>
                           </div>
                         </>
@@ -331,7 +332,7 @@ function PrintElecModalContent({
 
               <div>
                 {(isData && isData?.modeOfDonation === '4') ||
-                (isData && isData?.modeOfDonation === 4) ? (
+                  (isData && isData?.modeOfDonation === 4) ? (
                   <>
                     <p style={{ textAlign: 'center' }} className="grway-text">
                       आपके द्वारा प्रदत्त उपहार दान स्वरूप सधन्यवाद प्राप्त हुआ।
@@ -380,9 +381,9 @@ function PrintElecModalContent({
                               {isData && isData?.REMARK
                                 ? isData?.REMARK
                                 : isData &&
-                                  isData.elecItemDetails.map((item) => {
-                                    return <>( {item?.remark})</>;
-                                  })}
+                                isData.elecItemDetails.map((item) => {
+                                  return <>( {item?.remark})</>;
+                                })}
                             </span>
                           </p>
                         </div>
@@ -401,11 +402,11 @@ function PrintElecModalContent({
                               {isData && isData?.REMARK
                                 ? isData?.REMARK
                                 : isData &&
-                                  isData.elecItemDetails.elecItemDetails.map(
-                                    (item) => {
-                                      return <>( {item?.remark})</>;
-                                    },
-                                  )}
+                                isData.elecItemDetails.elecItemDetails.map(
+                                  (item) => {
+                                    return <>( {item?.remark})</>;
+                                  },
+                                )}
                             </span>
                           </p>
                         </div>
@@ -424,19 +425,49 @@ function PrintElecModalContent({
                               {isData && isData?.REMARK
                                 ? isData?.REMARK
                                 : isData &&
-                                  isData.elecItemDetails.map((item) => {
-                                    return (
-                                      <>
-                                        {item?.remark}{' '}
-                                        {item?.BankName && (
-                                          <>
-                                            ({item?.BankName}
-                                            {item?.ChequeNo})
-                                          </>
-                                        )}
-                                      </>
-                                    );
-                                  })}
+                                isData.elecItemDetails.map((item) => {
+                                  return (
+                                    <>
+                                      {item?.remark}{' '}
+                                      {item?.BankName && (
+                                        <>
+                                          ({item?.BankName}
+                                          {item?.ChequeNo})
+                                        </>
+                                      )}
+                                    </>
+                                  );
+                                })}
+                            </span>
+                          </p>
+                        </div>
+                      </>
+                    )}
+                    
+                    {isData && isData.modeOfDonation === '3' && (
+                      <>
+                        <div>
+                          <p className="common_margin_pp">
+                          भुगतान विवरण - &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;
+                            &nbsp;
+                            <span
+                              className="hidelight"
+                              style={{ fontSize: 16 }}
+                            >
+                              {isData && isData?.REMARK
+                                ? isData?.REMARK
+                                : isData &&
+                                isData.elecItemDetails.map((item) => {
+                                  return (
+                                    <>
+                                      {item?.BankName && (
+                                        <>
+                                          {item?.BankName} ({item?.ChequeNo})
+                                        </>
+                                      )}
+                                    </>
+                                  );
+                                })}
                             </span>
                           </p>
                         </div>
@@ -456,19 +487,19 @@ function PrintElecModalContent({
                               {isData && isData?.REMARK
                                 ? isData?.REMARK
                                 : isData &&
-                                  isData.elecItemDetails.map((item) => {
-                                    return (
-                                      <>
-                                        {item?.remark}{' '}
-                                        {item?.BankName && (
-                                          <>
-                                            ({item?.BankName}
-                                            {item?.ChequeNo})
-                                          </>
-                                        )}
-                                      </>
-                                    );
-                                  })}
+                                isData.elecItemDetails.map((item) => {
+                                  return (
+                                    <>
+                                      {item?.remark}{' '}
+                                      {item?.BankName && (
+                                        <>
+                                          ({item?.BankName}
+                                          {item?.ChequeNo})
+                                        </>
+                                      )}
+                                    </>
+                                  );
+                                })}
                             </span>
                           </p>
                         </div>
@@ -488,13 +519,43 @@ function PrintElecModalContent({
                               {isData && isData?.REMARK
                                 ? isData?.REMARK
                                 : isData &&
-                                  isData.elecItemDetails.map((item) => {
-                                    return (
-                                      <>
-                                        {item?.remark} ({item?.BankName})
-                                      </>
-                                    );
-                                  })}
+                                isData.elecItemDetails.map((item) => {
+                                  return (
+                                    <>
+                                      {item?.remark}
+                                    </>
+                                  );
+                                })}
+                            </span>
+                          </p>
+                        </div>
+                      </>
+                    )}
+
+                    {isData && isData.modeOfDonation === '1' && (
+                      <>
+                        <div>
+                          <p className="common_margin_pp">
+                            भुगतान विवरण - &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;
+                            &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;
+                            <span
+                              className="hidelight"
+                              style={{ fontSize: 16 }}
+                            >
+                              {isData && isData?.REMARK
+                                ? isData?.REMARK
+                                : isData &&
+                                isData.elecItemDetails.map((item) => {
+                                  return (
+                                    <>
+                                      {item?.BankName && (
+                                        <>
+                                          {item?.BankName} ({item?.transactionNo})
+                                        </>
+                                      )}
+                                    </>
+                                  );
+                                })}
                             </span>
                           </p>
                         </div>
@@ -514,13 +575,13 @@ function PrintElecModalContent({
                               {isData && isData?.REMARK
                                 ? isData?.REMARK
                                 : isData &&
-                                  isData.elecItemDetails.map((item) => {
-                                    return (
-                                      <>
-                                        {item?.remark} ({item?.BankName})
-                                      </>
-                                    );
-                                  })}
+                                isData.elecItemDetails.map((item) => {
+                                  return (
+                                    <>
+                                      {item?.remark} ({item?.BankName})
+                                    </>
+                                  );
+                                })}
                             </span>
                           </p>
                         </div>
@@ -537,11 +598,11 @@ function PrintElecModalContent({
                           {isData && isData?.AMOUNT
                             ? isData?.AMOUNT
                             : isData &&
-                              isData.elecItemDetails.reduce(
-                                (n, { amount }) =>
-                                  parseFloat(n) + parseFloat(amount),
-                                0,
-                              )}
+                            isData.elecItemDetails.reduce(
+                              (n, { amount }) =>
+                                parseFloat(n) + parseFloat(amount),
+                              0,
+                            )}
                           /-
                         </span>
                       </p>
@@ -556,30 +617,30 @@ function PrintElecModalContent({
                           <span className="hidelight" style={{ fontSize: 16 }}>
                             {isData && isData?.AMOUNT
                               ? converter.toWords(
-                                  isData?.AMOUNT ? isData?.AMOUNT : 0,
-                                  {
-                                    comma: true,
-                                  },
-                                )
+                                isData?.AMOUNT ? isData?.AMOUNT : 0,
+                                {
+                                  comma: true,
+                                },
+                              )
                               : isData &&
-                                converter.toWords(
-                                  isData &&
-                                    isData.elecItemDetails.reduce(
-                                      (n, { amount }) =>
-                                        parseFloat(n) + parseFloat(amount),
-                                      0,
-                                    )
-                                    ? isData &&
-                                        isData.elecItemDetails.reduce(
-                                          (n, { amount }) =>
-                                            parseFloat(n) + parseFloat(amount),
-                                          0,
-                                        )
-                                    : 0,
-                                  {
-                                    comma: true,
-                                  },
-                                )}
+                              converter.toWords(
+                                isData &&
+                                  isData.elecItemDetails.reduce(
+                                    (n, { amount }) =>
+                                      parseFloat(n) + parseFloat(amount),
+                                    0,
+                                  )
+                                  ? isData &&
+                                  isData.elecItemDetails.reduce(
+                                    (n, { amount }) =>
+                                      parseFloat(n) + parseFloat(amount),
+                                    0,
+                                  )
+                                  : 0,
+                                {
+                                  comma: true,
+                                },
+                              )}
                           </span>
 
                           {isData && isData?.modeOfDonation === '2' && (
@@ -652,8 +713,8 @@ function PrintElecModalContent({
               style={{
                 marginTop:
                   isData &&
-                  isData.elecItemDetails &&
-                  isData.elecItemDetails[0].itemType
+                    isData.elecItemDetails &&
+                    isData.elecItemDetails[0].itemType
                     ? '20%'
                     : '15%',
               }}
@@ -729,8 +790,8 @@ function PrintElecModalContent({
                   </p>
 
                   {isData &&
-                  isData.elecItemDetails &&
-                  isData.elecItemDetails[0].itemType ? (
+                    isData.elecItemDetails &&
+                    isData.elecItemDetails[0].itemType ? (
                     <></>
                   ) : (
                     <>{isData && isData.modeOfDonation && <></>}</>
@@ -894,19 +955,19 @@ function PrintElecModalContent({
                               {isData && isData?.TYPE
                                 ? isData?.TYPE
                                 : isData &&
-                                  isData.elecItemDetails.map((item) => {
-                                    return (
-                                      <>
-                                        {item?.remark}
-                                        {item?.itemType && (
-                                          <>
-                                            ( {item?.itemType}-{item?.quantity}-
-                                            {item?.size} {item?.unit})
-                                          </>
-                                        )}
-                                      </>
-                                    );
-                                  })}
+                                isData.elecItemDetails.map((item) => {
+                                  return (
+                                    <>
+                                      {item?.remark}
+                                      {item?.itemType && (
+                                        <>
+                                          ( {item?.itemType}-{item?.quantity}-
+                                          {item?.size} {item?.unit})
+                                        </>
+                                      )}
+                                    </>
+                                  );
+                                })}
                             </span>
                           </div>
                         </>
@@ -923,19 +984,19 @@ function PrintElecModalContent({
                               {isData && isData?.TYPE
                                 ? isData?.TYPE
                                 : isData &&
-                                  isData.elecItemDetails.map((item) => {
-                                    return (
-                                      <>
-                                        {item?.remark}
-                                        {item?.itemType && (
-                                          <>
-                                            ( {item?.itemType}-{item?.quantity}-
-                                            {item?.size} {item?.unit})
-                                          </>
-                                        )}
-                                      </>
-                                    );
-                                  })}
+                                isData.elecItemDetails.map((item) => {
+                                  return (
+                                    <>
+                                      {item?.remark}
+                                      {item?.itemType && (
+                                        <>
+                                          ( {item?.itemType}-{item?.quantity}-
+                                          {item?.size} {item?.unit})
+                                        </>
+                                      )}
+                                    </>
+                                  );
+                                })}
                             </span>
                           </div>
                         </>
@@ -946,7 +1007,7 @@ function PrintElecModalContent({
 
               <div>
                 {(isData && isData?.modeOfDonation === '4') ||
-                (isData && isData?.modeOfDonation === 4) ? (
+                  (isData && isData?.modeOfDonation === 4) ? (
                   <>
                     <p style={{ textAlign: 'center' }} className="grway-text">
                       आपके द्वारा प्रदत्त उपहार दान स्वरूप सधन्यवाद प्राप्त हुआ।
@@ -995,9 +1056,9 @@ function PrintElecModalContent({
                               {isData && isData?.REMARK
                                 ? isData?.REMARK
                                 : isData &&
-                                  isData?.elecItemDetails.map((item) => {
-                                    return <>( {item?.remark})</>;
-                                  })}
+                                isData?.elecItemDetails.map((item) => {
+                                  return <>( {item?.remark})</>;
+                                })}
                             </span>
                           </p>
                         </div>
@@ -1016,9 +1077,9 @@ function PrintElecModalContent({
                               {isData && isData?.REMARK
                                 ? isData?.REMARK
                                 : isData &&
-                                  isData?.elecItemDetails.map((item) => {
-                                    return <>( {item?.remark})</>;
-                                  })}
+                                isData?.elecItemDetails.map((item) => {
+                                  return <>( {item?.remark})</>;
+                                })}
                             </span>
                           </p>
                         </div>
@@ -1037,19 +1098,42 @@ function PrintElecModalContent({
                               {isData && isData?.REMARK
                                 ? isData?.REMARK
                                 : isData &&
-                                  isData.elecItemDetails.map((item) => {
-                                    return (
-                                      <>
-                                        {item?.remark}{' '}
-                                        {item?.BankName && (
-                                          <>
-                                            ({item?.BankName}
-                                            {item?.ChequeNo})
-                                          </>
-                                        )}
-                                      </>
-                                    );
-                                  })}
+                                isData.elecItemDetails.map((item) => {
+                                  return (
+                                    <>
+                                      {item?.remark}{' '}
+                                    </>
+                                  );
+                                })}
+                            </span>
+                          </p>
+                        </div>
+                      </>
+                    )}
+                    {isData && isData.modeOfDonation === '3' && (
+                      <>
+                        <div>
+                          <p className="common_margin_pp">
+                          भुगतान विवरण - &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;
+                            &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;
+                            <span
+                              className="hidelight"
+                              style={{ fontSize: 16 }}
+                            >
+                              {isData && isData?.REMARK
+                                ? isData?.REMARK
+                                : isData &&
+                                isData.elecItemDetails.map((item) => {
+                                  return (
+                                    <>
+                                      {item?.BankName && (
+                                        <>
+                                          {item?.BankName} ({item?.ChequeNo})
+                                        </>
+                                      )}
+                                    </>
+                                  );
+                                })}
                             </span>
                           </p>
                         </div>
@@ -1069,19 +1153,19 @@ function PrintElecModalContent({
                               {isData && isData?.REMARK
                                 ? isData?.REMARK
                                 : isData &&
-                                  isData.elecItemDetails.map((item) => {
-                                    return (
-                                      <>
-                                        {item?.remark}{' '}
-                                        {item?.BankName && (
-                                          <>
-                                            ({item?.BankName}
-                                            {item?.ChequeNo})
-                                          </>
-                                        )}
-                                      </>
-                                    );
-                                  })}
+                                isData.elecItemDetails.map((item) => {
+                                  return (
+                                    <>
+                                      {item?.remark}{' '}
+                                      {item?.BankName && (
+                                        <>
+                                          ({item?.BankName}
+                                          {item?.ChequeNo})
+                                        </>
+                                      )}
+                                    </>
+                                  );
+                                })}
                             </span>
                           </p>
                         </div>
@@ -1101,13 +1185,43 @@ function PrintElecModalContent({
                               {isData && isData?.REMARK
                                 ? isData?.REMARK
                                 : isData &&
-                                  isData.elecItemDetails.map((item) => {
-                                    return (
-                                      <>
-                                        {item?.remark} ({item?.BankName})
-                                      </>
-                                    );
-                                  })}
+                                isData.elecItemDetails.map((item) => {
+                                  return (
+                                    <>
+                                      {item?.remark}
+                                    </>
+                                  );
+                                })}
+                            </span>
+                          </p>
+                        </div>
+                      </>
+                    )}
+
+                    {isData && isData.modeOfDonation === '1' && (
+                      <>
+                        <div>
+                          <p className="common_margin_pp">
+                            भुगतान विवरण - &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;
+                            &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;
+                            <span
+                              className="hidelight"
+                              style={{ fontSize: 16 }}
+                            >
+                              {isData && isData?.REMARK
+                                ? isData?.REMARK
+                                : isData &&
+                                isData.elecItemDetails.map((item) => {
+                                  return (
+                                    <>
+                                      {item?.BankName && (
+                                        <>
+                                          {item?.BankName} ({item?.transactionNo})
+                                        </>
+                                      )}
+                                    </>
+                                  );
+                                })}
                             </span>
                           </p>
                         </div>
@@ -1127,13 +1241,13 @@ function PrintElecModalContent({
                               {isData && isData?.REMARK
                                 ? isData?.REMARK
                                 : isData &&
-                                  isData.elecItemDetails.map((item) => {
-                                    return (
-                                      <>
-                                        {item?.remark} ({item?.BankName})
-                                      </>
-                                    );
-                                  })}
+                                isData.elecItemDetails.map((item) => {
+                                  return (
+                                    <>
+                                      {item?.remark} ({item?.BankName})
+                                    </>
+                                  );
+                                })}
                             </span>
                           </p>
                         </div>
@@ -1150,11 +1264,11 @@ function PrintElecModalContent({
                           {isData && isData?.AMOUNT
                             ? isData?.AMOUNT
                             : isData &&
-                              isData.elecItemDetails.reduce(
-                                (n, { amount }) =>
-                                  parseFloat(n) + parseFloat(amount),
-                                0,
-                              )}
+                            isData.elecItemDetails.reduce(
+                              (n, { amount }) =>
+                                parseFloat(n) + parseFloat(amount),
+                              0,
+                            )}
                           /-
                         </span>
                       </p>
@@ -1169,30 +1283,30 @@ function PrintElecModalContent({
                           <span className="hidelight" style={{ fontSize: 16 }}>
                             {isData && isData?.AMOUNT
                               ? converter.toWords(
-                                  isData?.AMOUNT ? isData?.AMOUNT : 0,
-                                  {
-                                    comma: true,
-                                  },
-                                )
+                                isData?.AMOUNT ? isData?.AMOUNT : 0,
+                                {
+                                  comma: true,
+                                },
+                              )
                               : isData &&
-                                converter.toWords(
-                                  isData &&
-                                    isData.elecItemDetails.reduce(
-                                      (n, { amount }) =>
-                                        parseFloat(n) + parseFloat(amount),
-                                      0,
-                                    )
-                                    ? isData &&
-                                        isData.elecItemDetails.reduce(
-                                          (n, { amount }) =>
-                                            parseFloat(n) + parseFloat(amount),
-                                          0,
-                                        )
-                                    : 0,
-                                  {
-                                    comma: true,
-                                  },
-                                )}
+                              converter.toWords(
+                                isData &&
+                                  isData.elecItemDetails.reduce(
+                                    (n, { amount }) =>
+                                      parseFloat(n) + parseFloat(amount),
+                                    0,
+                                  )
+                                  ? isData &&
+                                  isData.elecItemDetails.reduce(
+                                    (n, { amount }) =>
+                                      parseFloat(n) + parseFloat(amount),
+                                    0,
+                                  )
+                                  : 0,
+                                {
+                                  comma: true,
+                                },
+                              )}
                           </span>
 
                           {isData && isData?.modeOfDonation === '2' && (
@@ -1263,7 +1377,7 @@ function PrintElecModalContent({
             {isData?.elecItemDetails && isData?.elecItemDetails.length > 1 ? (
               <>
                 {isData?.elecItemDetails &&
-                isData?.elecItemDetails[0]?.itemType ? (
+                  isData?.elecItemDetails[0]?.itemType ? (
                   <>
                     <p> &nbsp;</p>
                     <p> &nbsp;</p>

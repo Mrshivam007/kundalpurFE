@@ -138,22 +138,44 @@ function RoomBooking({ setroomfilterdata }) {
 
   console.log(checkincurrTime);
 
-  const returnmax = () => {
-    let date = new Date();
-    date.setDate(date.getDate() + 6);
-    let now = new Date(date).toISOString()?.slice(0, 16);
-    return now;
+  const formatLocalDateTime = (date) => {
+    const offset = date.getTimezoneOffset();
+    date.setMinutes(date.getMinutes() - offset); // Adjust for timezone
+    return date.toISOString().slice(0, 16); // Correct format for datetime-local
   };
+  
+  const returnmax = () => {
+    const date = new Date();
+    date.setDate(date.getDate() + 6); // Add 1 day for checkout
+    return formatLocalDateTime(date);
+  };
+  
   const returnmaxcheckout = () => {
     if (checkintime) {
-      let date = new Date(checkintime);
-      date.setDate(date.getDate() + 5);
-      let now = new Date(date).toISOString()?.slice(0, 16);
-      return now;
+      const date = new Date(checkintime);
+      date.setDate(date.getDate() + 1); // Add 1 day for checkout
+      return formatLocalDateTime(date);
     } else {
       return '';
     }
   };
+  
+  // const returnmax = () => {
+  //   let date = new Date();
+  //   date.setDate(date.getDate() + 6);
+  //   let now = new Date(date).toISOString()?.slice(0, 16);
+  //   return now;
+  // };
+  // const returnmaxcheckout = () => {
+  //   if (checkintime) {
+  //     let date = new Date(checkintime);
+  //     date.setDate(date.getDate() + 5);
+  //     let now = new Date(date).toISOString()?.slice(0, 16);
+  //     return now;
+  //   } else {
+  //     return '';
+  //   }
+  // };
 
   const convertTime12to24 = (time12h) => {
     const [time, modifier] = time12h.split(' ');

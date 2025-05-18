@@ -1,81 +1,38 @@
-
-import moment from "moment";
-import React, { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux/es/exports";
-import axios from "axios";
-import Edit from '../../../../../../../assets/Edit.png';
-import Delete from '../../../../../../../assets/Delete.png';
-import CloseIcon from '@mui/icons-material/Close';
+import React from "react";
+import Edit from "../../../../../../../assets/Edit.png";
+import Delete from "../../../../../../../assets/Delete.png";
+import { Box, Modal, Fade, IconButton, Tooltip, Typography, Button, Dialog, DialogContent, DialogContentText, DialogTitle, DialogActions } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import Update from "../Add/UpdateItem";
 import { serverInstance } from "../../../../../../../API/ServerInstance";
-import Update from "../Add/UpdateItem"
-import { Box, Button, Dialog, DialogContent, DialogContentText, DialogTitle, Fade, IconButton, Modal, Tooltip, Typography } from "@mui/material";
-import DialogActions from '@mui/material/DialogActions';
+import Swal from "sweetalert2";
 
-
-
-export default function Table() {
-
-  const [item, setItem] = useState([]);
-  const [updatedata, setupdatedata] = useState('');
+export default function Table({ item }) {
   const [open1, setOpen1] = React.useState(false);
-  const handleClose1 = () => setOpen1(false);
-  const style = {
-    position: 'absolute',
-    top: '40%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 'auto',
-    bgcolor: 'background.paper',
-    p: 2,
-    boxShadow: 24,
-    borderRadius: '5px',
-  };
-
-  var options = { year: 'numeric', month: 'short', day: '2-digit' };
-  var today = new Date();
-  const currDate = today
-    .toLocaleDateString('en-IN', options)
-    .replace(/-/g, ' ');
-  const currTime = today.toLocaleString('en-US', {
-    hour: 'numeric',
-    minute: 'numeric',
-    hour12: true,
-  });
-
-  const [deleteId, setdeleteId] = useState('');
+  const [updatedata, setupdatedata] = React.useState(null);
+  const [deleteId, setDeleteId] = React.useState("");
   const [open3, setOpen3] = React.useState(false);
+
+  const handleClose1 = () => setOpen1(false);
+  const handleClose3 = () => setOpen3(false);
 
   const handleClickOpen3 = (id) => {
     setOpen3(true);
-    setdeleteId(id);
+    setDeleteId(id);
   };
 
-    const handleClose5 = () => setOpen3(false);
-    const handleClose4 = () => {
-      setOpen3(false);
-      serverInstance(`store/delete-itemMaster?id=${deleteId}`, 'delete').then((res) => {
-        if (res.data.status === true) {
-          setOpen1(false);
-          Swal.fire('Great!', res.data.message, 'success');
-        }
-        if (res.data.status === false) {
-          setOpen1(false);
-          Swal.fire('Error!', res.data.message, 'error');
-        }
-      });
-    };
-
-  // Fetch supplier data from API
-  const fetchItems = async () => {
+  const handleDelete = async () => {
     try {
-      const response = await serverInstance("store/get-itemMaster", "get"); // Adjust the endpoint as required
+      const response = await serverInstance(`store/delete-itemMaster?id=${deleteId}`, "delete");
       if (response.status) {
-        setItem(response.data);
+        setOpen3(false);
+        Swal.fire('Great!', 'Item deleted successfully', 'success');
       } else {
-        console.error("Failed to fetch supplier data:", response.msg);
+        Swal.fire('Oops!', 'Failed to delete the item', 'error');
+
       }
     } catch (error) {
-      console.error("Error fetching supplier data:", error);
+      console.error("Error deleting item:", error);
     }
   };
 
@@ -84,61 +41,46 @@ export default function Table() {
     setupdatedata(data);
   };
 
-  // Load data on component mount
-  useEffect(() => {
-    fetchItems();
-  }, []);
-
+  const style = {
+    position: "absolute",
+    top: "40%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "auto",
+    bgcolor: "background.paper",
+    p: 2,
+    boxShadow: 24,
+    borderRadius: "5px",
+  };
 
   return (
     <>
-
-      <Dialog
-        open={open3}
-        onClose={handleClose5}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {'Do you want to delete'}
-        </DialogTitle>
+      <Dialog open={open3} onClose={handleClose3}>
+        <DialogTitle>{"Do you want to delete this item?"}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            After delete you cannot get again
-          </DialogContentText>
+          <DialogContentText>After deletion, you cannot recover this item.</DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose5}>Disagree</Button>
-          <Button onClick={handleClose4} autoFocus>
-            Agree
+          <Button onClick={handleClose3}>Cancel</Button>
+          <Button onClick={handleDelete} autoFocus>
+            Delete
           </Button>
         </DialogActions>
       </Dialog>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={open1}
-        onClose={handleClose1}
-        closeAfterTransition
-      >
+
+      <Modal open={open1} onClose={handleClose1} closeAfterTransition>
         <Fade in={open1}>
           <Box sx={style}>
             <div>
               <div className="add-div-close-div">
                 <div>
-                  <h2 style={{ marginBottom: '0.5rem', marginLeft: '1rem' }}>
-                    Item Master Update
-                  </h2>
-                  <Typography
-                    style={{ marginLeft: '1rem' }}
-                    variant="body2"
-                    color="primary"
-                  >
-                    {currDate} / {currTime}
+                  <h2 style={{ marginBottom: "0.5rem", marginLeft: "1rem" }}>Item Master Update</h2>
+                  <Typography style={{ marginLeft: "1rem" }} variant="body2" color="primary">
+                    {new Date().toLocaleString()}
                   </Typography>
                 </div>
                 <IconButton>
-                  <CloseIcon onClick={() => handleClose1()} />
+                  <CloseIcon onClick={handleClose1} />
                 </IconButton>
               </div>
               <Update setOpen={handleClose1} updatedata={updatedata} />
@@ -146,6 +88,7 @@ export default function Table() {
           </Box>
         </Fade>
       </Modal>
+
       <div className="wrapper_abc">
         <table>
           <thead>
@@ -153,6 +96,7 @@ export default function Table() {
               <th>Sn</th>
               <th>Item Name</th>
               <th>Department Name</th>
+              <th>UOM</th>
               <th>Opening Stock</th>
               <th>Current Stock</th>
               <th>Action</th>
@@ -165,24 +109,24 @@ export default function Table() {
                   <td>{index + 1}</td>
                   <td>{supplier.item_name}</td>
                   <td>{supplier.department_name}</td>
+                  <td>{supplier.UOM || "N/A"}</td>
                   <td>{supplier.opening_stock}</td>
-                  <td>{supplier?.current_stock}</td>
+                  <td>{supplier.current_stock}</td>
                   <td>
                     <Tooltip title="Edit">
                       <img
                         onClick={() => handleEdit(supplier)}
                         src={Edit}
-                        alt="eye"
-                        style={{ width: '20px', marginRight: '0.5rem' }}
+                        alt="Edit"
+                        style={{ width: "20px", marginRight: "0.5rem" }}
                       />
                     </Tooltip>
-
                     <Tooltip title="Delete">
                       <img
-                        onClick={() => handleClickOpen3(supplier?.id)}
+                        onClick={() => handleClickOpen3(supplier.id)}
                         src={Delete}
-                        alt="eye"
-                        style={{ width: '20px' }}
+                        alt="Delete"
+                        style={{ width: "20px" }}
                       />
                     </Tooltip>
                   </td>
@@ -190,7 +134,7 @@ export default function Table() {
               ))
             ) : (
               <tr>
-                <td colSpan="12">No item found.</td>
+                <td colSpan="7">No items found.</td>
               </tr>
             )}
           </tbody>

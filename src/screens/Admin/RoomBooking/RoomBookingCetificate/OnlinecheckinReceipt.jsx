@@ -41,7 +41,6 @@ const OnlinecheckinReceipt = ({ setopendashboard }) => {
   };
 
   function down() {
-    console.log('cliii');
     const input = document.getElementById('receipt');
     html2canvas(input).then((canvas) => {
       const imgData = canvas.toDataURL('image/png');
@@ -53,7 +52,7 @@ const OnlinecheckinReceipt = ({ setopendashboard }) => {
 
   var options = { year: 'numeric', month: 'short', day: '2-digit' };
   var today = new Date(isData && isData?.date);
-  var todayout = new Date(isData && isData?.coutDate);
+  // var todayout = new Date(isData && isData?.coutDate);
   const currDate = today
     .toLocaleDateString('en-IN', options)
     .replace(/-/g, ' ');
@@ -70,7 +69,7 @@ const OnlinecheckinReceipt = ({ setopendashboard }) => {
       const response = await fetch('https://worldtimeapi.org/api/ip');
       const data = await response.json();
       // return new Date(data.utc_datetime);
-      console.log(data);
+      // console.log(data);
       setDate(data);
     } catch (error) {
       console.error('Error fetching time:', error);
@@ -84,61 +83,118 @@ const OnlinecheckinReceipt = ({ setopendashboard }) => {
     today1 = new Date(date.utc_datetime);
   }
 
-  const currDatecheckout = todayout
-    .toLocaleDateString('en-IN', options)
+  // const currDatecheckout = todayout
+  //   .toLocaleDateString('en-IN', options)
+  //   .replace(/-/g, ' ');
+  // const currTimecheckout = todayout.toLocaleString('en-US', {
+  //   hour: 'numeric',
+  //   minute: 'numeric',
+  //   hour12: true,
+  // });
+
+  const now = new Date();
+  const actualCheckoutDateTime = new Date(
+    `${isData?.coutDate?.split('T')[0]}T${isData?.coutTime}`
+  );
+  const finalCheckoutDateTime = now < actualCheckoutDateTime ? now : actualCheckoutDateTime;
+
+  var todayout = new Date(); // use current time
+
+  // const options = { year: 'numeric', month: 'short', day: 'numeric' };
+
+  // const currDatecheckout = todayout
+  //   .toLocaleDateString('en-IN', options)
+  //   .replace(/-/g, ' ');
+
+  // const currTimecheckout = todayout.toLocaleString('en-US', {
+  //   hour: 'numeric',
+  //   minute: 'numeric',
+  //   hour12: true,
+  // });
+
+  // let TotalDays;
+
+  const currDatecheckout = finalCheckoutDateTime
+    .toLocaleDateString('en-IN', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    })
     .replace(/-/g, ' ');
-  const currTimecheckout = todayout.toLocaleString('en-US', {
+
+  const currTimecheckout = finalCheckoutDateTime.toLocaleString('en-US', {
     hour: 'numeric',
     minute: 'numeric',
     hour12: true,
   });
 
-  let TotalDays;
+  const checkInDate = new Date(isData?.date);
+  let TotalDays = Math.ceil((finalCheckoutDateTime - checkInDate) / (1000 * 60 * 60 * 24));
+  console.log("total days ", TotalDays, finalCheckoutDateTime, checkInDate);
+
+  // if (TotalDays < 1) TotalDays = 1;
+
+
 
   const days_diff = Math.floor(
     (todayout.getTime() - new Date(isData?.date).getTime()) /
-      (1000 * 3600 * Number(isData?.coTime - 3)),
+    (1000 * 3600 * Number(isData?.coTime - 3))
   );
 
-  const hours_difference = Math.floor(
-    ((todayout.getTime() - new Date(isData?.date).getTime()) / (1000 * 60 * 60)) %
-      Number(isData?.coTime - 3),
-  );
+  console.log("day diff ", days_diff);
 
-  console.log("is data ", isData);
-  console.log("day diff ", days_diff, hours_difference)
-  
-  if (days_diff === 0) {
-    TotalDays = days_diff + 1;
-  } else if (days_diff > 0 && hours_difference < 3) {
-    TotalDays = days_diff;
-  } else if (days_diff > 0 && hours_difference >= 3) {
-    TotalDays = days_diff + 1;
+
+  const dataHour = parseInt(isData?.coutTime?.split(':')[0]) || 0;
+
+  // Get current hour (e.g., 23:19:00 → 23)
+  const currentHour = new Date().getHours();
+
+  // Calculate hour difference: (currentHour - dataHour) - 3
+  let hours_difference = (currentHour - dataHour);
+
+  console.log("total days ", TotalDays);
+  console.log("hour diff ", hours_difference);
+
+  if (TotalDays == 1) {
+    TotalDays = 1
+  } else if (TotalDays > 1 && hours_difference < 3) {
+    TotalDays = TotalDays
+  } else {
+    TotalDays = TotalDays + 1
   }
+  // Adjust TotalDays logic
+  // if (days_diff === 0) {
+  //   TotalDays = 1; // at least one day is charged
+  // } else if (days_diff > 0 && hours_difference < 3) {
+  //   TotalDays = days_diff;
+  // } else {
+  //   TotalDays = days_diff + 1;
+  // }
+
 
   let currentTotalDays;
 
-// Parse the isData.date to get the base date and truncate time for comparison
-const startDate = new Date(isData?.date);
-startDate.setHours(0, 0, 0, 0); // Set the time to the start of the day
+  // Parse the isData.date to get the base date and truncate time for comparison
+  const startDate = new Date(isData?.date);
+  startDate.setHours(0, 0, 0, 0); // Set the time to the start of the day
 
-// Get today's date and truncate time for comparison
-const today_date = new Date();
-today_date.setHours(0, 0, 0, 0);
+  // Get today's date and truncate time for comparison
+  const today_date = new Date();
+  today_date.setHours(0, 0, 0, 0);
 
-// Calculate the difference in days
-const diffInDays = Math.floor((today_date - startDate) / (1000 * 60 * 60 * 24));
+  // Calculate the difference in days
+  const diffInDays = Math.floor((today_date - startDate) / (1000 * 60 * 60 * 24));
 
-// Since the minimum day is 1, add 1 to the difference
-currentTotalDays = diffInDays + 1;
+  // Since the minimum day is 1, add 1 to the difference
+  currentTotalDays = diffInDays + 1;
 
-  console.log('Online is stays days ', TotalDays);
+  // console.log('Online is stays days ', TotalDays);
 
   useEffect(() => {
     if (location.state) {
       setisData(location?.state?.data);
     }
-    console.log('data from certifucate', location?.state?.data);
+    // console.log('data from certifucate', location?.state?.data);
 
     setopendashboard(true);
   }, []);
@@ -251,6 +307,7 @@ currentTotalDays = diffInDays + 1;
                               <p className="lineheight">
                                 {isData && isData?.name}
                               </p>
+
                               <p className="lineheight">
                                 {isData && isData?.Fname}
                               </p>
@@ -275,28 +332,32 @@ currentTotalDays = diffInDays + 1;
                                 style={{ color: 'gray' }}
                                 className="lineheight"
                               >
-                                स्टे :
+                                पता :
                               </p>
+
                               <p
                                 style={{ color: 'gray' }}
                                 className="lineheight"
                               >
-                                पता :
+                                स्टे (दिन) :
                               </p>
+
+
                             </div>
                             <div className="main_left">
                               <p className="lineheight">
-                                {currDatecheckout}/
-                                {convertTime12to24(currTimecheckout)}
+                                {currDatecheckout}/{convertTime12to24(currTimecheckout)}
                               </p>
                               <p className="lineheight">
                                 {currDate}/{convertTime12to24(currTime)}
                               </p>
 
-                              <p className="lineheight">{TotalDays} Days</p>
+
                               <p className="lineheight">
                                 {isData && isData?.address}
                               </p>
+
+                              <p className="lineheight">{TotalDays} Days</p>
                             </div>
                           </div>
                         </div>
@@ -313,15 +374,15 @@ currentTotalDays = diffInDays + 1;
                                 </td>
 
                                 <td className="table_tddd lineheight10">
-                                कुल सहयोग राशि
+                                  सहयोग राशि
                                 </td>
 
                                 <td className="table_tddd lineheight10">
-                                जमा सहयोग राशि
+                                  जमा सहयोग राशि
                                 </td>
 
                                 <td className="table_tddd lineheight10">
-                                  सहयोग राशि लेना
+                                  शेष सहयोग राशि
                                 </td>
                               </tr>
                               <tr>
@@ -346,17 +407,20 @@ currentTotalDays = diffInDays + 1;
                                 </td>
 
                                 <td className="table_tddd lineheight10">
-                                  {Number(isData && isData?.roomDetails.Rate) *
-                                    currentTotalDays}
+                                  {Number(isData && isData?.roomAmountSum) * TotalDays}
                                   .00
                                 </td>
 
                                 <td className="table_tddd lineheight10">
-                                  {Number(isData && isData?.roomDetails.Rate) *
-                                    currentTotalDays -
-                                    Number(isData && isData?.roomAmountSum)}
+                                  {Number(isData && isData?.roomAmountSum)}
                                   .00
                                 </td>
+
+                                <td className="table_tddd lineheight10">
+                                  {Number(isData && isData?.roomAmountSum) * TotalDays - Number(isData && isData?.roomAmountSum)}
+                                  .00
+                                </td>
+
                               </tr>
                             </tbody>
                           </table>

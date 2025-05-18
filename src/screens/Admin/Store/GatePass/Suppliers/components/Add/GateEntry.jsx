@@ -42,11 +42,14 @@ const GateEntry = ({ getGP }) => {
 
     const [purchaseOrderNo, setPurchaseOrderNo] = useState('')
     const [gateEntryNo, setGateEntryNo] = useState('')
-    const [challanNo, setChallanNo] = useState('')
-    const [billNo, setBillNo] = useState('')
+    const [challanNo, setChallanNo] = useState('0')
+    const [billNo, setBillNo] = useState('0')
     const [supName, setSupName] = useState('')
     const [supCode, setSupCode] = useState('')
-    const [date, setDate] = useState('')
+    const [date, setDate] = useState(() => {
+        const today = new Date();
+        return today.toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+    });
     const [show, setShow] = useState(false)
     const [showloader, setshowloader] = useState(false);
     const [step, setStep] = useState(1)
@@ -153,7 +156,7 @@ const GateEntry = ({ getGP }) => {
         try {
 
             const data = {
-                date: currDate,
+                date: date,
                 time: currTime,
                 supplierName: supName,
                 supplierCode: supCode,
@@ -312,7 +315,6 @@ const GateEntry = ({ getGP }) => {
                                 <div className="flex_div_main_add_user">
 
                                     <div className="main-input-div1">
-
                                         <div className="inner-input-divadd">
                                             <label htmlFor="supplierCode">Date</label>
                                             {/* <input
@@ -323,12 +325,11 @@ const GateEntry = ({ getGP }) => {
                                                 type="date"
                                                 id="date"
                                                 name="date"
-                                                value={date}
+                                                value={date} // Bind to `date` state
                                                 required
-                                                onChange={(e) => setDate(e.target.value)}
+                                                onChange={(e) => setDate(e.target.value)} // Update state on change
                                             />
                                         </div>
-
 
                                         <div className="inner-input-divadd">
                                             <label htmlFor="supplierCode">Purchase Order No. </label>

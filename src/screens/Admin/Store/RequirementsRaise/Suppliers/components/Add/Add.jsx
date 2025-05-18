@@ -29,6 +29,7 @@ import { CustomInput, CustomInputLabel, CustomTableInput } from '../common';
 
 
 import './Add.css'
+import ModalPurchaseRequest from '../../../../../Reciept/ModelPurchaseRequest'
 
 
 const Add = ({ getPR }) => {
@@ -132,6 +133,14 @@ const Add = ({ getPR }) => {
     ]);
 
     const [totalAmount, setTotalAmount] = useState(0);
+    const [datasend, setdatasend] = useState('');
+    const [openDownload, setOpenDownload] = React.useState(false);
+    const handleCloseDownload = () => setOpenDownload(false);
+    const handleOpenDownload = (data) => {
+        setOpenDownload(true);
+        setdatasend(data);
+      };
+    
 
     const custominput = {
         border: '1px solid #B8B8B8',
@@ -142,6 +151,20 @@ const Add = ({ getPR }) => {
         paddingLeft: '0.5rem',
         marginBottom: '0.5rem',
         color: 'gray',
+    };
+
+    const style50 = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        width: '80%',
+        height: '95%',
+        overflow: 'auto',
+        transform: 'translate(-50%, -50%)',
+        bgcolor: 'background.paper',
+        p: 2,
+        boxShadow: 24,
+        borderRadius: '0px',
     };
 
     const handleInputChange = (idx, field, value) => {
@@ -369,8 +392,10 @@ const Add = ({ getPR }) => {
             serverInstance('store/add-purchaseRequisition ', 'post', data).then((res) => {
                 if (res.status) {
                     getPR();
+                    console.log("response ", res);
+                    handleOpenDownload(res?.data.data)
                     handleClose()
-                    Swal.fire('Great!', res.msg, 'success')
+                    // Swal.fire('Great!', res.msg, 'success')
                 }
 
                 if (res.status === false) {
@@ -587,6 +612,25 @@ const Add = ({ getPR }) => {
     return (
         <div>
 
+            <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                open={openDownload}
+                onClose={handleCloseDownload}
+                closeAfterTransition
+            >
+                <Fade in={openDownload}>
+                    <Box sx={style50}>
+                        <ModalPurchaseRequest
+                            // setopendashboard={setopendashboard}
+                            handleClose60={handleCloseDownload}
+                            datasend={datasend}
+                        // setshowreciept={setshowreciept}
+                        />
+                    </Box>
+                </Fade>
+            </Modal>
+
             <Button sx={{
                 borderRadius: '0.5rem',
                 color: 'black',
@@ -654,19 +698,6 @@ const Add = ({ getPR }) => {
                                             <a href="#" onClick={() => setShowAddDepartment(true)}>Add a new department</a>
                                         </p> */}
 
-
-
-                                        <div className="inner-input-divadd">
-                                            <label htmlFor="Company Location">Remark</label>
-                                            <input
-                                                id="Remark"
-                                                text="text"
-                                                required
-                                                onChange={(e) => setRemark(e.target.value)}
-                                                value={remark}
-                                                placeholder='Enter Remark'
-                                            />
-                                        </div>
 
                                     </div>
 
@@ -790,7 +821,7 @@ const Add = ({ getPR }) => {
                                     <div className="main-input-div4">
 
 
-                                        <div className="inner-input-divadd">
+                                        {/* <div className="inner-input-divadd">
                                             <label htmlFor="description">Description</label>
                                             <textarea
                                                 id="description"
@@ -800,6 +831,18 @@ const Add = ({ getPR }) => {
                                                 value={description}
                                                 rows={4} // Optional: Specifies the number of visible text lines
                                                 cols={50} // Optional: Specifies the width of the textarea
+                                            />
+                                        </div> */}
+
+                                        <div className="inner-input-divadd">
+                                            <label htmlFor="Company Location">Remark</label>
+                                            <input
+                                                id="Remark"
+                                                text="text"
+                                                required
+                                                onChange={(e) => setRemark(e.target.value)}
+                                                value={remark}
+                                                placeholder='Enter Remark'
                                             />
                                         </div>
 

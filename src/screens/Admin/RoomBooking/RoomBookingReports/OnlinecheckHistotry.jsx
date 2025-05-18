@@ -26,6 +26,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import EditIcon from '@mui/icons-material/Edit';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import RoomShiftForm from '../RoomShift/RoomShiftForm';
@@ -37,6 +38,8 @@ import Edit from '../../../../assets/Edit.png';
 import Checkout21 from '../../../../assets/Checkout21.png';
 import fordd from '../../../../assets/for.jpeg';
 import RoomBookingTap from './RoomBookingReportsTab';
+import RoomEditForm from '../RoomShift/RoomEditForm';
+import ShowEditRoom from '../RoomShift/ShowEditRooms';
 
 const style = {
   position: 'absolute',
@@ -54,7 +57,7 @@ const style1 = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: '60%',
+  width: 'auto',
   bgcolor: 'background.paper',
   p: 2,
   boxShadow: 24,
@@ -251,6 +254,18 @@ const OnlinecheckHistotry = ({ setopendashboard }) => {
         );
       }
     });
+  };
+
+  const retruetime = (date) => {
+    var options = { year: 'numeric', month: 'short', day: '2-digit' };
+    var today = new Date(date);
+
+    const currTime = today.toLocaleString('en-US', {
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true,
+    });
+    return currTime;
   };
 
   const [checkforceid, setcheckforceid] = useState('');
@@ -524,7 +539,7 @@ const OnlinecheckHistotry = ({ setopendashboard }) => {
               <div className="add-div-close-div">
                 <div>
                   <h2 style={{ marginBottom: '0.5rem', marginLeft: '1rem' }}>
-                    Room Shift
+                    Edit Room
                   </h2>
                   <Typography
                     style={{ marginLeft: '1rem' }}
@@ -538,7 +553,8 @@ const OnlinecheckHistotry = ({ setopendashboard }) => {
                   <CloseIcon onClick={() => handleClose8()} />
                 </IconButton>
               </div>
-              <RoomShiftForm setOpen={setOpen8} changedata={changedata8} />
+
+              <ShowEditRoom setOpen={setOpen8} changedata={changedata8} />
             </div>
           </Box>
         </Fade>
@@ -690,25 +706,16 @@ const OnlinecheckHistotry = ({ setopendashboard }) => {
           </div>
         </div>
 
-        <div className="table-div-maain">
+        <div className="table-div-maain" style={{ width: '200%'}}>
           <Table
             sx={{ minWidth: 650, width: '100%' }}
-            style={{ marginLeft: '42rem' }}
             aria-label="simple table"
           >
             <TableHead style={{ background: '#F1F0F0' }}>
               <TableRow>
                 <TableCell>S.No</TableCell>
                 <TableCell>
-                  Checkin
-                  <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortData('date')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
-                <TableCell>
-                Booking_ID
+                  B_Id
                   <i
                     style={{ marginLeft: '0rem' }}
                     onClick={() => sortData('booking_id')}
@@ -723,24 +730,6 @@ const OnlinecheckHistotry = ({ setopendashboard }) => {
                     class={`fa fa-sort`}
                   />
                 </TableCell>
-
-                <TableCell>
-                  idNumber
-                  <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortData('idNumber')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
-
-                <TableCell>
-                  proof
-                  <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortData('proof')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
                 <TableCell>
                   Customer
                   <i
@@ -749,16 +738,7 @@ const OnlinecheckHistotry = ({ setopendashboard }) => {
                     class={`fa fa-sort`}
                   />
                 </TableCell>
-
-                <TableCell>
-                  Total Guest
-                  <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortData('dharmasala?.name')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
-                <TableCell>
+                <TableCell style={{width: '0px'}}>
                   Address
                   <i
                     style={{ marginLeft: '0rem' }}
@@ -766,7 +746,31 @@ const OnlinecheckHistotry = ({ setopendashboard }) => {
                     class={`fa fa-sort`}
                   />
                 </TableCell>
-                <TableCell>
+                <TableCell style={{ width: '6rem' }}>
+                  Guest
+                  <i
+                    style={{ marginLeft: '0rem' }}
+                    onClick={() => sortData('name')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell style={{ width: '6rem' }}>
+                  CheckIn Date
+                  <i
+                    style={{ marginLeft: '0rem' }}
+                    onClick={() => sortData('name')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell style={{ width: '6rem' }}>
+                  CheckOut Date
+                  <i
+                    style={{ marginLeft: '0rem' }}
+                    onClick={() => sortData('name')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell style={{ width: '6rem' }}>
                   Stay Days
                   <i
                     style={{ marginLeft: '0rem' }}
@@ -799,6 +803,22 @@ const OnlinecheckHistotry = ({ setopendashboard }) => {
                     class={`fa fa-sort`}
                   />
                 </TableCell>
+                <TableCell>
+                  Advance Amt
+                  <i
+                    style={{ marginLeft: '0rem' }}
+                    onClick={() => sortData('roomAmount')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell>
+                  Remaining Amt
+                  <i
+                    style={{ marginLeft: '0rem' }}
+                    onClick={() => sortData('roomAmount')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
                 {/* <TableCell>
                   Advance
                   <i
@@ -807,40 +827,17 @@ const OnlinecheckHistotry = ({ setopendashboard }) => {
                     class={`fa fa-sort`}
                   />
                 </TableCell> */}
-                <TableCell>
-                  Employee
-                  <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortData('bookedByName')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
 
-                <TableCell>
-                  PayMode
-                  <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortData('paymentMode')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
+                <TableCell>PayMode</TableCell>
+                <TableCell>Transaction Number</TableCell>
 
-                <TableCell>BankName</TableCell>
-                <TableCell>TransactionId</TableCell>
+                <TableCell style={{ width: '5rem' }}>Add_at</TableCell>
                 <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               <TableRow>
                 <TableCell>&nbsp;</TableCell>
-                <TableCell>
-                  <input
-                    style={{ width: '4rem' }}
-                    className="cuolms_search"
-                    type="date"
-                    onChange={(e) => onSearchByOther(e, 'date')}
-                  />
-                </TableCell>
                 <TableCell>
                   <input
                     style={{ width: '4rem' }}
@@ -852,18 +849,12 @@ const OnlinecheckHistotry = ({ setopendashboard }) => {
                 </TableCell>
                 <TableCell>
                   <input
-                    style={{ width: '6rem' }}
+                    style={{ width: '7rem' }}
                     className="cuolms_search"
                     type="text"
                     onChange={(e) => onSearchByOther(e, 'contactNo')}
                     placeholder="Mobile No"
                   />
-                </TableCell>
-                <TableCell>
-                  <div style={{ width: '6rem' }} />
-                </TableCell>
-                <TableCell>
-                  <div style={{ width: '6rem' }} />
                 </TableCell>
                 <TableCell>
                   <input
@@ -875,10 +866,6 @@ const OnlinecheckHistotry = ({ setopendashboard }) => {
                   />
                 </TableCell>
                 <TableCell>
-                  <div style={{ width: '6rem' }} />
-                </TableCell>
-
-                <TableCell>
                   <input
                     style={{ width: '6rem' }}
                     className="cuolms_search"
@@ -887,18 +874,33 @@ const OnlinecheckHistotry = ({ setopendashboard }) => {
                     placeholder="Address"
                   />
                 </TableCell>
+                <TableCell>&nbsp;</TableCell>
                 <TableCell>
-                  <div style={{ width: '6rem' }} />
+                  <input
+                    style={{ width: '5rem' }}
+                    className="cuolms_search"
+                    type="date"
+                    onChange={(e) => onSearchByOther(e, 'date')}
+                  />
                 </TableCell>
                 <TableCell>
                   <input
-                    style={{ width: '6rem' }}
+                    style={{ width: '5rem' }}
+                    className="cuolms_search"
+                    type="date"
+                    onChange={(e) => onSearchByOther(e, 'coutDate')}
+                  />
+                </TableCell>
+                <TableCell>&nbsp;</TableCell>
+                <TableCell>
+                  <input
+                    style={{ width: '9rem' }}
                     className="cuolms_search"
                     type="text"
                     onChange={(e) => {
                       onSearchByOther(e, 'dharmasala');
                     }}
-                    placeholder="Dharamshala"
+                    placeholder="Dharamshala Name"
                   />
                 </TableCell>
                 <TableCell>
@@ -914,7 +916,7 @@ const OnlinecheckHistotry = ({ setopendashboard }) => {
                 </TableCell>
                 <TableCell>
                   <input
-                    style={{ width: '4rem' }}
+                    style={{ width: '5rem' }}
                     className="cuolms_search"
                     type="text"
                     onChange={(e) => {
@@ -923,38 +925,12 @@ const OnlinecheckHistotry = ({ setopendashboard }) => {
                     placeholder="Rent"
                   />
                 </TableCell>
-                <TableCell>
-                  <input
-                    style={{ width: '4rem' }}
-                    className="cuolms_search"
-                    type="text"
-                    onChange={(e) => {
-                      onSearchByOther(e, 'advanceAmount');
-                    }}
-                    placeholder="Advance"
-                  />
-                </TableCell>
-                <TableCell>
-                  <select
-                    name="cars"
-                    id="cars"
-                    style={{ width: '5rem' }}
-                    className="cuolms_search"
-                    onChange={(e) => {
-                      onSearchByOther(e, 'bookedByName');
-                      console.log(e.target.value);
-                    }}
-                  >
-                    <option value="">All user</option>
-                    {emplist &&
-                      emplist.map((item, idx) => {
-                        return (
-                          <option value={item.Username}>{item.Username}</option>
-                        );
-                      })}
-                  </select>
-                </TableCell>
+
                 <TableCell>&nbsp;</TableCell>
+
+                <TableCell>&nbsp;</TableCell>
+                <TableCell>&nbsp;</TableCell>
+
                 <TableCell>&nbsp;</TableCell>
                 <TableCell>&nbsp;</TableCell>
                 <TableCell>
@@ -973,68 +949,85 @@ const OnlinecheckHistotry = ({ setopendashboard }) => {
                 <>
                   {(rowsPerPage > 0
                     ? isData
-                        ?.reverse()
-                        ?.slice(
-                          page * rowsPerPage,
-                          page * rowsPerPage + rowsPerPage,
-                        )
+                      ?.reverse()
+                      ?.slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage,
+                      )
                     : isData?.reverse()
                   ).map((row, index) => (
                     <TableRow
                       key={row.id}
                       sx={{
                         '&:last-child td, &:last-child th': { border: 0 },
+                        backgroundColor: row?.date && Moment(row.date).isAfter(Moment(), 'day')
+                          ? '#ffff72' // Highlight row in yellow for future dates
+                          : shouldHighlightRow(row?.coutDate, row?.coutTime)
+                            ? '#ff7272' // Highlight row in red if shouldHighlightRow returns true
+                            : 'inherit', // Default background color
                       }}
                     >
                       <TableCell>{index + 1}</TableCell>
-
-                      <TableCell>
-                        {Moment(row?.date)?.format('DD-MM-YYYY')}&nbsp;&nbsp;
-                        {convertTime12to24(
-                          moment(row?.time, 'HH:mm:ss').format('hh:mm:A'),
-                        )}
-                        &nbsp;&nbsp;
-                      </TableCell>
                       <TableCell>{row?.booking_id}</TableCell>
+                      {/* <TableCell>
+                        {Moment(row?.date).format('DD-MM-YYYY')}: /
+                        {convertTime12to24(retruetime(row?.date))}
+                        &nbsp;&nbsp;
+                      </TableCell> */}
                       <TableCell>{row?.contactNo}</TableCell>
-                      <TableCell>{row?.proof}</TableCell>
-                      <TableCell>{row?.idNumber}</TableCell>
                       <TableCell>{row?.name}</TableCell>
-
-                      <TableCell>
-                        {Number(row?.female) +
-                          Number(row?.child) +
-                          Number(row?.male)}
-                      </TableCell>
                       <TableCell>{row?.address}</TableCell>
                       <TableCell>
-                        {Math.floor(
-                          (new Date(isData[0]?.coutDate).getTime() -
-                            new Date(isData[0]?.date).getTime()) /
-                            (1000 * 3600 * 27),
-                        ) != 0
-                          ? Math.floor(
-                              (new Date(isData[0]?.coutDate).getTime() -
-                                new Date(isData[0]?.date).getTime()) /
-                                (1000 * 3600 * 27),
-                            )
-                          : 1}
+                        <div style={{ width: '2rem' }}>
+                          <p style={{ fontWeight: 300 }}>
+                            {Number(row?.female) +
+                              Number(row?.child) +
+                              Number(row?.male)}
+                          </p>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        {Moment(row?.date).format('DD-MM-YYYY')}: /
+                        {convertTime12to24(retruetime(row?.date))}
+                        &nbsp;&nbsp;
+                      </TableCell>
+                      <TableCell>
+                        {Moment(row?.coutDate).format('DD-MM-YYYY')}: /
+                        {convertTime12to24(retruetime(row?.coutDate))}
+                        &nbsp;&nbsp;
+                      </TableCell>
+                      <TableCell>
+                        {row?.date && row?.coutDate
+                          ? `${Math.ceil(
+                            (new Date(row?.coutDate) - new Date(row?.date)) / (1000 * 60 * 60 * 24)
+                          )} days`
+                          : '-'}
                       </TableCell>
                       <TableCell> {row?.dharmasalaData?.name}</TableCell>
                       <TableCell>
-                        {' '}
                         {row?.roomNumbers?.map((item) => (
                           <span>{item},</span>
                         ))}
                       </TableCell>
                       <TableCell> {row?.roomAmountSum}.00</TableCell>
-                      {/* <TableCell>{Number(row?.advanceAmountSum)}</TableCell> */}
-                      <TableCell>{row?.bookedByName}</TableCell>
+                      <TableCell> {row?.advanceAmountSum}.00</TableCell>
+                      <TableCell>
+                        {row?.roomAmountSum && row?.advanceAmountSum
+                          ? `${(row?.roomAmountSum - row?.advanceAmountSum).toFixed(2)}`
+                          : '0.00'}
+                      </TableCell>
+                      {/* <TableCell>
+                        {Number(row?.roomAmount) + Number(row?.advanceAmount)}
+                      </TableCell> */}
                       <TableCell>
                         {row?.paymentMode === 2 ? 'Cash' : 'Online'}
                       </TableCell>
-                      <TableCell>{row?.bankName}</TableCell>
-                      <TableCell>{row?.paymentid}</TableCell>
+                      <TableCell>
+                        {row?.transactionId}
+                      </TableCell>
+                      <TableCell style={{ width: '5rem' }}>
+                        {Moment(row?.createdAt).format('DD-MM-YYYY')}
+                      </TableCell>
                       <TableCell>
                         {optionss === 'History' ? (
                           <>
@@ -1064,7 +1057,7 @@ const OnlinecheckHistotry = ({ setopendashboard }) => {
                                   <img
                                     onClick={() =>
                                       navigation(
-                                        '/admin-panel/Room/OnlinecheckinReceipt',
+                                        '/admin-panel/Room/OnlineForce',
                                         {
                                           state: {
                                             data: row,
@@ -1076,47 +1069,10 @@ const OnlinecheckHistotry = ({ setopendashboard }) => {
                                     alt="print"
                                     style={{
                                       width: '25px',
-                                      marginRight: '0.3rem',
+                                      // marginRight: '0.3rem',
                                     }}
                                   />
                                 </Tooltip>
-                              </>
-                            )}
-
-                            {userrole === 1 ? (
-                              <>
-                                {new Date(row?.date).getHours() !=
-                                new Date(row?.date).getHours() + 2 ? (
-                                  <></>
-                                ) : (
-                                  <></>
-                                )}
-                              </>
-                            ) : (
-                              <>
-                                {new Date(row?.date).getHours() !=
-                                new Date(row?.date).getHours() + 2 ? (
-                                  <>
-                                    {/* <Tooltip title="Cancel">
-                                      <CloseIcon
-                                        onClick={() => handleClickOpen3(row)}
-                                      />
-                                    </Tooltip>
-                                    <Tooltip title="Room Shift">
-                                      <img
-                                        onClick={() => handleOepn8(row)}
-                                        src={Edit}
-                                        alt="print"
-                                        style={{
-                                          width: '25px',
-                                          marginRight: '0.3rem',
-                                        }}
-                                      />
-                                    </Tooltip> */}
-                                  </>
-                                ) : (
-                                  <></>
-                                )}
                               </>
                             )}
 
@@ -1137,6 +1093,9 @@ const OnlinecheckHistotry = ({ setopendashboard }) => {
                                 style={{ width: '25px', marginRight: '0.3rem' }}
                               />
                             </Tooltip>
+                            <Tooltip title="Edit Room">
+                              <EditIcon sx={{ width: '30px' }} onClick={() => handleOepn8(row)} />
+                            </Tooltip>
                           </>
                         )}
                       </TableCell>
@@ -1154,34 +1113,17 @@ const OnlinecheckHistotry = ({ setopendashboard }) => {
                 <TableCell></TableCell>
                 <TableCell></TableCell>
                 <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
                 <TableCell>TotalAmount</TableCell>
-
                 <TableCell style={{ fontWeight: 800 }}>
-                  {isData &&
-                    isData?.reduce(
-                      (n, { roomAmount }) =>
-                        parseFloat(n) + parseFloat(roomAmount),
-                      0,
-                    )}.00
-                </TableCell>
-                {/* <TableCell style={{ fontWeight: 800 }}>
                   {isData &&
                     isData?.reduce(
                       (n, { roomAmountSum }) =>
                         parseFloat(n) + parseFloat(roomAmountSum),
                       0,
-                    ) +
-                      isData?.reduce(
-                        (n, { advanceAmountSum }) =>
-                          parseFloat(n) + parseFloat(advanceAmountSum),
-                        0,
-                      )}
-                </TableCell> */}
-                <TableCell></TableCell>
+                    )}
+                  .00
+                </TableCell>
+
                 <TableCell></TableCell>
                 <TableCell></TableCell>
               </TableRow>

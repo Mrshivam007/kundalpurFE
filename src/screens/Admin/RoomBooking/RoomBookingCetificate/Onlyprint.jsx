@@ -68,12 +68,12 @@ const Onlyprint = ({ setopendashboard }) => {
 
   const days_diff = Math.floor(
     (today1.getTime() - new Date(isData?.date).getTime()) /
-      (1000 * 3600 * Number(isData?.coTime - 3)),
+    (1000 * 3600 * Number(isData?.coTime - 3)),
   );
 
   const hours_difference = Math.floor(
     ((today1.getTime() - new Date(isData?.date).getTime()) / (1000 * 60 * 60)) %
-      Number(isData?.coTime - 3),
+    Number(isData?.coTime - 3),
   );
 
   if (days_diff === 0) {
@@ -123,7 +123,7 @@ const Onlyprint = ({ setopendashboard }) => {
     serverInstance(
       `room/checkin-certificate?booking_id=${isData[0]?.booking_id}`,
       'get',
-    ).then((res) => {});
+    ).then((res) => { });
   };
 
   const printReceipt = () => {
@@ -134,6 +134,8 @@ const Onlyprint = ({ setopendashboard }) => {
       },
     });
   };
+
+  console.log("data ", isData);
   return (
     <>
       <div>
@@ -218,6 +220,11 @@ const Onlyprint = ({ setopendashboard }) => {
                               >
                                 पिता/पति श्री :
                               </p>
+                              {isData && isData[0]?.bankName ? (
+                                <p style={{ color: 'gray' }} className="lineheight">
+                                  भुगतान विवरण :
+                                </p>
+                              ) : null}
 
                               <p
                                 style={{ color: 'gray' }}
@@ -249,6 +256,15 @@ const Onlyprint = ({ setopendashboard }) => {
                               <p className="lineheight">
                                 {isData && isData[0]?.Fname ? (
                                   isData && isData[0]?.Fname
+                                ) : (
+                                  <>
+                                    <p>&nbsp;</p>
+                                  </>
+                                )}
+                              </p>
+                              <p className="lineheight">
+                                {isData && isData[0]?.bankName ? (
+                                  `${isData[0].bankName} (${isData[0].transactionId})`
                                 ) : (
                                   <>
                                     <p>&nbsp;</p>

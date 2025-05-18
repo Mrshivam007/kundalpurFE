@@ -230,70 +230,47 @@ const ModalPurchaseRequest = ({
             </span>
             <span className="rightitems2 ">
               <div className="dan_ka_mad">
-                <h2>स्थान :</h2>
-              </div>
-              <h2 className="center_receipt_format font_bold_in_donation">
-                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                {isData?.ADDRESS ? isData?.ADDRESS : isData?.address}
-              </h2>
-            </span>
-            <span className="rightitems2 ">
-              <div className="dan_ka_mad">
                 <h2>आइटम का नाम:</h2>
               </div>
               <span className="center_receipt_format">
-                {isData && isData.purchaseRequisitionLists && (
-                  <>
-                    <h2>
-                      &nbsp; &nbsp; &nbsp;
-                      <b>
-                        {isData.purchaseRequisitionLists
-                          .map((item) => item.itemName)
-                          .filter(Boolean) // Removes any falsy values like empty strings or null
-                          .join(", ")}
-                      </b>
-                    </h2>
-                  </>
-                )}
+                {isData &&
+                  (isData.purchaseRequisitionList || isData.purchaseRequisitionLists) && (
+                    <>
+                      <h2>
+                        &nbsp; &nbsp; &nbsp;
+                        <b>
+                          {(isData.purchaseRequisitionList || isData.purchaseRequisitionLists)
+                            .map((item) => item.itemName)
+                            .filter(Boolean) // Removes any falsy values like empty strings or null
+                            .join(", ")}
+                        </b>
+                      </h2>
+                    </>
+                  )}
               </span>
+
             </span>
             <span className="rightitems2 ">
               <div className="dan_ka_mad">
                 <h2>मात्रा :</h2>
               </div>
               <span className="center_receipt_format">
-                {isData && isData.purchaseRequisitionLists && (
-                  <>
-                    <h2>
-                      &nbsp; &nbsp; &nbsp;
-                      <b>
-                        {isData.purchaseRequisitionLists
-                          .map((item) => item.quantity)
-                          .filter(Boolean) // Removes any falsy values like empty strings or null
-                          .join(", ")}
-                      </b>
-                    </h2>
-                  </>
-                )}
+                {isData &&
+                  (isData.purchaseRequisitionList || isData.purchaseRequisitionLists) && (
+                    <>
+                      <h2>
+                        &nbsp; &nbsp; &nbsp;
+                        <b>
+                          {(isData.purchaseRequisitionList || isData.purchaseRequisitionLists)
+                            .map((item) => item.quantity)
+                            .filter(Boolean) // Removes any falsy values like empty strings or null
+                            .join(", ")}
+                        </b>
+                      </h2>
+                    </>
+                  )}
               </span>
             </span>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             <div className="bankjankari">
               <h3>बैंक द्वारा राशि भेजने संबंधी जानकारी</h3>
@@ -366,7 +343,7 @@ const ModalPurchaseRequest = ({
                 />
               )}
               <p>
-              हस्ताक्षर स्टोर इंचार्ज
+                हस्ताक्षर स्टोर इंचार्ज
               </p>
             </div>
           </div>

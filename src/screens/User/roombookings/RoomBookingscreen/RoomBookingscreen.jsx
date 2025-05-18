@@ -198,8 +198,20 @@ function RoomBookingscreen() {
     handleclick();
     result = isData && isData?.available_room_numbers.slice(0, 1);
     // console.log("is data ", isData);
-    
-    if (mobile && address && fullname) {
+
+    const maleCount = parseInt(maleno || 0);
+    const femaleCount = parseInt(femaleno || 0);
+    const childrenCount = parseInt(childrenno || 0);
+  
+    if (
+      fullname &&
+      mobile &&
+      city &&
+      state &&
+      idproffname &&
+      idproffnumber &&
+      (maleCount + femaleCount + childrenCount > 0)
+    ) {
       setIsLoading(true);
       serverInstance('room/checkin-user', 'post', {
         date: checkindata.checkintime,
@@ -211,6 +223,8 @@ function RoomBookingscreen() {
         address: address,
         city: city,
         roomAmount: isData?.roomDetails?.Rate * TotalDays,
+        // advanceAmount: roomno * isData?.roomDetails?.Rate * TotalDays,
+        advanceAmount: 0,
         state: state,
         proof: idproffname,
         idNumber: idproffnumber,
@@ -223,7 +237,7 @@ function RoomBookingscreen() {
         modeOfBooking: 2,
         RoomNo: isData?.roomNumber,
         coutDate: checkindata.checkouttime,
-        coutTime: new Date(updatedTIme).toLocaleTimeString('it-IT', {
+        coutTime: new Date(currentTime).toLocaleTimeString('it-IT', {
           hour: '2-digit',
           minute: '2-digit',
           second: '2-digit',
@@ -235,7 +249,9 @@ function RoomBookingscreen() {
         extraM: extraMattress,
       }).then((res) => {
         if (res.data && res.data.status === true) {
+          // console.log("res data ", res.data);
           if (res.data?.data[0]?.booking_id) {
+            console.log(res.data?.data[0]);
             window.location.href =
               'http://paymentkundalpur.techjainsupport.co.in/room?booking_id=' +
               res.data?.data[0]?.booking_id;
@@ -286,7 +302,8 @@ function RoomBookingscreen() {
   }
   const handleclick = async () => {
     setFormerror(validate());
-    if (fullname && mobile && city && state && roomno) {
+
+    if (Object.keys(errors).length === 0) {
       setshowdata(true);
     }
   };
@@ -301,13 +318,30 @@ function RoomBookingscreen() {
       errors.mobile = 'Mobile is required';
     }
 
-    if (!roomno) {
-      errors.roomno = 'No of rooms is required';
+    if (!city) {
+      errors.city = 'city is required';
     }
 
-    if (roomno <= Number(isData?.available_rooms)) {
-    } else {
-      errors.roomno = `no of rooms should be less than or equal to available rooms (${isData?.available_rooms})`;
+    if (!state) {
+      errors.state = 'state is required';
+    }
+
+    if (!idproffname) {
+      errors.idproffname = 'idproffname is required';
+    }
+
+    if (!idproffnumber) {
+      errors.idproffnumber = 'idproffnumber is required';
+    }
+
+    const maleCount = parseInt(maleno || 0);
+    const femaleCount = parseInt(femaleno || 0);
+    const childrenCount = parseInt(childrenno || 0);
+  
+    if (maleCount + femaleCount + childrenCount <= 0) {
+      errors.maleno = 'Select at least one person (male, female, or child)';
+      errors.femaleno = 'Select at least one person (male, female, or child)';
+      errors.childrenno = 'Select at least one person (male, female, or child)';
     }
 
     return errors;
@@ -532,7 +566,6 @@ function RoomBookingscreen() {
                           );
                         })}
                     </select>
-                    <p style={{ color: 'red' }}>{formerror.maleno}</p>
                   </div>
                   <div
                     className="inpur_div_room_add"
@@ -553,7 +586,6 @@ function RoomBookingscreen() {
                           );
                         })}
                     </select>
-                    <p style={{ color: 'red' }}>{formerror.femaleno}</p>
                   </div>
                   <div
                     style={{ marginLeft: '13%' }}
@@ -574,73 +606,15 @@ function RoomBookingscreen() {
                           );
                         })}
                     </select>
-                    <p style={{ color: 'red' }}>{formerror.childrenno}</p>
                   </div>
                 </div>
 
-                {console.log(isData?.available_rooms)}
+                {/* {console.log(isData?.available_rooms)}
                 <div className="main_book_form_input_div_innear">
-                  {/* <label htmlFor="roomno">No of room</label> */}
-                  {/* <input
-                      type="number"
-                      value={roomno}
-                      name="roomno"
-                      disabled={true}
-                    /> */}
-                  {/* <CustomInput
-                    className="width_ffull"
-                    id="city"
-                    placeholder="Enter city"
-                    type="number"
-                    value={roomno}
-                    name="roomno"
-                    disabled={true}
-                  /> */}
-                  {/* <Select
-                      className="width_ffull"
-                      id="roomno"
-                      required
-                      sx={{
-                        width: '95%',
-                        fontSize: 14,
-                        '& .MuiSelect-select': {
-                          // borderColor: !!formerror.donationtype ? 'red' : '',
-                          padding: '10px 0px 10px 10px',
-                          background: '#fff',
-                        },
-                      }}
-                      value={roomno}
-                      name="roomno"
-                      onChange={(e) => setroomno(e.target.value)}
-                      displayEmpty
-                    >
-                      <MenuItem
-                        sx={{
-                          fontSize: 14,
-                        }}
-                        value={''}
-                      >
-                        Please select
-                      </MenuItem>
-
-                      {roomCount &&
-                        roomCount.map((item) => {
-                          return (
-                            <MenuItem
-                              sx={{
-                                fontSize: 14,
-                              }}
-                              key={item.id}
-                              value={item.type}
-                            >
-                              {item.type}
-                            </MenuItem>
-                          );
-                        })}
-                    </Select> */}
-                  <p style={{ color: 'red' }}>{formerror.roomno}</p>
-                </div>
+                <p style={{ color: 'red' }}>{formerror.roomno}</p>
+                </div> */}
               </div>
+              <p style={{ color: 'red' }}>{formerror.maleno}</p>
 
               <div className="main_book_form_input_div">
                 <div className="main_book_form_input_div_innear">

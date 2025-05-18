@@ -20,12 +20,14 @@ import Swal from "sweetalert2";
 import Edit from '../../../../../../../assets/Edit.png';
 import Delete from '../../../../../../../assets/Delete.png';
 import InventoryIcon from '@mui/icons-material/Inventory';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import { serverInstance } from "../../../../../../../API/ServerInstance";
 import PaymentIn from '../Add/PaymentIn'
 import Inventory from "../Add/Inventory";
+import GateShow from "../Add/GateShow";
 import { TablePagination, TableFooter } from "@mui/material";
 
-export default function Tabl({ isData ,getGP , componentRef}) {
+export default function Tabl({ isData, getGP, componentRef }) {
 
 
   const [paymentShow, setPaymentShow] = useState(false)
@@ -34,6 +36,7 @@ export default function Tabl({ isData ,getGP , componentRef}) {
   const [deleteId, setDeleteId] = useState('')
   const [InventoryItem, setInventoryItem] = useState('')
   const [inventoryShow, setInventoryShow] = useState(false)
+  const [gateEntryShow, setGateEntryShow] = useState(false)
 
   const [rowsPerPage, setRowsPerPage] = useState(25);
   const [page, setPage] = useState(0);
@@ -58,9 +61,18 @@ export default function Tabl({ isData ,getGP , componentRef}) {
     setInventoryItem(item)
   }
 
+  const handleGateEntryShow = (item) => {
+    setGateEntryShow(true)
+    setInventoryItem(item)
+  }
+
   const handleInventoryClose = () => {
 
     setInventoryShow(false);
+  }
+
+  const handleGateClose = () => {
+    setGateEntryShow(false);
   }
 
 
@@ -139,7 +151,8 @@ export default function Tabl({ isData ,getGP , componentRef}) {
 
 
       {paymentShow && <PaymentIn paymentItem={paymentItem} onClose={handlePaymentInClose} paymentShow={paymentShow} />}
-      {inventoryShow && <Inventory inventoryItem={InventoryItem} onClose={handleInventoryClose} inventoryShow={inventoryShow} />}
+      {inventoryShow && <Inventory inventoryItem={InventoryItem} getGP={getGP} onClose={handleInventoryClose} inventoryShow={inventoryShow} />}
+      {gateEntryShow && <GateShow inventoryItem={InventoryItem} onClose={handleGateClose} gateEntryShow={gateEntryShow} />}
 
       <div className="wrapper_abc" ref={componentRef}>
         <Table>
@@ -158,58 +171,58 @@ export default function Tabl({ isData ,getGP , componentRef}) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {
-              isData && isData.slice(
-                page * rowsPerPage,
-                page * rowsPerPage + rowsPerPage
-              ).map((item, index) => (
-                <TableRow key={index} >
+            {isData &&
+              isData
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((item, index) => (
+                  <TableRow
+                    key={index}
+                    style={{ backgroundColor: item?.completed ? '#ff6464' : 'transparent' }}
+                  >
+                    <TableCell>{index + 1}</TableCell>
+                    <TableCell>{moment(item?.date).format('DD/MM/YYYY')}</TableCell>
+                    <TableCell>{item?.time}</TableCell>
+                    <TableCell>{item?.gateEntryNo}</TableCell>
+                    <TableCell>{item?.purchaseOrderNo}</TableCell>
+                    <TableCell>
+                      <Tooltip title="Delete">
+                        <img
+                          onClick={() => handleDelete(item?.id)}
+                          src={Delete}
+                          alt="Delete"
+                          style={{ width: '20px' }}
+                        />
+                      </Tooltip>
 
-                  <TableCell>{index + 1}</TableCell>
-                  <TableCell>{moment(item?.date).format("DD/MM/YYYY")}</TableCell>
-                  <TableCell>{item?.time}</TableCell>
-                  <TableCell>{item?.gateEntryNo}</TableCell>
-                  <TableCell>{item?.purchaseOrderNo}</TableCell>
-                  <TableCell>
-                    {/* <Tooltip title="Edit">
-                      <img
-                        onClick={() => handleEdit(item)}
-                        src={Edit}
-                        alt="Edit"
-                        style={{ width: '20px', marginRight: '0.5rem' }}
-                      />
-                    </Tooltip> */}
+                      <Tooltip title="Payment In">
+                        <PaymentIcon
+                          style={{ width: '30px', marginRight: '0.8%' }}
+                          onClick={() => handlePaymentShow(item)}
+                          alt="PaymentIn"
+                        />
+                      </Tooltip>
 
-                    <Tooltip title="Delete">
-                      <img
-                        onClick={() => handleDelete(item?.id)}
-                        src={Delete}
-                        alt="Delete"
-                        style={{ width: '20px' }}
-                      />
-                    </Tooltip>
+                      <Tooltip title="Purchase Register Entry">
+                        <InventoryIcon
+                          style={{ width: '30px', marginRight: '0.8%' }}
+                          onClick={() => handleInventoryShow(item)}
+                          alt="PaymentIn"
+                        />
+                      </Tooltip>
 
-                    <Tooltip title="Payment In">
-                      <PaymentIcon
-                        style={{ width: '30px', marginRight: '0.8%' }}
-                        onClick={() => handlePaymentShow(item)}
-                        alt="PaymentIn"
-                      />
-                    </Tooltip>
-
-                    <Tooltip title="Purchase Register Entry">
-                      <InventoryIcon
-                        style={{ width: '30px', marginRight: '0.8%' }}
-                        onClick={() => handleInventoryShow(item)}
-                        alt="PaymentIn"
-                      />
-                    </Tooltip>
-                  </TableCell>
-
-                </TableRow>
-              ))
-            }
+                      <Tooltip title="View Gate Entry">
+                        <VisibilityIcon
+                          style={{ width: '30px', marginRight: '0.8%' }}
+                          onClick={() => handleGateEntryShow(item)}
+                          alt="PaymentIn"
+                        />
+                      </Tooltip>
+                    </TableCell>
+                  </TableRow>
+                ))}
           </TableBody>
+
+
           <TableFooter>
             <TableRow>
               <TablePagination

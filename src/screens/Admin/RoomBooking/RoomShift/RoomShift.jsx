@@ -18,6 +18,7 @@ import exportFromJSON from 'export-from-json';
 import Print from '../../../../assets/Print.png';
 import ExportPdf from '../../../../assets/ExportPdf.png';
 import ExportExcel from '../../../../assets/ExportExcel.png';
+import EditIcon from '@mui/icons-material/Edit';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import RoomShiftForm from './RoomShiftForm';
@@ -25,6 +26,8 @@ import Typography from '@mui/material/Typography';
 import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
 import Moment from 'moment';
 import Checkoutform from './Checkoutform';
+import ShowAllRooms from '../CheckIn/ShowAllRooms';
+
 
 import { Select, MenuItem } from '@mui/material';
 import RoomBookingTap from '../RoomBookingTap';
@@ -47,6 +50,7 @@ import 'jspdf-autotable';
 import { format } from 'date-fns';
 import fordd from '../../../../assets/for.jpeg';
 import './RoomShift.css';
+import ShowEditRoom from './ShowEditRooms';
 const style = {
   position: 'absolute',
   top: '50%',
@@ -55,6 +59,18 @@ const style = {
 
   bgcolor: 'background.paper',
   p: 3,
+  boxShadow: 24,
+  borderRadius: '5px',
+};
+
+const style1 = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 'auto',
+  bgcolor: 'background.paper',
+  p: 2,
   boxShadow: 24,
   borderRadius: '5px',
 };
@@ -208,6 +224,25 @@ const RoomShift = ({ setopendashboard }) => {
     doc.save(`${fileName}_${dateStr}.pdf`);
   };
   const [cancelid, setcancelid] = useState('');
+
+  const [open8, setOpen8] = React.useState(false);
+  const [changedata8, setchangedata8] = useState('');
+  const handleClose8 = () => setOpen8(false);
+  const handleOepn8 = async (data) => {
+    serverInstance('room/checkRoomShift', 'POST', {
+      bookingId: data?.booking_id,
+    }).then((res) => {
+      if (res.data?.status === false) {
+        Swal.fire('Error', res?.data?.message, 'error');
+      }
+
+      if (res.data?.status === true) {
+        setOpen8(true);
+        setchangedata8(data);
+      }
+    });
+  };
+
   const [open3, setOpen3] = React.useState(false);
 
   const handleClickOpen3 = (id) => {
@@ -268,7 +303,7 @@ const RoomShift = ({ setopendashboard }) => {
     getall_donation();
     setopendashboard(true);
     setuserrole(Number(sessionStorage.getItem('userrole')));
-  }, [open, open1, open4, optionss]);
+  }, [open, open1, open4, optionss, open8]);
 
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
   const sortData = (key) => {
@@ -289,6 +324,8 @@ const RoomShift = ({ setopendashboard }) => {
     );
     setSortConfig({ key: key, direction: direction });
   };
+
+  console.log("getting is data ", isData);
 
   const [bookid, setbookid] = useState('');
   const [mobileno, setmobileno] = useState('');
@@ -431,6 +468,39 @@ const RoomShift = ({ setopendashboard }) => {
 
   return (
     <>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open8}
+        onClose={handleClose8}
+        closeAfterTransition
+      >
+        <Fade in={open8}>
+          <Box sx={style1}>
+            <div>
+              <div className="add-div-close-div">
+                <div>
+                  <h2 style={{ marginBottom: '0.5rem', marginLeft: '1rem' }}>
+                    Edit Room
+                  </h2>
+                  <Typography
+                    style={{ marginLeft: '1rem' }}
+                    variant="body2"
+                    color="primary"
+                  >
+                    {currDate} / {currTime}
+                  </Typography>
+                </div>
+                <IconButton>
+                  <CloseIcon onClick={() => handleClose8()} />
+                </IconButton>
+              </div>
+
+              <ShowEditRoom setOpen={setOpen8} changedata={changedata8} />
+            </div>
+          </Box>
+        </Fade>
+      </Modal>
       <Dialog
         open={open3}
         onClose={handleClose5}
@@ -569,23 +639,16 @@ const RoomShift = ({ setopendashboard }) => {
           </div>
         </div>
 
-        <div className="table-div-maain">
+        <div className="table-div-maain" style={{ width: '140%' }}>
           <Table
             sx={{ minWidth: 650, width: '100%' }}
             aria-label="simple table"
           >
             <TableHead style={{ background: '#F1F0F0' }}>
               <TableRow>
-                <TableCell>S.No</TableCell>
-                <TableCell>
-                  Checkin
-                  <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortData('date')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
-                <TableCell>
+              <TableCell style={{ width: '1rem' }}>
+              S.No</TableCell>
+                <TableCell style={{ width: '6rem' }}>
                   B_Id
                   <i
                     style={{ marginLeft: '0rem' }}
@@ -593,7 +656,7 @@ const RoomShift = ({ setopendashboard }) => {
                     class={`fa fa-sort`}
                   />
                 </TableCell>
-                <TableCell>
+                <TableCell style={{ width: '4rem' }}>
                   Mobile
                   <i
                     style={{ marginLeft: '0rem' }}
@@ -601,7 +664,7 @@ const RoomShift = ({ setopendashboard }) => {
                     class={`fa fa-sort`}
                   />
                 </TableCell>
-                <TableCell>
+                <TableCell style={{ width: '4rem' }}>
                   Customer
                   <i
                     style={{ marginLeft: '0rem' }}
@@ -609,15 +672,7 @@ const RoomShift = ({ setopendashboard }) => {
                     class={`fa fa-sort`}
                   />
                 </TableCell>
-                <TableCell style={{ width: '6rem' }}>
-                  Guest
-                  <i
-                    style={{ marginLeft: '0rem' }}
-                    onClick={() => sortData('name')}
-                    class={`fa fa-sort`}
-                  />
-                </TableCell>
-                <TableCell>
+                <TableCell style={{ width: '4rem' }}>
                   Address
                   <i
                     style={{ marginLeft: '0rem' }}
@@ -625,7 +680,39 @@ const RoomShift = ({ setopendashboard }) => {
                     class={`fa fa-sort`}
                   />
                 </TableCell>
-                <TableCell>
+                <TableCell style={{ width: '4rem' }}>
+                  Guest
+                  <i
+                    style={{ marginLeft: '0rem' }}
+                    onClick={() => sortData('name')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell style={{ width: '6rem' }}>
+                  CheckIn Date
+                  <i
+                    style={{ marginLeft: '0rem' }}
+                    onClick={() => sortData('name')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell style={{ width: '6rem' }}>
+                  CheckOut Date
+                  <i
+                    style={{ marginLeft: '0rem' }}
+                    onClick={() => sortData('name')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell style={{ width: '4rem' }}>
+                  Stay Days
+                  <i
+                    style={{ marginLeft: '0rem' }}
+                    onClick={() => sortData('name')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell style={{ width: '6%' }}>
                   Dharamshala
                   <i
                     style={{ marginLeft: '0rem' }}
@@ -634,16 +721,32 @@ const RoomShift = ({ setopendashboard }) => {
                   />
                 </TableCell>
 
-                <TableCell>
-                  RoomNo
+                <TableCell style={{ width: '4rem' }}>
+                  Room No
                   <i
                     style={{ marginLeft: '0rem' }}
                     onClick={() => sortData('RoomNo')}
                     class={`fa fa-sort`}
                   />
                 </TableCell>
-                <TableCell>
+                <TableCell style={{ width: '6rem' }}>
                   Rent
+                  <i
+                    style={{ marginLeft: '0rem' }}
+                    onClick={() => sortData('roomAmount')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell style={{ width: '6rem' }}>
+                  Advance Amt
+                  <i
+                    style={{ marginLeft: '0rem' }}
+                    onClick={() => sortData('roomAmount')}
+                    class={`fa fa-sort`}
+                  />
+                </TableCell>
+                <TableCell style={{ width: '6rem' }}>
+                  Remaining Amt
                   <i
                     style={{ marginLeft: '0rem' }}
                     onClick={() => sortData('roomAmount')}
@@ -659,7 +762,8 @@ const RoomShift = ({ setopendashboard }) => {
                   />
                 </TableCell> */}
 
-                <TableCell>PayMode</TableCell>
+                <TableCell style={{ width: '4rem' }}>
+                  PayMode</TableCell>
 
                 <TableCell style={{ width: '5rem' }}>Add_at</TableCell>
                 <TableCell>Action</TableCell>
@@ -668,14 +772,6 @@ const RoomShift = ({ setopendashboard }) => {
             <TableBody>
               <TableRow>
                 <TableCell>&nbsp;</TableCell>
-                <TableCell>
-                  <input
-                    style={{ width: '5rem' }}
-                    className="cuolms_search"
-                    type="date"
-                    onChange={(e) => onSearchByOther(e, 'date')}
-                  />
-                </TableCell>
                 <TableCell>
                   <input
                     style={{ width: '4rem' }}
@@ -687,7 +783,7 @@ const RoomShift = ({ setopendashboard }) => {
                 </TableCell>
                 <TableCell>
                   <input
-                    style={{ width: '7rem' }}
+                    style={{ width: '5rem' }}
                     className="cuolms_search"
                     type="text"
                     onChange={(e) => onSearchByOther(e, 'contactNo')}
@@ -696,14 +792,13 @@ const RoomShift = ({ setopendashboard }) => {
                 </TableCell>
                 <TableCell>
                   <input
-                    style={{ width: '6rem' }}
+                    style={{ width: '5rem' }}
                     className="cuolms_search"
                     type="text"
                     onChange={(e) => onSearchByOther(e, 'name')}
                     placeholder="Name"
                   />
                 </TableCell>
-                <TableCell>&nbsp;</TableCell>
                 <TableCell>
                   <input
                     style={{ width: '6rem' }}
@@ -713,6 +808,24 @@ const RoomShift = ({ setopendashboard }) => {
                     placeholder="Address"
                   />
                 </TableCell>
+                <TableCell>&nbsp;</TableCell>
+                <TableCell>
+                  <input
+                    style={{ width: '5rem' }}
+                    className="cuolms_search"
+                    type="date"
+                    onChange={(e) => onSearchByOther(e, 'date')}
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    style={{ width: '5rem' }}
+                    className="cuolms_search"
+                    type="date"
+                    onChange={(e) => onSearchByOther(e, 'coutDate')}
+                  />
+                </TableCell>
+                <TableCell>&nbsp;</TableCell>
                 <TableCell>
                   <input
                     style={{ width: '9rem' }}
@@ -721,12 +834,12 @@ const RoomShift = ({ setopendashboard }) => {
                     onChange={(e) => {
                       onSearchByOther(e, 'dharmasala');
                     }}
-                    placeholder="Dharamshala Name"
+                    placeholder="Dharamshala"
                   />
                 </TableCell>
                 <TableCell>
                   <input
-                    style={{ width: '5rem' }}
+                    style={{ width: '4rem' }}
                     className="cuolms_search"
                     type="text"
                     onChange={(e) => {
@@ -750,6 +863,9 @@ const RoomShift = ({ setopendashboard }) => {
                 <TableCell>&nbsp;</TableCell>
 
                 <TableCell>&nbsp;</TableCell>
+                <TableCell>&nbsp;</TableCell>
+
+                <TableCell>&nbsp;</TableCell>
                 <TableCell>
                   <button
                     style={{
@@ -766,33 +882,34 @@ const RoomShift = ({ setopendashboard }) => {
                 <>
                   {(rowsPerPage > 0
                     ? isData
-                        ?.reverse()
-                        ?.slice(
-                          page * rowsPerPage,
-                          page * rowsPerPage + rowsPerPage,
-                        )
+                      ?.reverse()
+                      ?.slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage,
+                      )
                     : isData?.reverse()
                   ).map((row, index) => (
                     <TableRow
-                    key={row.id}
-                    sx={{
-                      '&:last-child td, &:last-child th': { border: 0 },
-                      backgroundColor: row?.date && Moment(row.date).isAfter(Moment(), 'day')
-                        ? '#ffff72' // Highlight row in yellow for future dates
-                        : shouldHighlightRow(row?.coutDate, row?.coutTime)
-                        ? '#ff7272' // Highlight row in red if shouldHighlightRow returns true
-                        : 'inherit', // Default background color
-                    }}
-                  >
+                      key={row.id}
+                      sx={{
+                        '&:last-child td, &:last-child th': { border: 0 },
+                        backgroundColor: row?.date && Moment(row.date).isAfter(Moment(), 'day')
+                          ? '#ffff72' // Highlight row in yellow for future dates
+                          : shouldHighlightRow(row?.coutDate, row?.coutTime)
+                            ? '#ff7272' // Highlight row in red if shouldHighlightRow returns true
+                            : 'inherit', // Default background color
+                      }}
+                    >
                       <TableCell>{index + 1}</TableCell>
-                      <TableCell>
+                      <TableCell>{row?.booking_id}</TableCell>
+                      {/* <TableCell>
                         {Moment(row?.date).format('DD-MM-YYYY')}: /
                         {convertTime12to24(retruetime(row?.date))}
                         &nbsp;&nbsp;
-                      </TableCell>
-                      <TableCell>{row?.booking_id}</TableCell>
+                      </TableCell> */}
                       <TableCell>{row?.contactNo}</TableCell>
                       <TableCell>{row?.name}</TableCell>
+                      <TableCell>{row?.address}</TableCell>
                       <TableCell>
                         <div style={{ width: '2rem' }}>
                           <p style={{ fontWeight: 300 }}>
@@ -802,7 +919,23 @@ const RoomShift = ({ setopendashboard }) => {
                           </p>
                         </div>
                       </TableCell>
-                      <TableCell>{row?.address}</TableCell>
+                      <TableCell>
+                        {Moment(row?.date).format('DD-MM-YYYY')}: /
+                        {convertTime12to24(retruetime(row?.date))}
+                        &nbsp;&nbsp;
+                      </TableCell>
+                      <TableCell>
+                        {Moment(row?.coutDate).format('DD-MM-YYYY')}: /
+                        {convertTime12to24(retruetime(row?.coutDate))}
+                        &nbsp;&nbsp;
+                      </TableCell>
+                      <TableCell>
+                        {row?.date && row?.coutDate
+                          ? `${Math.ceil(
+                            (new Date(row?.coutDate) - new Date(row?.date)) / (1000 * 60 * 60 * 24)
+                          )} days`
+                          : '-'}
+                      </TableCell>
                       <TableCell> {row?.dharamshalaData?.name}</TableCell>
                       <TableCell>
                         {row?.roomNumbers?.map((item) => (
@@ -810,6 +943,12 @@ const RoomShift = ({ setopendashboard }) => {
                         ))}
                       </TableCell>
                       <TableCell> {row?.roomAmountSum}.00</TableCell>
+                      <TableCell> {row?.roomAmount}.00</TableCell>
+                      <TableCell>
+                        {row?.roomAmountSum && row?.advanceAmountSum
+                          ? `${(row?.roomAmountSum - row?.advanceAmountSum).toFixed(2)}`
+                          : '0.00'}
+                      </TableCell>
                       {/* <TableCell>
                         {Number(row?.roomAmount) + Number(row?.advanceAmount)}
                       </TableCell> */}
@@ -884,6 +1023,9 @@ const RoomShift = ({ setopendashboard }) => {
                                 style={{ width: '25px', marginRight: '0.3rem' }}
                               />
                             </Tooltip>
+                            <Tooltip title="Edit Room">
+                              <EditIcon sx={{ width: '30px' }} onClick={() => handleOepn8(row)} />
+                            </Tooltip>
                           </>
                         )}
                       </TableCell>
@@ -901,16 +1043,34 @@ const RoomShift = ({ setopendashboard }) => {
                 <TableCell></TableCell>
                 <TableCell></TableCell>
                 <TableCell></TableCell>
-                <TableCell>TotalAmount</TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
                 <TableCell style={{ fontWeight: 800 }}>
-                  {isData &&
-                    isData?.reduce(
-                      (n, { roomAmountSum }) =>
-                        parseFloat(n) + parseFloat(roomAmountSum),
-                      0,
-                    )}
-                  .00
+                  Total Rent: {Array.isArray(isData) ? isData.reduce((sum, item) => {
+                    const daysStayed = Math.ceil((new Date() - new Date(item.date)) / (1000 * 60 * 60 * 24));
+                    return sum + (daysStayed * parseFloat(item.roomAmount));
+                  }, 0).toFixed(2) : '0.00'}
                 </TableCell>
+
+                <TableCell style={{ fontWeight: 800 }}>
+                  Advance: {Array.isArray(isData) ? isData.reduce((sum, { roomAmount }) =>
+                    sum + parseFloat(roomAmount), 0).toFixed(2) : '0.00'}
+                </TableCell>
+
+                <TableCell style={{ fontWeight: 800 }}>
+                  Remaining: {Array.isArray(isData) ? isData.reduce((sum, item) => {
+                    const daysStayed = Math.ceil((new Date() - new Date(item.date)) / (1000 * 60 * 60 * 24));
+                    return sum + ((daysStayed * parseFloat(item.roomAmount)) - parseFloat(item.roomAmount));
+                  }, 0).toFixed(2) : '0.00'}
+                </TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+
+
+                {/* Combined Total Rent cell */}
+
 
                 <TableCell></TableCell>
                 <TableCell></TableCell>

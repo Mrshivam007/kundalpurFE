@@ -37,6 +37,7 @@ import LoadingSpinner1 from '../../../../components/Loading/LoadingSpinner1';
 import { MenuItem, Menu } from '@mui/material';
 import AllConsolatePrint from './AllPrint/AllConsolatePrint';
 import Consolided from './OnlyAllRoomConsolatid';
+import ConsolidedOnline from './OnlyAllOnlineRoom';
 const style = {
   position: 'absolute',
   top: '49%',
@@ -760,6 +761,7 @@ const AllConsolidedReport = ({ setopendashboard }) => {
         )}
       </div>
       <Consolided setopendashboard={setopendashboard} />
+      <ConsolidedOnline setopendashboard={setopendashboard} />
       {loader && <LoadingSpinner1 />}
     </>
   );

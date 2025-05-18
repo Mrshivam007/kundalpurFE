@@ -33,6 +33,8 @@ const Add = ({
 
     const [supplierName, setSupplierName] = useState('');
     const [department, setDepartment] = useState([]);  // Stores department data
+    const [UOMList, setUOMList] = useState([])
+    const [UOMName, setUOMName] = useState('');
     const [departmentName, setDepartmentName] = useState('');
     const [departmentCode, setDepartmentCode] = useState('');
     const [itemName, setItemName] = useState('');
@@ -48,7 +50,8 @@ const Add = ({
             // Prepare the data to be sent to the server
             const data = {
                 departmentCode: departmentCode, // Name of the supplier
-                departmentName: departmentName,           // Supplier address
+                departmentName: departmentName,   
+                UOM: UOMName,        // Supplier address
                 itemName: itemName,         // Supplier contact number
                 openingStock: openingStock,               // Supplier GST number
             };
@@ -93,9 +96,21 @@ const Add = ({
         }
     };
 
+    const getUOM = async () => {
+        try {
+            const res = await serverInstance('admin/get-UOM', 'get')
+
+            setUOMList(res.data)
+            console.log(res.data)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
     // Call fetchDepartments on component mount
     useEffect(() => {
         fetchDepartments();
+        getUOM();
     }, []);
 
     console.log("getting department data ", department);
@@ -108,6 +123,15 @@ const Add = ({
         if (departmentObj) {
             setDepartmentName(departmentObj.departmentName);
             setDepartmentCode(departmentObj.departmentCode);  // Set department code when name is selected
+        }
+    };
+
+    const handleUOMChange = (e) => {
+        const selectedUOM = e.target.value;
+        const departmentObj = UOMList.find(dept => dept.UOM === selectedUOM);
+
+        if (departmentObj) {
+            setUOMName(departmentObj.UOM);
         }
     };
 
@@ -208,7 +232,7 @@ const Add = ({
 
                                 </div>
                                 <div className="flex_div_main_add_user">
-                                <div className="inner-input-divadd">
+                                    <div className="inner-input-divadd">
                                         <label htmlFor="supplierName">Item Name*</label>
                                         <input
                                             type="text"
@@ -252,6 +276,27 @@ const Add = ({
                                             value={departmentCode}
                                             readOnly // Optional: Make it read-only as it is auto-filled based on department name
                                         />
+                                    </div>
+
+                                    <div className="inner-input-divadd">
+                                        <label htmlFor="departmentName">Item UOM*</label>
+                                        <Select
+                                            labelId="department-select-label"
+                                            id="departmentName"
+                                            value={UOMName}
+                                            onChange={handleUOMChange}
+                                            displayEmpty
+                                            sx={{
+                                                paddingRight: '50px', marginRight: '20px'
+                                            }}
+                                        >
+                                            <MenuItem value="" disabled>Select UOM</MenuItem>
+                                            {UOMList.map((dept) => (
+                                                <MenuItem key={dept.id} value={dept.UOM} sx={{ fontSize: 14 }}>
+                                                    {dept.UOM}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
                                     </div>
 
                                     <div className="inner-input-divadd">

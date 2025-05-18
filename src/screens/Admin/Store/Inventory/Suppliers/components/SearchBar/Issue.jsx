@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { Fade, Box, Radio, RadioGroup, FormControlLabel, Input, Button } from '@mui/material';
+import { Fade, Box, Radio, RadioGroup, FormControlLabel, Input, Button, Select } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import CloseIcon from '@mui/icons-material/Close';
 import AddBoxIcon from '@mui/icons-material/AddBox';
@@ -34,8 +34,6 @@ const theme = createTheme({
 
 const Issue = ({ stockData, open, close, getStock, isData, getInventory }) => {
 
-
-
     const [adjustmentType, setAdjustmentType] = useState('add');
     const [stockQuantity, setStockQuantity] = useState('')
     const [showQuantity, setShowQuantity] = useState('')
@@ -45,36 +43,38 @@ const Issue = ({ stockData, open, close, getStock, isData, getInventory }) => {
     const [deptCode, setDeptCode] = useState('')
     const [remark, setRemark] = useState('')
     const [openingQuantity, setOpeningQuantity] = useState('')
-    const [issueQuantity, setIssueQuantity] = useState('')
+    const [issueQuantity, setIssueQuantity] = useState(0)
     const [itemName, setItemName] = useState('')
     const [itemCode, setItemCode] = useState('')
     const [deptName, setDeptName] = useState('')
     const [toDepartment, setToDepartment] = useState([]);
     const [toDepartmentName, setToDepartmentName] = useState([]);
+    const [issuePersonName, setIssuePersonName] = useState([]);
+    // const [UOMName, setUOMName] = useState([]);
     const [toDepartmentCode, setToDepartmentCode] = useState([]);
+    const [IssuePerson, setIssuePerson] = useState([]);
     const [staffName, setStaffName] = useState('')
     const [itemList, setItemList] = useState([])
     const [UOMList, setUOMList] = useState([])
-    const [items, setItems] = useState([]);
     const [UOMName, setUOMName] = useState([])
     const [defaultAdjust, setDefaultAdjust] = useState('')
 
     console.log("isData ", isData);
 
 
-    const handleItemChange = (selectedOption) => {
-        console.log("item ", selectedOption);
-        console.log(selectedOption?.data?.inventoryLists?.AdjustStock)
-        setItemName(selectedOption?.data?.item_name)
-        setItemCode(selectedOption?.data?.id)
-        setShowQuantity(selectedOption?.data.current_stock)
-        setDeptName(selectedOption?.data?.department_name)
-        setDeptCode(selectedOption?.data?.department_code)
-    };
+    // const handleItemChange = (selectedOption) => {
+    //     console.log("item ", selectedOption);
+    //     console.log(selectedOption?.data?.inventoryLists?.AdjustStock)
+    //     setItemName(selectedOption?.data?.item_name)
+    //     setItemCode(selectedOption?.data?.id)
+    //     setShowQuantity(selectedOption?.data.current_stock)
+    //     setDeptName(selectedOption?.data?.department_name)
+    //     setDeptCode(selectedOption?.data?.department_code)
+    // };
 
-    const handleUOMChange = (selectedOption) => {
-        setUOMName(selectedOption?.data?.UOM)
-    };
+    // const handleUOMChange = (selectedOption) => {
+    //     setUOMName(selectedOption?.data?.UOM)
+    // };
 
     const handleAdjustment = (e) => {
         e.preventDefault();
@@ -93,15 +93,19 @@ const Issue = ({ stockData, open, close, getStock, isData, getInventory }) => {
             handleAdjust(e, newQuantity)
 
         }
-
     };
 
     var today = new Date();
-    var date = today.toISOString().substring(0, 10);
+    // var date = today.toISOString().substring(0, 10);
     const currTime = today.toLocaleString('en-US', {
         hour: 'numeric',
         minute: 'numeric',
         hour12: false,
+    });
+
+    const [date, setDate] = useState(() => {
+        const today = new Date();
+        return today.toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
     });
 
 
@@ -140,12 +144,33 @@ const Issue = ({ stockData, open, close, getStock, isData, getInventory }) => {
         }
     };
 
+    const fetchIssuePerson = async () => {
+        try {
+            const response = await serverInstance("store/get-issuePersonMaster", "get"); // Adjust the endpoint as required
+            if (response.status) {
+                setIssuePerson(response.data);  // Store departments in state
+            } else {
+                console.error("Failed to fetch department data:", response.msg);
+            }
+        } catch (error) {
+            console.error("Error fetching department data:", error);
+        }
+    };
+
     const handleDepartmentChange = (selectedOption) => {
         const departmentObj = selectedOption?.data; // Access the department object from the option's data
 
         if (departmentObj) {
             setToDepartmentName(departmentObj.departmentName);
             setToDepartmentCode(departmentObj.departmentCode); // Set department code when name is selected
+        }
+    };
+
+    const handleStaffChange = (selectedOption) => {
+        const staffObj = selectedOption?.data; // Access the department object from the option's data
+
+        if (staffObj) {
+            setIssuePersonName(staffObj.issuePersonName);
         }
     };
 
@@ -156,31 +181,93 @@ const Issue = ({ stockData, open, close, getStock, isData, getInventory }) => {
         }
     }, [issueQuantity, showQuantity]);
 
-    // Handles adding an item and clearing the fields
-    const handleAddItem = () => {
-        const newItem = {
-            MaterialName: itemName,
-            MaterialCode: itemCode,
-            UOM: UOMName,
-            IssueQuantity: issueQuantity,
-            CurrentQuantity: showQuantity,
-            StockQuantity: stockQuantity,
-            Quantity: "0",
-            DepartmentName: deptName,
-            DepartmentCode: deptCode,
-        };
+    const [items, setItems] = useState([]);
+    const [currentRow, setCurrentRow] = useState({
+        MaterialName: '',
+        MaterialCode: '',
+        UOM: '',
+        IssueQuantity: 0,
+        CurrentQuantity: '',
+        StockQuantity: '',
+        DepartmentName: '',
+        DepartmentCode: '',
+    });
 
-        setItems([...items, newItem]);
-        // Clear input fields after adding
-        setItemName('');
-        setItemCode('');
-        setUOMName('');
-        setIssueQuantity('');
-        setShowQuantity('');
-        setStockQuantity('');
-        setDeptName('');
-        setDeptCode('');
+    const [selectedItem, setSelectedItem] = useState(null); // For Item Name
+    const [selectedUOM, setSelectedUOM] = useState(null);   // For UOM
+
+    const handleAddRow = () => {
+        // Validate if all fields in the current row are filled
+        const isValid = Object.values(currentRow).every((value) => {
+            if (typeof value === 'string') {
+                return value.trim() !== '';
+            }
+            return value !== null && value !== undefined; // Check for non-string values
+        });
+
+        if (!isValid) {
+            alert('Please fill all fields before adding a new row.');
+            return;
+        }
+
+        // Add the current row to the items list and clear the inputs
+        setItems([...items, currentRow]);
+        setCurrentRow({
+            MaterialName: '',
+            MaterialCode: '',
+            UOM: '',
+            Quantity: '0',
+            IssueQuantity: 0,
+            CurrentQuantity: '',
+            StockQuantity: '',
+            DepartmentName: '',
+            DepartmentCode: '',
+        });
+
+        // Clear the select values
+        setSelectedItem(null);
+        setSelectedUOM(null);
     };
+
+    const handleItemChange = (selectedOption) => {
+        console.log("item ", selectedOption);
+        setSelectedItem(selectedOption); // Update the selected item
+        setCurrentRow((prev) => ({
+            ...prev,
+            MaterialName: selectedOption?.data?.item_name || '',
+            MaterialCode: selectedOption?.data?.id || '',
+            Quantity: '0',
+            CurrentQuantity: selectedOption?.data?.current_stock === 0 ? '0' : selectedOption?.data?.current_stock || '', // Ensure '0' is handled
+            DepartmentName: selectedOption?.data?.department_name || '',
+            DepartmentCode: selectedOption?.data?.department_code || '',
+            UOM: selectedOption?.data?.UOM || '', // Pre-fill UOM
+        }));
+        setSelectedUOM({ label: selectedOption?.data?.UOM, value: selectedOption?.data?.UOM }); // Set UOM for RSelect
+    };
+
+
+    const handleUOMChange = (selectedOption) => {
+        setSelectedUOM(selectedOption); // Update the selected UOM
+        setCurrentRow((prev) => ({
+            ...prev,
+            UOM: selectedOption?.value || '',
+        }));
+    };
+
+
+    const handleInputChange = (field, value) => {
+        setCurrentRow((prevState) => {
+            const updatedRow = { ...prevState, [field]: value };
+
+            // Automatically update StockQuantity if IssueQuantity changes
+            if (field === 'IssueQuantity' && !isNaN(Number(value))) {
+                updatedRow.StockQuantity = Number(updatedRow.CurrentQuantity) - Number(value);
+            }
+
+            return updatedRow;
+        });
+    };
+
 
     // Handles removing an item from the list
     const handleRemoveItem = (index) => {
@@ -193,21 +280,26 @@ const Issue = ({ stockData, open, close, getStock, isData, getInventory }) => {
         setItemCode('');
         setUOMName();
         setUOMList()
-        setIssueQuantity('');
+        setIssueQuantity(0);
     };
 
     const handleAdjust = async () => {
         try {
+            const processedItems = items.map(item => ({
+                ...item,
+                IssueQuantity: parseFloat(item.IssueQuantity), // Convert IssueQuantity to a float
+            }));
+    
             const data = {
                 Date: date,
                 Time: currTime,
-                StaffName: staffName,
+                StaffName: issuePersonName,
                 FromDepartmentName: deptName,
                 ToDepartmentName: toDepartmentName,
                 ToDepartmentCode: toDepartmentCode,
                 FromDepartmentCode: deptCode,
                 Remark: remark,
-                inventory_list: items,
+                inventory_list: processedItems,
             };
 
             const res = await serverInstance('store/add-Inventory', 'post', data);
@@ -226,12 +318,11 @@ const Issue = ({ stockData, open, close, getStock, isData, getInventory }) => {
     };
 
 
-
-
     useEffect(() => {
         getItem();
         getUOM();
         fetchDepartments();
+        fetchIssuePerson();
     }, [isData])
 
     return (
@@ -253,148 +344,196 @@ const Issue = ({ stockData, open, close, getStock, isData, getInventory }) => {
 
                                     </div>
                                     <hr />
+                                    <div>
+                                        <div
+                                            style={{
+                                                maxHeight: items.length > 3 ? '240px' : 'none', // Scroll only if more than 3 items
+                                                overflowY: items.length > 3 ? 'auto' : 'visible', // Allow scrolling only if more than 3 items
+                                            }}
+                                        >
+                                            <table style={{ width: '100%', border: '1px solid black', borderCollapse: 'collapse' }}>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Item Name</th>
+                                                        <th>Department Name & Code</th>
+                                                        <th>UOM</th>
+                                                        <th>Issue Quantity</th>
+                                                        <th>Current Stock Quantity</th>
+                                                        <th>Stock Quantity</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {items.map((item, index) => (
+                                                        <tr key={index}>
+                                                            <td>{item.MaterialName}</td>
+                                                            <td>{`${item.DepartmentName} (${item.DepartmentCode})`}</td>
+                                                            <td>{item.UOM}</td>
+                                                            <td>{item.IssueQuantity}</td>
+                                                            <td>{item.CurrentQuantity}</td>
+                                                            <td>{item.StockQuantity}</td>
+                                                            <td>
+                                                                <button
+                                                                    style={{
+                                                                        background: 'none',
+                                                                        border: 'none',
+                                                                        color: 'red',
+                                                                        cursor: 'pointer',
+                                                                        fontSize: '1.2rem',
+                                                                    }}
+                                                                    onClick={() => handleRemoveItem(index)}
+                                                                    title="Remove Item"
+                                                                >
+                                                                    &#8722; {/* Unicode for minus symbol */}
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    ))}
+                                                    {/* Current input row */}
+                                                    <tr>
+                                                        <td>
+                                                            <RSelect
+                                                                placeholder="Select Item"
+                                                                className="selecttab"
+                                                                value={selectedItem} // Bind value to state
+                                                                options={itemList?.map((item) => ({
+                                                                    label: item?.item_name,
+                                                                    value: item?.item_name,
+                                                                    data: item,
+                                                                }))}
+                                                                onChange={handleItemChange}
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            <input
+                                                                style={{ height: '40px', width: '70%' }}
+                                                                type="text"
+                                                                placeholder="Department Name & Code"
+                                                                value={
+                                                                    currentRow.DepartmentName && currentRow.DepartmentCode
+                                                                        ? `${currentRow.DepartmentName} (${currentRow.DepartmentCode})`
+                                                                        : ''
+                                                                }
+                                                                disabled
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            <RSelect
+                                                                placeholder="Select or Modify UOM"
+                                                                className="selecttab"
+                                                                value={selectedUOM} // Bind value to state
+                                                                options={[
+                                                                    { label: currentRow.UOM, value: currentRow.UOM }, // Default UOM from item data
+                                                                    ...(UOMList || []).map((item) => ({
+                                                                        label: item?.UOM,
+                                                                        value: item?.UOM,
+                                                                    })),
+                                                                ]}
+                                                                onChange={(selectedOption) => {
+                                                                    setSelectedUOM(selectedOption); // Update selected UOM in state
+                                                                    setCurrentRow((prev) => ({
+                                                                        ...prev,
+                                                                        UOM: selectedOption?.value || '', // Update current row with new UOM
+                                                                    }));
+                                                                }}
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            <input
+                                                                style={{ height: '40px', width: '70%' }}
+                                                                type="number"
+                                                                placeholder="Enter Issue Quantity"
+                                                                value={currentRow.IssueQuantity}
+                                                                onChange={(e) => handleInputChange('IssueQuantity', e.target.value)}
+                                                                onKeyDown={(e) => {
+                                                                    if (e.key === 'Enter') {
+                                                                        handleAddRow(); // Add item when Enter is pressed
+                                                                    }
+                                                                }}
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            <input
+                                                                style={{ height: '40px', width: '70%' }}
+                                                                type="number"
+                                                                placeholder="Current Quantity"
+                                                                value={currentRow.CurrentQuantity}
+                                                                disabled
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            <input
+                                                                style={{ height: '40px', width: '70%' }}
+                                                                type="text"
+                                                                placeholder="Enter Stock Quantity"
+                                                                value={currentRow.StockQuantity}
+                                                                onChange={(e) => handleInputChange('StockQuantity', e.target.value)}
+                                                            />
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
 
-                                    <div style={{ marginTop: '1rem' }}>
-                                        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', marginBottom: '1rem' }}>
-                                            {/* ITEM NAME */}
-                                            <div style={{ flex: 1 }}>
-                                                <span><b>ITEM NAME</b></span>
-                                                <RSelect
-                                                    placeholder="Select Item"
-                                                    className="selecttab"
-                                                    options={itemList && itemList.map((item) => ({
-                                                        label: item?.item_name,
-                                                        value: item?.item_name,
-                                                        data: item,
-                                                    }))}
-                                                    onChange={handleItemChange}
-                                                />
-                                            </div>
-
-                                            {/* DEPARTMENT NAME & CODE */}
-                                            <div style={{ flex: 1 }}>
-                                                <span><b>DEPARTMENT NAME & CODE</b></span>
-                                                <CustomInput
-                                                    disabled
-                                                    type="text"
-                                                    placeholder="Department Name"
-                                                    value={`${deptName} (${deptCode})`}
-                                                />
-                                            </div>
-
-                                            {/* ITEM UOM */}
-                                            <div style={{ flex: 1 }}>
-                                                <span><b>ITEM UOM</b></span>
-                                                <RSelect
-                                                    placeholder="Select UOM"
-                                                    className="selecttab"
-                                                    options={UOMList && UOMList.map((item) => ({
-                                                        label: item?.UOM,
-                                                        value: item?.UOM,
-                                                        data: item,
-                                                    }))}
-                                                    onChange={(selectedOption) => setUOMName(selectedOption?.value)}
-                                                />
-                                            </div>
-
-                                            {/* ISSUE QUANTITY */}
-                                            <div style={{ flex: 1 }}>
-                                                <span><b>ISSUE QUANTITY</b></span>
-                                                <CustomInput
-                                                    type="text"
-                                                    placeholder="Enter Issue Quantity"
-                                                    value={issueQuantity}
-                                                    onChange={(e) => setIssueQuantity(e.target.value)}
-                                                />
-                                            </div>
-
-                                            {/* CURRENT STOCK QUANTITY */}
-                                            <div style={{ flex: 1 }}>
-                                                <span><b>CURRENT STOCK QUANTITY</b></span>
-                                                <CustomInput
-                                                    type="text"
-                                                    placeholder="Current Quantity"
-                                                    value={showQuantity}
-                                                    disabled
-                                                />
-                                            </div>
-
-                                            {/* STOCK QUANTITY */}
-                                            <div style={{ flex: 1 }}>
-                                                <span><b>STOCK QUANTITY</b></span>
-                                                <CustomInput
-                                                    type="text"
-                                                    placeholder="Enter Stock Quantity"
-                                                    value={stockQuantity}
-                                                    onChange={(e) => setStockQuantity(e.target.value)}
-                                                />
-                                            </div>
-
-                                            {/* ADD ITEM BUTTON */}
+                                            <button onClick={handleAddRow} style={{ marginTop: '1rem' }}>
+                                                Add Row
+                                            </button>
                                         </div>
-                                        <div>
-                                            <button onClick={handleAddItem}>Add Item</button>
-                                        </div>
 
-                                        <div style={{ marginTop: '1rem' }}>
-                                            <h4>Added Items</h4>
-                                            <div>
-                                                {items.map((item, index) => (
-                                                    <div
-                                                        key={index}
-                                                        style={{
-                                                            display: 'flex',
-                                                            gap: '1rem',
-                                                            alignItems: 'center',
-                                                            marginBottom: '0.5rem',
-                                                        }}
-                                                    >
-                                                        <span><b>Item Name:</b> {item.MaterialName}</span>
-                                                        <span><b>Dept:</b> {item.DepartmentName} ({item.DepartmentCode})</span>
-                                                        <span><b>UOM:</b> {item.UOM}</span>
-                                                        <span><b>Issue Quantity:</b> {item.IssueQuantity}</span>
-                                                        <span><b>Current Quantity:</b> {item.CurrentQuantity}</span>
-                                                        <span><b>Stock Quantity:</b> {item.StockQuantity}</span>
-                                                        <button onClick={() => handleRemoveItem(index)}>Remove</button>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
+
 
                                         <form onSubmit={handleAdjustment}>
 
-                                            <div style={{ marginTop: '1rem' }}>
-                                                <span><b>Issue Department</b></span> <br />
-                                                <div style={{ display: 'flex' }}>
-                                                    <RSelect
-                                                        placeholder="Select Item"
-                                                        className="selecttab"
-                                                        options={toDepartment && toDepartment.map((item) => ({
-                                                            label: item?.departmentName,
-                                                            value: item?.departmentCode,
-                                                            data: item,
-                                                        }))}
-                                                        onChange={handleDepartmentChange}
-                                                    />
+                                            <div style={{ marginTop: '1rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                                                {/* Issue Department */}
+                                                <div style={{ flex: '0 0 20%' }}>
+                                                    <span><b>Issue Department</b></span> <br />
+                                                    <div style={{ display: 'flex' }}>
+                                                        <RSelect
+                                                            placeholder="Select Item"
+                                                            className="selecttab"
+                                                            options={toDepartment && toDepartment.map((item) => ({
+                                                                label: item?.departmentName,
+                                                                value: item?.departmentCode,
+                                                                data: item,
+                                                            }))}
+                                                            onChange={handleDepartmentChange}
+                                                        />
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div style={{ marginTop: '1rem' }}>
-                                                <span><b>STAFF NAME</b></span> <br />
-                                                <div style={{ display: 'flex' }}>
-                                                    <CustomInput
+
+                                                <div style={{ flex: '0 0 20%' }}>
+                                                    <span><b>Staff Name</b></span> <br />
+                                                    <div style={{ display: 'flex' }}>
+                                                        <RSelect
+                                                            placeholder="Select Item"
+                                                            className="selecttab"
+                                                            options={IssuePerson && IssuePerson.map((item) => ({
+                                                                label: item?.issuePersonName,
+                                                                value: item?.issuePersonName,
+                                                                data: item,
+                                                            }))}
+                                                            onChange={handleStaffChange}
+                                                        />
+                                                    </div>
+                                                </div>
+
+                                                {/* Date */}
+                                                <div className="inner-input-divadd" style={{ flex: '0 0 80%' }}>
+                                                    <label style={{marginTop: '-2%'}} htmlFor="supplierCode">Date</label>
+                                                    <input
+                                                        type="date"
+                                                        id="date"
+                                                        name="date"
+                                                        value={date} // Bind to `date` state
                                                         required
-                                                        type="text"
-                                                        placeholder="Enter Staff Name"
-                                                        value={staffName}
-                                                        onChange={(e) => setStaffName(e.target.value)}
+                                                        onChange={(e) => setDate(e.target.value)} // Update state on change
                                                     />
                                                 </div>
                                             </div>
+
                                             <div style={{ marginTop: '1rem' }}>
                                                 <span><b>REMARK</b></span> <br />
                                                 <div style={{ display: 'flex' }}>
                                                     <CustomInput
-                                                        required
                                                         type="text"
                                                         placeholder="Enter Remark"
                                                         value={remark}
