@@ -61,6 +61,8 @@ const SearchBar = ({ getInventory, isData, handlePrint }) => {
     const [fromDate, setFromDate] = useState('');
     const [toDate, setToDate] = useState('');
     const [selectedDropdown, setSelectedDropdown] = useState('');
+    const [IssuePersonList, setIssuePersonList] = useState([]);
+    const [IssuePerson, setIssuePerson] = useState([]);
 
 
 
@@ -99,6 +101,7 @@ const SearchBar = ({ getInventory, isData, handlePrint }) => {
             "Supplier Code",
             "Supplier Name",
             "Issue Quantity",
+            "Issue Person",
             "Return Quantity",
             "Purchase Quantity",
             "UOM",
@@ -132,6 +135,7 @@ const SearchBar = ({ getInventory, isData, handlePrint }) => {
                 item?.SupplierCode,
                 item?.SupplierName,
                 item?.inventoryLists?.IssueQuantity,
+                item?.StaffName,
                 item?.inventoryLists?.ReturnQuantity,
                 item?.inventoryLists?.Quantity,
                 item?.inventoryLists?.UOM,
@@ -301,24 +305,25 @@ const SearchBar = ({ getInventory, isData, handlePrint }) => {
     const handleSearch = () => {
         // Prepare filter object to send to backend
         const filterParams = {
-          materialNames: selectedItems.map(item => item.item_name),
-          fromDate,
-          toDate,
-          entryType: selectedDropdown,
-          deptCode,
-          supName
+            materialNames: selectedItems.map(item => item.item_name),
+            fromDate,
+            toDate,
+            entryType: selectedDropdown,
+            deptCode,
+            IssuePerson,
+            supName
         };
-        
+
         // Remove undefined/empty values
         Object.keys(filterParams).forEach(key => {
-          if (filterParams[key] === undefined || filterParams[key] === '' || 
-              (Array.isArray(filterParams[key]) && filterParams[key].length === 0)) {
-            delete filterParams[key];
-          }
+            if (filterParams[key] === undefined || filterParams[key] === '' ||
+                (Array.isArray(filterParams[key]) && filterParams[key].length === 0)) {
+                delete filterParams[key];
+            }
         });
-      
+
         getInventory(filterParams);
-      };
+    };
 
 
     const handleReset = () => {
@@ -354,6 +359,19 @@ const SearchBar = ({ getInventory, isData, handlePrint }) => {
         }
     }
 
+    const fetchIssuePerson = async () => {
+        try {
+            const response = await serverInstance("store/get-issuePersonMaster", "get"); // Adjust the endpoint as required
+            if (response.status) {
+                setIssuePersonList(response.data);  // Store departments in state
+            } else {
+                console.error("Failed to fetch department data:", response.msg);
+            }
+        } catch (error) {
+            console.error("Error fetching department data:", error);
+        }
+    };
+
     var options = { year: 'numeric', month: 'short', day: '2-digit' };
     var today = new Date();
     const currDate = today
@@ -363,8 +381,8 @@ const SearchBar = ({ getInventory, isData, handlePrint }) => {
     useEffect(() => {
         getItem();
         getDepartment()
+        fetchIssuePerson()
         getSupplier()
-
     }, [])
 
 
@@ -381,7 +399,17 @@ const SearchBar = ({ getInventory, isData, handlePrint }) => {
                         options={departmentList}
                         getOptionLabel={(option) => option.departmentCode || ''}
                         isOptionEqualToValue={(option, value) => option.departmentCode === value.departmentCode}
-                        renderInput={(params) => <TextField {...params} label="Select Department Code" size="small" />}
+                        renderInput={(params) => <TextField {...params} label="Department Code" size="small" />}
+                    />
+
+                    <Autocomplete
+                        sx={{ width: '18%' }}
+                        value={IssuePersonList.find((item) => item.issuePersonName === IssuePerson) || null}
+                        onChange={(_, newValue) => setIssuePerson(newValue ? newValue.issuePersonName : '')}
+                        options={IssuePersonList}
+                        getOptionLabel={(option) => option.issuePersonName || ''}
+                        isOptionEqualToValue={(option, value) => option.issuePersonName === value.issuePersonName}
+                        renderInput={(params) => <TextField {...params} label="Issue Person" size="small" />}
                     />
 
                     <Autocomplete
@@ -391,7 +419,7 @@ const SearchBar = ({ getInventory, isData, handlePrint }) => {
                         options={supplierList}
                         getOptionLabel={(option) => option.supplierName || ''}
                         isOptionEqualToValue={(option, value) => option.supplierName === value.supplierName}
-                        renderInput={(params) => <TextField {...params} label="Select Supplier Name" size="small" />}
+                        renderInput={(params) => <TextField {...params} label="Supplier Name" size="small" />}
                     />
 
                     <Autocomplete

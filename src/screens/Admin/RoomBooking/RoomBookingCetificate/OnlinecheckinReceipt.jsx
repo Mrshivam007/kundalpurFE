@@ -134,15 +134,12 @@ const OnlinecheckinReceipt = ({ setopendashboard }) => {
 
   // if (TotalDays < 1) TotalDays = 1;
 
-
-
   const days_diff = Math.floor(
     (todayout.getTime() - new Date(isData?.date).getTime()) /
     (1000 * 3600 * Number(isData?.coTime - 3))
   );
 
   console.log("day diff ", days_diff);
-
 
   const dataHour = parseInt(isData?.coutTime?.split(':')[0]) || 0;
 
@@ -153,24 +150,24 @@ const OnlinecheckinReceipt = ({ setopendashboard }) => {
   let hours_difference = (currentHour - dataHour);
 
   console.log("total days ", TotalDays);
+  console.log("day diff ", days_diff);
   console.log("hour diff ", hours_difference);
 
-  if (TotalDays == 1) {
-    TotalDays = 1
-  } else if (TotalDays > 1 && hours_difference < 3) {
-    TotalDays = TotalDays
-  } else {
-    TotalDays = TotalDays + 1
-  }
-  // Adjust TotalDays logic
-  // if (days_diff === 0) {
-  //   TotalDays = 1; // at least one day is charged
-  // } else if (days_diff > 0 && hours_difference < 3) {
-  //   TotalDays = days_diff;
+  // if (TotalDays == 1) {
+  //   TotalDays = 1
+  // } else if (TotalDays > 1 && hours_difference < 3) {
+  //   TotalDays = TotalDays
   // } else {
-  //   TotalDays = days_diff + 1;
+  //   TotalDays = TotalDays + 1
   // }
-
+  // Adjust TotalDays logic
+  if (days_diff === 0) {
+    TotalDays = 1; // at least one day is charged
+  } else if (days_diff > 0 && hours_difference < 3) {
+    TotalDays = days_diff;
+  } else {
+    TotalDays = days_diff + 1;
+  }
 
   let currentTotalDays;
 

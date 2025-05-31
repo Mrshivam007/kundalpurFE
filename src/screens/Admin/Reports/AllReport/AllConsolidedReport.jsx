@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { serverInstance } from '../../../../API/ServerInstance';
 import Swal from 'sweetalert2';
+import * as XLSX from 'xlsx'; // For Excel export
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -12,7 +13,7 @@ import exportFromJSON from 'export-from-json';
 import Moment from 'moment-js';
 import { backendApiUrl } from '../../../../config/config';
 import axios from 'axios';
-import { Box } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import { ExportPdfmanul, ExportPdfmanulReport } from '../../compoments/ExportPdf';
@@ -38,6 +39,8 @@ import { MenuItem, Menu } from '@mui/material';
 import AllConsolatePrint from './AllPrint/AllConsolatePrint';
 import Consolided from './OnlyAllRoomConsolatid';
 import ConsolidedOnline from './OnlyAllOnlineRoom';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 const style = {
   position: 'absolute',
   top: '49%',
@@ -66,6 +69,11 @@ const AllConsolidedReport = ({ setopendashboard }) => {
   const [datefrom, setdatefrom] = useState('');
   const [dateto, setdateto] = useState('');
   const [SearchHead, setSearchHead] = useState('');
+  const [allDatefrom, setallDatefrom] = useState('');
+  const [allDateto, setallDateto] = useState('');
+  const [AllSearchHead, setAllSearchHead] = useState('');
+  const [empidsearch, setempidsearch] = useState('');
+  const [empNameSearch, setempNameSearch] = useState('');
   const componentRef2 = useRef();
 
   const handlePrint2 = useReactToPrint({
@@ -100,6 +108,207 @@ const AllConsolidedReport = ({ setopendashboard }) => {
     setPage(0);
   };
 
+
+  const downloadAllExcel = async () => {
+    try {
+      setloader(true);
+
+      // Get the employee name if an ID is selected
+      const employeeName = empidsearch
+        ? empylist.find(item => item.id.toString() === empidsearch)?.Username
+        : '';
+
+      // Fetch all three reports in parallel
+      const [donationRes, offlineRes, onlineRes] = await Promise.all([
+        serverInstance(`admin/get-cons-report?fromDate=${allDatefrom}&toDate=${allDateto}`, 'post', {
+          user: empidsearch ? [Number(empidsearch)] : [], // Send ID for donations
+          type: []
+        }),
+        serverInstance(`room/consolidated?employeeName=${employeeName}`, 'POST', { // Send name for rooms
+          fromDate: allDatefrom,
+          toDate: allDateto
+        }),
+        serverInstance(`room/consolidatedForOnlineRoom?employeeName=${employeeName}`, 'POST', { // Send name for rooms
+          fromDate: allDatefrom,
+          toDate: allDateto
+        })
+      ]);
+
+      if (donationRes.status && offlineRes.data && onlineRes.data) {
+        // Create Excel workbook with multiple sheets
+        const wb = XLSX.utils.book_new();
+
+        // Add Donation sheet
+        const donationData = donationRes.data.map(item => {
+          const totalAmount = (item?.cheque_TOTAL_AMOUNT || 0) + (item?.bank_TOTAL_AMOUNT || 0) + (item?.item_TOTAL_AMOUNT || 0);
+          return {
+            'Type of Donation': item?.donationType == 'manual' ? 'Manual Donation' : 'Donation',
+            'Amount Cheque': item?.cheque_TOTAL_AMOUNT || '0',
+            'Amount Bank': item?.bank_TOTAL_AMOUNT || '0',
+            'Amount Cash': item?.item_TOTAL_AMOUNT || '0',
+            'Total Amount': totalAmount,
+            'Created Date': Moment(item?.created_at).format('DD-MM-YYYY'),
+          };
+        });
+        XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(donationData), "Donations");
+
+        // Add Offline Room Booking sheet
+        const offlineData = offlineRes.data.map(item => ({
+          Date: Moment(item?.date).format('DD-MM-YYYY'),
+          Employee: item?.Username,
+          CheckinAmountCash: item?.totalCashCheckinAmount,
+          CheckinAmountOnline: item?.totalOnlineCheckinAmount,
+          RentAmount: item?.totalRateAmount,
+          CheckoutAmount: item?.totalCheckoutAmount,
+          TotalAmount: item?.finalAmount,
+        }));
+        XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(offlineData), "Offline Rooms");
+
+        // Add Online Room Booking sheet
+        const onlineData = onlineRes.data.map(item => ({
+          Date: Moment(item?.date).format('DD-MM-YYYY'),
+          Employee: item?.employeeName,
+          CheckIn_Bank: item?.onlineCheckinAmount,
+          Room_Rent: item?.totalRoomAmount,
+          Checkout_Return: item?.totalRemainingAmount,
+          Total: item?.totalRoomAmount,
+        }));
+        XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(onlineData), "Online Rooms");
+
+        // Download the workbook
+        XLSX.writeFile(wb, `All_Reports_${Moment().format('YYYY-MM-DD')}.xlsx`);
+      } else {
+        Swal.fire('Error', 'Failed to fetch some report data', 'error');
+      }
+    } catch (error) {
+      console.error('Error downloading all reports:', error);
+      Swal.fire('Error', 'Failed to download reports', 'error');
+    } finally {
+      setloader(false);
+    }
+  };
+
+  const downloadAllPdf = async () => {
+    try {
+      setloader(true);
+
+      // Fetch all three reports in parallel
+      const [donationRes, offlineRes, onlineRes] = await Promise.all([
+        serverInstance(`admin/get-cons-report?fromDate=${allDatefrom}&toDate=${allDateto}`, 'post', {
+          user: empidsearch ? [empidsearch] : [],
+          type: []
+        }),
+        serverInstance(`room/consolidated?employeeName=${empidsearch}`, 'POST', {
+          fromDate: allDatefrom,
+          toDate: allDateto
+        }),
+        serverInstance(`room/consolidatedForOnlineRoom?employeeName=${empidsearch}`, 'POST', {
+          fromDate: allDatefrom,
+          toDate: allDateto
+        })
+      ]);
+
+      if (donationRes.status && offlineRes.data && onlineRes.data) {
+        // Create a new PDF document
+        const doc = new jsPDF();
+
+        // Add Donation Report
+        doc.text('Donation Consolidated Report', 14, 15);
+        const donationColumns = [
+          'Head Name',
+          'Type',
+          'Amount Cheque',
+          'Amount Electronic',
+          'Amount Item',
+          'Amount Cash',
+          'Amount Total'
+        ];
+        const donationRows = donationRes.data.map(item => {
+          const totalAmount = (item?.cheque_TOTAL_AMOUNT || 0) +
+            (item?.bank_TOTAL_AMOUNT || 0) +
+            (item?.item_TOTAL_AMOUNT || 0) +
+            (item?.cash_TOTAL_AMOUNT || 0);
+          return [
+            item?.type || item?.employeeName,
+            item?.donationType,
+            item?.cheque_TOTAL_AMOUNT,
+            item?.bank_TOTAL_AMOUNT,
+            item?.item_TOTAL_AMOUNT,
+            item?.cash_TOTAL_AMOUNT,
+            totalAmount
+          ];
+        });
+        doc.autoTable({
+          head: [donationColumns],
+          body: donationRows,
+          startY: 25
+        });
+
+        // Add Offline Room Booking Report (on new page)
+        doc.addPage();
+        doc.text('Offline Room Booking Report', 14, 15);
+        const offlineColumns = [
+          'Date',
+          'Employee',
+          'CheckinAmountCash',
+          'CheckinAmountOnline',
+          'RentAmount',
+          'CheckoutAmount',
+          'TotalAmount'
+        ];
+        const offlineRows = offlineRes.data.map(item => [
+          Moment(item?.date).format('DD-MM-YYYY'),
+          item?.Username,
+          item?.totalCashCheckinAmount,
+          item?.totalOnlineCheckinAmount,
+          item?.totalRateAmount,
+          item?.totalCheckoutAmount,
+          item?.finalAmount
+        ]);
+        doc.autoTable({
+          head: [offlineColumns],
+          body: offlineRows,
+          startY: 25
+        });
+
+        // Add Online Room Booking Report (on new page)
+        doc.addPage();
+        doc.text('Online Room Booking Report', 14, 15);
+        const onlineColumns = [
+          'Date',
+          'Employee',
+          'CheckIn (Bank)',
+          'Rent (Room)',
+          'Checkout (return)',
+          'TotalAmount'
+        ];
+        const onlineRows = onlineRes.data.map(item => [
+          Moment(item?.date).format('DD-MM-YYYY'),
+          item?.employeeName,
+          item?.onlineCheckinAmount,
+          item?.totalRoomAmount,
+          item?.totalRemainingAmount,
+          item?.totalRoomAmount
+        ]);
+        doc.autoTable({
+          head: [onlineColumns],
+          body: onlineRows,
+          startY: 25
+        });
+
+        // Save the PDF
+        doc.save(`All_Reports_${Moment().format('YYYY-MM-DD')}.pdf`);
+      } else {
+        Swal.fire('Error', 'Failed to fetch some report data', 'error');
+      }
+    } catch (error) {
+      console.error('Error generating PDF reports:', error);
+      Swal.fire('Error', 'Failed to generate PDF reports', 'error');
+    } finally {
+      setloader(false);
+    }
+  };
+
   const getAllEmp = () => {
     serverInstance('admin/add-employee', 'get').then((res) => {
       if (res.status) {
@@ -125,10 +334,10 @@ const AllConsolidedReport = ({ setopendashboard }) => {
     const exportType = 'xls';
     var data = [];
     isData.map((item, index) => {
-      const totalAmount = 
-      (item?.cheque_TOTAL_AMOUNT || 0) +
-      (item?.bank_TOTAL_AMOUNT || 0) +
-      (item?.item_TOTAL_AMOUNT || 0);
+      const totalAmount =
+        (item?.cheque_TOTAL_AMOUNT || 0) +
+        (item?.bank_TOTAL_AMOUNT || 0) +
+        (item?.item_TOTAL_AMOUNT || 0);
       data.push({
         'Type of Donation':
           item?.donationType == 'manual' ? 'Manual Donation' : 'Donation',
@@ -160,19 +369,19 @@ const AllConsolidedReport = ({ setopendashboard }) => {
           Address: item?.address,
           'Head/Item': item?.elecItemDetails
             ? item?.elecItemDetails.map((row) => {
-                return row.type;
-              })
+              return row.type;
+            })
             : item?.type,
           Amount: item?.elecItemDetails
             ? item?.elecItemDetails.reduce(
-                (n, { amount }) => parseFloat(n) + parseFloat(amount),
-                0,
-              )
+              (n, { amount }) => parseFloat(n) + parseFloat(amount),
+              0,
+            )
             : item?.Amount,
           remark: item?.elecItemDetails
             ? item?.elecItemDetails.map((row) => {
-                return row.remark;
-              })
+              return row.remark;
+            })
             : item?.remark,
           'Created Date': Moment(item?.created_at).format('DD-MM-YYYY'),
         });
@@ -352,7 +561,107 @@ const AllConsolidedReport = ({ setopendashboard }) => {
       <AllReportTap setopendashboard={setopendashboard} />
 
       <div style={{ marginLeft: '5rem', marginRight: '1rem' }}>
-        <p>All Consolidated Report</p>
+        <h1 style={{ textAlign: 'center', marginBottom: '1.5rem' }}>All Consolidated Report</h1>
+
+        <div style={{
+          backgroundColor: '#f8f9fa',
+          padding: '1.5rem',
+          borderRadius: '8px',
+          marginBottom: '1.5rem',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+        }}>
+          <h3 style={{ marginTop: '0', marginBottom: '1rem', color: '#333' }}>
+            Download All Reports
+          </h3>
+
+          <div className="search-header" style={{ paddingLeft: '1.5%', paddingRight: '1.3rem' }}>
+            <div className="search-inner-div-reports">
+              <form className="search-inner-div-reports" onSubmit={(e) => e.preventDefault()}>
+                <div className="Center_main_dic_filetr">
+                  <label htmlFor="all-report-from-date">From Date</label>
+                  <input
+                    id="all-report-from-date"
+                    style={{ width: '17rem' }}
+                    type="date"
+                    value={allDatefrom}
+                    name="fromdate"
+                    onChange={(e) => setallDatefrom(e.target.value)}
+                  />
+                </div>
+
+                <div className="Center_main_dic_filetr">
+                  <label htmlFor="all-report-to-date">To Date</label>
+                  <input
+                    id="all-report-to-date"
+                    style={{ width: '17rem' }}
+                    type="date"
+                    value={allDateto}
+                    name="todate"
+                    onChange={(e) => setallDateto(e.target.value)}
+                  />
+                </div>
+
+                <div className="Center_main_dic_filetr">
+                  <label>Employee Name</label>
+                  <select
+                    className="cuolms_search"
+                    onChange={(e) => {
+                      const selectedOption = empylist.find(item => item.id.toString() === e.target.value);
+                      setempidsearch(e.target.value); // stores ID
+                      setempNameSearch(selectedOption?.Username || ''); // stores name
+                    }}
+                    value={empidsearch}
+                  >
+                    <option value="">All user</option>
+                    {empylist && empylist.map((item, idx) => (
+                      <option key={idx} value={item.id}>{item.Username}</option>
+                    ))}
+                  </select>
+                </div>
+              </form>
+            </div>
+
+            <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+              <button
+                onClick={downloadAllExcel}
+                style={{
+                  backgroundColor: '#28a745',
+                  color: 'white',
+                  border: 'none',
+                  padding: '0.5rem 1rem',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem'
+                }}
+              >
+                <img src={ExportExcel} alt="Excel" style={{ width: '20px' }} />
+                <span style={{ color: 'black' }}>Excel</span>
+              </button>
+
+              <button
+                onClick={downloadAllPdf}
+                style={{
+                  backgroundColor: '#dc3545',
+                  color: 'white',
+                  border: 'none',
+                  padding: '0.5rem 1rem',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem'
+                }}
+              >
+                <img src={ExportPdf} alt="PDF" style={{ width: '20px' }} />
+                <span style={{ color: 'black' }}>PDF</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <hr style={{ width: '100%', margin: '0 auto', marginBottom: '1rem', border: '1px solid #ddd' }} />
+        <h2 style={{ textAlign: 'center', marginTop: '0', marginBottom: '1rem', color: '#555' }}>Donation Consolidated Report</h2>
         <div>
           <div className="search-header">
             <div className="search-inner-div-reports">
@@ -520,11 +829,11 @@ const AllConsolidedReport = ({ setopendashboard }) => {
                 <>
                   {(rowsPerPage > 0
                     ? isData
-                        .reverse()
-                        .slice(
-                          page * rowsPerPage,
-                          page * rowsPerPage + rowsPerPage,
-                        )
+                      .reverse()
+                      .slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage,
+                      )
                     : isData
                   ).map((row, index) => (
                     <TableRow
@@ -673,9 +982,9 @@ const AllConsolidedReport = ({ setopendashboard }) => {
                     <>
                       {(rowsPerPage > 0
                         ? SearchHead.slice(
-                            page * rowsPerPage,
-                            page * rowsPerPage + rowsPerPage,
-                          )
+                          page * rowsPerPage,
+                          page * rowsPerPage + rowsPerPage,
+                        )
                         : SearchHead
                       ).map((row, index) => (
                         <TableRow
@@ -760,7 +1069,11 @@ const AllConsolidedReport = ({ setopendashboard }) => {
           </>
         )}
       </div>
+      <hr style={{ width: '100%', margin: '0 auto', marginBottom: '1rem', marginTop: '2rem', border: '1px solid #ddd' }} />
+      <h2 style={{ textAlign: 'center', marginTop: '0', marginBottom: '1rem', marginTop: '2rem', color: '#555' }}>Offline Room Booking Report</h2>
       <Consolided setopendashboard={setopendashboard} />
+      <hr style={{ width: '100%', margin: '0 auto', marginBottom: '1rem', border: '1px solid #ddd' }} />
+      <h2 style={{ textAlign: 'center', marginTop: '0', marginBottom: '1rem', marginTop: '2rem', color: '#555' }}>Online Room Booking Report</h2>
       <ConsolidedOnline setopendashboard={setopendashboard} />
       {loader && <LoadingSpinner1 />}
     </>
@@ -768,3 +1081,4 @@ const AllConsolidedReport = ({ setopendashboard }) => {
 };
 
 export default AllConsolidedReport;
+ 

@@ -335,47 +335,84 @@ const RoomShift = ({ setopendashboard }) => {
   const [roomNo, setroomNo] = useState('');
   const [rate, setrate] = useState('');
   const [advanceRate, setadvanceRate] = useState('');
+  const [advance, setadvance] = useState('');
   const [address, setaddress] = useState('');
-  const onSearchByOther = (e, type) => {
-    if (type === 'roomAmount') {
-      setrate(e.target.value);
-    }
-    if (type === 'advanceAmount') {
-      setadvanceRate(e.target.value);
-    }
-    if (type === 'booking_id') {
-      setbookid(e.target.value.toLowerCase());
-    }
-    if (type === 'contactNo') {
-      setmobileno(e.target.value.toLowerCase());
-    }
-    if (type === 'name') {
-      setcustomername(e.target.value.toLowerCase());
-    }
-    if (type === 'date') {
-      setcheckindate(e.target.value.toLowerCase());
-    }
-    if (type === 'address') {
-      setaddress(e.target.value.toLowerCase());
-    }
-    if (type === 'RoomNo') {
-      setroomNo(e.target.value);
-    }
-    if (type === 'dharmasala') {
-      setdharamshalanamee(e.target.value.toLowerCase());
-    }
-  };
+  const [guest, setguest] = useState('');
+const [days, setdays] = useState('');
+const [remaining, setremaining] = useState('');
+const [pay, setpay] = useState('');
+const [addAt, setaddAt] = useState('');
+const onSearchByOther = (e, type) => {
+  if (type === 'roomAmount') {
+    setrate(e.target.value);
+  }
+  if (type === 'advanceAmount') {
+    setadvance(e.target.value);
+  }
+  if (type === 'booking_id') {
+    setbookid(e.target.value.toLowerCase());
+  }
+  if (type === 'contactNo') {
+    setmobileno(e.target.value.toLowerCase());
+  }
+  if (type === 'name') {
+    setcustomername(e.target.value.toLowerCase());
+  }
+  if (type === 'date') {
+    setcheckindate(e.target.value.toLowerCase());
+  }
+  if (type === 'address') {
+    setaddress(e.target.value.toLowerCase());
+  }
+  if (type === 'RoomNo') {
+    setroomNo(e.target.value);
+  }
+  if (type === 'dharmasala') {
+    setdharamshalanamee(e.target.value.toLowerCase());
+  }
+  if (type === 'guest') {
+    setguest(e.target.value);
+  }
+  if (type === 'days') {
+    setdays(e.target.value);
+  }
+  if (type === 'remaining') {
+    setremaining(e.target.value);
+  }
+  if (type === 'pay') {
+    setpay(e.target.value.toLowerCase());
+  }
+  if (type === 'addAt') {
+    setaddAt(e.target.value);
+  }
+};
 
-  useEffect(() => {
-    var filtered = isDataDummy?.filter(
-      (dt) =>
-        dt?.booking_id?.toLowerCase().indexOf(bookid) > -1 &&
-        Moment(dt?.date).format('YYYY-MM-DD').indexOf(checkindate) > -1 &&
-        dt?.name?.toLowerCase().indexOf(customername) > -1 &&
-        dt?.address?.toLowerCase().indexOf(address) > -1 &&
-        // dt?.dharmasala?.name?.toLowerCase().indexOf(dharamshalanamee) > -1
-        dt?.contactNo?.toLowerCase().indexOf(mobileno) > -1,
+useEffect(() => {
+  var filtered = isDataDummy?.filter((dt) => {
+    // Calculate derived values
+    const guestCount = Number(dt?.female || 0) + Number(dt?.child || 0) + Number(dt?.male || 0);
+    const daysCount = dt?.date && dt?.coutDate 
+      ? Math.ceil((new Date(dt.coutDate) - new Date(dt.date)) / (1000 * 60 * 60 * 24))
+      : 0;
+    const remainingAmount = dt?.roomAmountSum && dt?.advanceAmountSum 
+      ? (dt.roomAmountSum - dt.advanceAmountSum).toFixed(2)
+      : '0.00';
+    const paymentMode = dt?.paymentMode === 2 ? 'cash' : 'online';
+    const createdAtDate = dt?.createdAt ? Moment(dt.createdAt).format('DD-MM-YYYY') : '';
+
+    return (
+      dt?.booking_id?.toLowerCase().indexOf(bookid) > -1 &&
+      Moment(dt?.date).format('YYYY-MM-DD').indexOf(checkindate) > -1 &&
+      dt?.name?.toLowerCase().indexOf(customername) > -1 &&
+      dt?.address?.toLowerCase().indexOf(address) > -1 &&
+      dt?.contactNo?.toLowerCase().indexOf(mobileno) > -1 &&
+      guestCount.toString().indexOf(guest) > -1 &&
+      daysCount.toString().indexOf(days) > -1 &&
+      remainingAmount.indexOf(remaining) > -1 &&
+      paymentMode.indexOf(pay.toLowerCase()) > -1 &&
+      createdAtDate.indexOf(addAt) > -1
     );
+  });
 
     if (roomNo) {
       filtered = filtered?.map((item) => {
@@ -421,6 +458,7 @@ const RoomShift = ({ setopendashboard }) => {
     advanceRate,
     address,
     dharamshalanamee,
+    guest, days, remaining, pay, addAt,
   ]);
 
   const convertTime12to24 = (time12h) => {
@@ -646,8 +684,8 @@ const RoomShift = ({ setopendashboard }) => {
           >
             <TableHead style={{ background: '#F1F0F0' }}>
               <TableRow>
-              <TableCell style={{ width: '1rem' }}>
-              S.No</TableCell>
+                <TableCell style={{ width: '1rem' }}>
+                  S.No</TableCell>
                 <TableCell style={{ width: '6rem' }}>
                   B_Id
                   <i
@@ -808,7 +846,15 @@ const RoomShift = ({ setopendashboard }) => {
                     placeholder="Address"
                   />
                 </TableCell>
-                <TableCell>&nbsp;</TableCell>
+                <TableCell>
+                  <input
+                    style={{ width: '4rem' }}
+                    className="cuolms_search"
+                    type="text"
+                    onChange={(e) => onSearchByOther(e, 'guest')}
+                    placeholder="Guest"
+                  />
+                </TableCell>
                 <TableCell>
                   <input
                     style={{ width: '5rem' }}
@@ -825,7 +871,15 @@ const RoomShift = ({ setopendashboard }) => {
                     onChange={(e) => onSearchByOther(e, 'coutDate')}
                   />
                 </TableCell>
-                <TableCell>&nbsp;</TableCell>
+                <TableCell>
+                  <input
+                    style={{ width: '3rem' }}
+                    className="cuolms_search"
+                    type="text"
+                    onChange={(e) => onSearchByOther(e, 'days')}
+                    placeholder="Days"
+                  />
+                </TableCell>
                 <TableCell>
                   <input
                     style={{ width: '9rem' }}
@@ -860,12 +914,44 @@ const RoomShift = ({ setopendashboard }) => {
                   />
                 </TableCell>
 
-                <TableCell>&nbsp;</TableCell>
+                <TableCell>
+                  <input
+                    style={{ width: '4rem' }}
+                    className="cuolms_search"
+                    type="text"
+                    onChange={(e) => onSearchByOther(e, 'advance')}
+                    placeholder="Advance"
+                  />
+                </TableCell>
 
-                <TableCell>&nbsp;</TableCell>
-                <TableCell>&nbsp;</TableCell>
+                <TableCell>
+                  <input
+                    style={{ width: '4rem' }}
+                    className="cuolms_search"
+                    type="text"
+                    onChange={(e) => onSearchByOther(e, 'remaining')}
+                    placeholder="Remaining"
+                  />
+                </TableCell>
+                <TableCell>
+                  <input
+                    style={{ width: '3rem' }}
+                    className="cuolms_search"
+                    type="text"
+                    onChange={(e) => onSearchByOther(e, 'pay')}
+                    placeholder="Pay"
+                  />
+                </TableCell>
 
-                <TableCell>&nbsp;</TableCell>
+                <TableCell>
+                  <input
+                    style={{ width: '4rem' }}
+                    className="cuolms_search"
+                    type="text"
+                    onChange={(e) => onSearchByOther(e, 'addAt')}
+                    placeholder="Add At"
+                  />
+                </TableCell>
                 <TableCell>
                   <button
                     style={{

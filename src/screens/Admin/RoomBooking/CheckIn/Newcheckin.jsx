@@ -433,6 +433,9 @@ const Newcheckin = ({ setopendashboard }) => {
   const [bookid, setbookid] = useState('');
   const [mobileno, setmobileno] = useState('');
   const [customername, setcustomername] = useState('');
+  const [guest, setguest] = useState('');
+  const [days, setdays] = useState('');
+  const [pay, setpay] = useState('');
   const [checkindate, setcheckindate] = useState('');
   const [dharamshalanamee, setdharamshalanamee] = useState('');
   const [roomNo, setroomNo] = useState('');
@@ -456,6 +459,15 @@ const Newcheckin = ({ setopendashboard }) => {
     if (type === 'name') {
       setcustomername(e.target.value.toLowerCase());
     }
+    if (type === 'guest') {
+      setguest(e.target.value.toLowerCase());
+    }
+    if (type === 'days') {
+      setdays(e.target.value.toLowerCase());
+    }
+    if (type === 'pay') {
+      setpay(e.target.value.toLowerCase());
+    }
     if (type === 'date') {
       setcheckindate(e.target.value.toLowerCase());
     }
@@ -474,19 +486,34 @@ const Newcheckin = ({ setopendashboard }) => {
   };
 
   // dharmasalaData?.name roomAmountSum advanceAmountSum
-  useEffect(() => {
-    var filtered = isDataDummy?.filter(
-      (dt) =>
-        dt?.booking_id?.toLowerCase().indexOf(bookid) > -1 &&
-        // Moment(dt?.date).format('YYYY-MM-DD').indexOf(checkindate) > -1 &&
-        // Moment(dt?.coutDate).format('YYYY-MM-DD').indexOf(checkindate) > -1 &&
-        dt?.name?.toLowerCase().indexOf(customername) > -1 &&
-        dt?.bookedByName?.indexOf(checkoutBy) > -1 &&
-        dt?.address?.toLowerCase().indexOf(address) > -1 &&
-        dt?.dharmasalaData?.name?.toLowerCase().indexOf(dharamshalanamee) >
-        -1 &&
-        dt?.contactNo?.toLowerCase().indexOf(mobileno) > -1,
+useEffect(() => {
+  var filtered = isDataDummy?.filter((dt) => {
+    // Calculate derived values
+    const guestCount = Number(dt?.female || 0) + 
+                      Number(dt?.child || 0) + 
+                      Number(dt?.male || 0);
+    
+    const daysCount = dt?.coutDate && dt?.date 
+      ? Math.floor(
+          (new Date(dt.coutDate).getTime() - new Date(dt.date).getTime()) / 
+          (1000 * 3600 * 24)
+        ) || 1
+      : 1;
+    
+    const paymentMode = dt?.paymentMode === 2 ? 'cash' : 'bank';
+
+    return (
+      dt?.booking_id?.toLowerCase().indexOf(bookid) > -1 &&
+      dt?.name?.toLowerCase().indexOf(customername) > -1 &&
+      guestCount.toString().indexOf(guest) > -1 && // Filter guest count
+      daysCount.toString().indexOf(days) > -1 &&  // Filter days
+      paymentMode.indexOf(pay.toLowerCase()) > -1 && // Filter payment mode
+      dt?.bookedByName?.indexOf(checkoutBy) > -1 &&
+      dt?.address?.toLowerCase().indexOf(address) > -1 &&
+      dt?.dharmasalaData?.name?.toLowerCase().indexOf(dharamshalanamee) > -1 &&
+      dt?.contactNo?.toLowerCase().indexOf(mobileno) > -1
     );
+  });
 
     if (checkindate) {
       filtered = filtered?.map((item) => {
@@ -538,6 +565,9 @@ const Newcheckin = ({ setopendashboard }) => {
     roomNo,
     mobileno,
     customername,
+    guest,
+    days,
+    pay,
     rate,
     advanceRate,
     address,
@@ -1110,7 +1140,13 @@ const Newcheckin = ({ setopendashboard }) => {
                   />
                 </TableCell>
                 <TableCell>
-                  <div style={{ width: '3rem' }} />
+                  <input
+                    style={{ width: '4rem' }}
+                    className="cuolms_search"
+                    type="text"
+                    onChange={(e) => onSearchByOther(e, 'guest')}
+                    placeholder="Guest"
+                  />
                 </TableCell>
 
                 <TableCell>
@@ -1123,8 +1159,13 @@ const Newcheckin = ({ setopendashboard }) => {
                   />
                 </TableCell>
                 <TableCell>
-                  <div style={{ width: '3rem' }} />
-                </TableCell>
+                  <input
+                    style={{ width: '4rem' }}
+                    className="cuolms_search"
+                    type="text"
+                    onChange={(e) => onSearchByOther(e, 'days')}
+                    placeholder="Days"
+                  />                </TableCell>
                 <TableCell>
                   <input
                     style={{ width: '6rem' }}
@@ -1190,7 +1231,15 @@ const Newcheckin = ({ setopendashboard }) => {
                       })}
                   </select>
                 </TableCell>
-                <TableCell>&nbsp;</TableCell>
+                <TableCell>
+                  <input
+                    style={{ width: '4rem' }}
+                    className="cuolms_search"
+                    type="text"
+                    onChange={(e) => onSearchByOther(e, 'pay')}
+                    placeholder="Pay"
+                  />
+                </TableCell>
                 <TableCell>
                   <button
                     style={{
